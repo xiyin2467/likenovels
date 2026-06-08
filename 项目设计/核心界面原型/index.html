@@ -1,0 +1,311 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Emberlune · App Prototype</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Newsreader:opsz,wght@6..72,400;6..72,600;6..72,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <main class="app" aria-label="Emberlune mobile app prototype">
+    <section class="view view-home is-active" data-view="home" aria-label="Discover">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">Discover</p>
+          <h1>Emberlune</h1>
+        </div>
+        <button class="coin" type="button" data-route="wallet">◆ 1,240</button>
+      </header>
+
+      <div class="search" role="search">
+        <span>⌕</span>
+        <input type="search" value="" placeholder="Search title, author, trope">
+      </div>
+
+      <button class="feature" type="button" data-route="detail" aria-label="Open The Alpha's Forbidden Mate">
+        <img src="./assets/cover-alpha.png" alt="">
+        <span class="feature-shade"></span>
+        <span class="feature-copy">
+          <span class="label">Recommended</span>
+          <strong>The Alpha's Forbidden Mate</strong>
+          <span>4.8 · 31M reads · 128 chapters</span>
+        </span>
+      </button>
+
+      <nav class="genre-row" aria-label="Genres">
+        <button class="is-on" type="button" data-subpage="for-you">For you</button>
+        <button type="button" data-subpage="genre-werewolf">Werewolf</button>
+        <button type="button" data-subpage="genre-ceo">CEO</button>
+        <button type="button" data-subpage="genre-reborn">Reborn</button>
+        <button type="button" data-subpage="genre-vampire">Vampire</button>
+      </nav>
+
+      <section class="shelf">
+        <div class="section-head"><h2>Top charts</h2><button type="button" data-subpage="top-charts">See all</button></div>
+        <div class="book-row">
+          <button class="book" type="button" data-route="detail"><img src="./assets/cover-alpha.png" alt=""><b>The Alpha's Forbidden Mate</b><span>4.8 · 31M</span></button>
+          <button class="book" type="button" data-route="detail"><img src="./assets/cover-billionaire.png" alt=""><b>Married to the Billionaire's Shadow</b><span>4.7 · 18M</span></button>
+          <button class="book" type="button" data-route="detail"><img src="./assets/cover-crown.png" alt=""><b>Crown of Ash and Thorns</b><span>4.9 · 22M</span></button>
+        </div>
+      </section>
+
+      <section class="shelf">
+        <div class="section-head"><h2>New releases</h2><button type="button" data-subpage="new-releases">See all</button></div>
+        <div class="book-row">
+          <button class="book" type="button" data-route="detail"><img src="./assets/cover-luna.png" alt=""><b>His Reluctant Luna</b><span>4.6 · 9M</span></button>
+          <button class="book" type="button" data-route="detail"><img src="./assets/cover-vampire.png" alt=""><b>Midnight with the Vampire King</b><span>4.8 · 12M</span></button>
+          <button class="book" type="button" data-route="detail"><img src="./assets/cover-reborn.png" alt=""><b>Reborn as the Tyrant's Wife</b><span>4.7 · 14M</span></button>
+        </div>
+      </section>
+
+      <section class="feed-section" aria-labelledby="feed-title">
+        <div class="section-head">
+          <h2 id="feed-title">Recommended for you</h2>
+          <button type="button" data-subpage="recommendation-tune">Tune</button>
+        </div>
+        <div class="waterfall" id="discover-feed" aria-live="polite"></div>
+        <div class="feed-loading" aria-hidden="true">Loading more stories...</div>
+      </section>
+
+      <nav class="bottom-nav" aria-label="Main">
+        <button class="is-on" type="button" data-route="home">Discover</button>
+        <button type="button" data-route="library">Library</button>
+          <button type="button" data-route="wallet">Wallet</button>
+        <button type="button" data-route="profile">Me</button>
+      </nav>
+    </section>
+
+    <section class="view" data-view="detail" aria-label="Book detail">
+      <button class="back" type="button" data-back>‹</button>
+      <div class="detail-hero">
+        <img class="detail-bg" src="./assets/cover-alpha.png" alt="">
+        <img class="detail-cover" src="./assets/cover-alpha.png" alt="The Alpha's Forbidden Mate cover">
+      </div>
+      <article class="detail-body">
+        <p class="eyebrow">Werewolf romance</p>
+        <h1>The Alpha's Forbidden Mate</h1>
+        <p class="byline">by Elena Vale</p>
+        <div class="metrics">
+          <span><b>4.8</b>Rating</span>
+          <span><b>31M</b>Reads</span>
+          <span><b>128</b>Chapters</span>
+        </div>
+        <p class="synopsis">
+          Mara returns to the northern pack that exiled her and discovers the Alpha who ruined her life is her fated mate. A high-stakes romance with steady chapter unlocks and strong reader retention potential.
+        </p>
+        <div class="chapter-list">
+          <button type="button" data-route="reader"><span>01</span>The night she came home <em>Free</em></button>
+          <button type="button" data-route="reader"><span>02</span>A scent he could not forget <em>Free</em></button>
+          <button type="button" data-route="reader" data-locked><span>12</span>The vow beneath the moon <em>38 coins</em></button>
+        </div>
+      </article>
+      <footer class="cta-bar">
+        <button class="primary" type="button" data-route="reader">Read for free</button>
+        <button class="save" type="button" aria-label="Save book" data-subpage="save-book">♡</button>
+      </footer>
+    </section>
+
+    <section class="view reader-view" data-view="reader" aria-label="Reader">
+      <header class="reader-top">
+        <button class="back" type="button" data-back>‹</button>
+        <span>The Alpha's Forbidden Mate</span>
+        <button type="button" data-open-settings>Aa</button>
+      </header>
+      <article class="reader-copy">
+        <p class="eyebrow">Chapter 12</p>
+        <h1>The vow beneath the moon</h1>
+        <p>Mara should have turned back when the corridor lamps dimmed, but the scent of cedar smoke and winter rain had already found her.</p>
+        <p>Behind the carved black door, the Alpha's study waited in silence. Every wolf in the northern pack knew that room was forbidden.</p>
+        <p>Kael stood in the amber spill of the firelight, coat unbuttoned, silver eyes fixed on her mouth as if he had been listening to her breathe.</p>
+        <p>"You should not be here," he said. His voice was low enough to feel like a warning and close enough to feel like a promise.</p>
+        <button class="locked-card" type="button" data-open-paywall>
+          <span>◆</span>
+          <b>Continue Chapter 12</b>
+          <small>Unlock the rest with coins, an ad, or wait-to-unlock.</small>
+        </button>
+      </article>
+      <footer class="reader-bottom">
+        <span>64%</span><i><b></b></i><button type="button" data-open-paywall>Unlock</button>
+      </footer>
+    </section>
+
+    <section class="view tab-page" data-view="library" aria-label="Library">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">Library</p>
+          <h1>My books</h1>
+        </div>
+        <button class="small-action" type="button" data-subpage="sync-status">Sync</button>
+      </header>
+      <section class="continue-card">
+        <img src="./assets/cover-alpha.png" alt="">
+        <div>
+          <p class="eyebrow">Continue reading</p>
+          <h2>The Alpha's Forbidden Mate</h2>
+          <p>Chapter 12 · 64% complete</p>
+          <div class="mini-progress"><span style="width:64%"></span></div>
+          <button class="primary compact" type="button" data-route="reader">Continue</button>
+        </div>
+      </section>
+      <nav class="library-tabs" aria-label="Library filters">
+        <button class="is-on" type="button" data-subpage="library-reading">Reading</button>
+        <button type="button" data-subpage="library-unlocked">Unlocked</button>
+        <button type="button" data-subpage="library-finished">Finished</button>
+      </nav>
+      <section class="book-list">
+        <button class="list-book" type="button" data-route="detail">
+          <img src="./assets/cover-billionaire.png" alt="">
+          <span><b>Married to the Billionaire's Shadow</b><small>Chapter 28 · 42 unread</small></span>
+          <em>New</em>
+        </button>
+        <button class="list-book" type="button" data-route="detail">
+          <img src="./assets/cover-vampire.png" alt="">
+          <span><b>Midnight with the Vampire King</b><small>Chapter 9 · 2 unlocked</small></span>
+          <em>Locked</em>
+        </button>
+        <button class="list-book" type="button" data-route="detail">
+          <img src="./assets/cover-reborn.png" alt="">
+          <span><b>Reborn as the Tyrant's Wife</b><small>Saved · updates every Friday</small></span>
+          <em>Saved</em>
+        </button>
+      </section>
+      <nav class="bottom-nav" aria-label="Main">
+        <button type="button" data-route="home">Discover</button>
+        <button class="is-on" type="button" data-route="library">Library</button>
+        <button type="button" data-route="wallet">Wallet</button>
+        <button type="button" data-route="profile">Me</button>
+      </nav>
+    </section>
+
+    <section class="view tab-page" data-view="wallet" aria-label="Wallet and rewards">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">Wallet</p>
+          <h1>Coins & rewards</h1>
+        </div>
+        <button class="small-action" type="button" data-open-recharge>Top up</button>
+      </header>
+      <section class="balance-card">
+        <p>Available balance</p>
+        <h2>◆ 1,240</h2>
+        <span>Enough for 32 standard chapters</span>
+      </section>
+      <section class="reward-grid">
+        <button type="button" data-subpage="daily-checkin"><b>Daily check-in</b><span>+20 coins</span></button>
+        <button type="button" data-open-paywall><b>Watch reward ad</b><span>Unlock 1 chapter</span></button>
+      </section>
+      <section class="wallet-section">
+        <div class="section-head"><h2>Recharge packages</h2><button type="button" data-open-recharge>More</button></div>
+        <button class="price-row" type="button" data-open-recharge><span><b>600 coins</b><small>+60 bonus</small></span><em>$4.99</em></button>
+        <button class="price-row best" type="button" data-open-recharge><span><b>1,400 coins</b><small>+240 bonus · best value</small></span><em>$9.99</em></button>
+      </section>
+      <section class="wallet-section">
+        <div class="section-head"><h2>Recent activity</h2><button type="button" data-subpage="wallet-history">All</button></div>
+        <button class="activity" type="button" data-subpage="transaction-unlock"><span>Unlocked Chapter 11</span><em>-38</em></button>
+        <button class="activity" type="button" data-subpage="transaction-reward"><span>Daily reward</span><em>+20</em></button>
+        <button class="activity" type="button" data-subpage="transaction-ad"><span>Reward video</span><em>+12</em></button>
+      </section>
+      <nav class="bottom-nav" aria-label="Main">
+        <button type="button" data-route="home">Discover</button>
+        <button type="button" data-route="library">Library</button>
+        <button class="is-on" type="button" data-route="wallet">Wallet</button>
+        <button type="button" data-route="profile">Me</button>
+      </nav>
+    </section>
+
+    <section class="view tab-page" data-view="profile" aria-label="Profile">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">Account</p>
+          <h1>Me</h1>
+        </div>
+        <button class="small-action" type="button" data-subpage="settings">Settings</button>
+      </header>
+      <section class="profile-card">
+        <div class="avatar">M</div>
+        <div>
+          <h2>Mara Reader</h2>
+          <p>Level 4 · 16-day reading streak</p>
+        </div>
+      </section>
+      <section class="profile-stats">
+        <span><b>42</b>Books</span>
+        <span><b>186</b>Chapters</span>
+        <span><b>16d</b>Streak</span>
+      </section>
+      <section class="menu-list">
+        <button type="button" data-subpage="purchase-history"><span>Wallet & purchase history</span><em>›</em></button>
+        <button type="button" data-subpage="notifications"><span>Notifications</span><em>On</em></button>
+        <button type="button" data-subpage="language"><span>Language</span><em>English</em></button>
+        <button type="button" data-subpage="privacy"><span>Privacy & data</span><em>›</em></button>
+        <button type="button" data-subpage="delete-account"><span>Delete account</span><em>›</em></button>
+      </section>
+      <nav class="bottom-nav" aria-label="Main">
+        <button type="button" data-route="home">Discover</button>
+        <button type="button" data-route="library">Library</button>
+        <button type="button" data-route="wallet">Wallet</button>
+        <button class="is-on" type="button" data-route="profile">Me</button>
+      </nav>
+    </section>
+
+    <section class="view subpage-view" data-view="subpage" aria-label="Subpage">
+      <header class="subpage-top">
+        <button class="back" type="button" data-back>‹</button>
+        <div>
+          <p class="eyebrow" id="subpage-kicker">Details</p>
+          <h1 id="subpage-title">Details</h1>
+        </div>
+      </header>
+      <div class="subpage-content" id="subpage-content"></div>
+    </section>
+
+    <nav class="bottom-nav global-nav" aria-label="Main">
+      <button class="is-on" type="button" data-route="home">Discover</button>
+      <button type="button" data-route="library">Library</button>
+      <button type="button" data-route="wallet">Wallet</button>
+      <button type="button" data-route="profile">Me</button>
+    </nav>
+
+    <div class="scrim" data-close-overlay></div>
+
+    <section class="sheet" data-sheet="paywall" aria-label="Unlock chapter">
+      <div class="grab"></div>
+      <h2>Unlock Chapter 12</h2>
+      <p>Choose the least painful way to keep reading.</p>
+      <button class="choice primary-choice" type="button" data-unlock><b>Unlock with 38 coins</b><span>Instant access</span></button>
+      <button class="choice" type="button" data-toast="Reward video would start here"><b>Watch ad to unlock</b><span>About 30 seconds</span></button>
+      <button class="choice" type="button" data-toast="Reminder saved"><b>Wait to unlock</b><span>Free in 03:58:21</span></button>
+      <button class="text-link" type="button" data-open-recharge>Need more coins? Recharge</button>
+    </section>
+
+    <section class="sheet" data-sheet="settings" aria-label="Reader settings">
+      <div class="grab"></div>
+      <h2>Reading comfort</h2>
+      <p>Tune the page for tonight.</p>
+      <div class="settings-grid">
+        <button type="button" data-size="-">A−</button>
+        <button type="button" data-size="+">A+</button>
+        <button type="button" data-theme="dark">Dark</button>
+        <button type="button" data-theme="paper">Paper</button>
+      </div>
+    </section>
+
+    <section class="sheet" data-sheet="recharge" aria-label="Recharge coins">
+      <div class="grab"></div>
+      <h2>Recharge coins</h2>
+      <p>Google Play Billing packages.</p>
+      <button class="pack" type="button"><b>600 coins</b><span>$4.99</span></button>
+      <button class="pack selected" type="button"><b>1,400 coins + 240 bonus</b><span>$9.99</span></button>
+      <button class="pack" type="button"><b>3,200 coins + 720 bonus</b><span>$19.99</span></button>
+      <button class="primary full" type="button" data-toast="Coins added">Pay with Google Play</button>
+    </section>
+
+    <div class="toast" role="status" aria-live="polite"></div>
+  </main>
+
+  <script src="./app.js"></script>
+</body>
+</html>
