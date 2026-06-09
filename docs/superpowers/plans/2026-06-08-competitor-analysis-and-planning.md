@@ -1,10 +1,10 @@
-# 竞品分析 + 产品规划 实现计划
+﻿# 竞品分析 + 产品规划 实现计划
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
 **Goal:** 对 GoodNovel 与 iReader 国际版两款竞品 APK 做产品+技术静态拆解，并据此产出一套中文产品规划文档。
 
-**Architecture:** 用一个 Python 脚本（androguard）把两个 APK 的结构化事实提取成 JSON（存入 `竞品分析/_raw/`），再由人/agent 据此撰写中文 Markdown 分析文档；阶段 1（分析）完成后设检查点，阶段 2 写规划文档。
+**Architecture:** 用一个 Python 脚本（androguard）把两个 APK 的结构化事实提取成 JSON（存入 `docs/research/_raw/`），再由人/agent 据此撰写中文 Markdown 分析文档；阶段 1（分析）完成后设检查点，阶段 2 写规划文档。
 
 **Tech Stack:** Python 3 + androguard（已安装），Markdown 文档，Windows / PowerShell 环境。
 
@@ -12,13 +12,13 @@
 
 ## File Structure
 
-- Create: `竞品分析/_raw/extract_apk.py` — androguard 提取脚本（唯一职责：APK → 结构化 JSON）。
-- Create: `竞品分析/_raw/goodnovel.json`、`竞品分析/_raw/ireader.json` — 提取出的原始事实。
-- Create: `竞品分析/GoodNovel/技术拆解.md`、`竞品分析/GoodNovel/产品分析.md`
-- Create: `竞品分析/iReader国际版/技术拆解.md`、`竞品分析/iReader国际版/产品分析.md`
-- Create: `竞品分析/竞品横向对比.md`
-- Create（阶段 2）: `项目规划/市场与定位建议.md`、`项目规划/产品功能规划.md`、`项目规划/MVP范围与路线图.md`、`项目规划/变现模型.md`、`项目规划/技术选型建议.md`
-- Create（阶段 2）: `项目文档/README.md`
+- Create: `docs/research/_raw/extract_apk.py` — androguard 提取脚本（唯一职责：APK → 结构化 JSON）。
+- Create: `docs/research/_raw/goodnovel.json`、`docs/research/_raw/ireader.json` — 提取出的原始事实。
+- Create: `docs/research/GoodNovel/技术拆解.md`、`docs/research/GoodNovel/产品分析.md`
+- Create: `docs/research/iReader国际版/技术拆解.md`、`docs/research/iReader国际版/产品分析.md`
+- Create: `docs/research/竞品横向对比.md`
+- Create（阶段 2）: `docs/plan/市场与定位建议.md`、`docs/plan/产品功能规划.md`、`docs/plan/MVP范围与路线图.md`、`docs/plan/变现模型.md`、`docs/plan/技术选型建议.md`
+- Create（阶段 2）: `README.md`
 
 ---
 
@@ -27,7 +27,7 @@
 ### Task 1: 编写 APK 提取脚本
 
 **Files:**
-- Create: `竞品分析/_raw/extract_apk.py`
+- Create: `docs/research/_raw/extract_apk.py`
 
 - [ ] **Step 1: 写提取脚本**
 
@@ -132,45 +132,45 @@ if __name__ == "__main__":
 
 - [ ] **Step 2: 提交（如已初始化 git）**
 
-当前目录非 git 仓库；若已初始化则 `git add 竞品分析/_raw/extract_apk.py && git commit -m "feat: APK 提取脚本"`，否则跳过。
+当前目录非 git 仓库；若已初始化则 `git add docs/research/_raw/extract_apk.py && git commit -m "feat: APK 提取脚本"`，否则跳过。
 
 ### Task 2: 提取 GoodNovel 数据
 
 **Files:**
-- Create: `竞品分析/_raw/goodnovel.json`
+- Create: `docs/research/_raw/goodnovel.json`
 
 - [ ] **Step 1: 运行提取脚本**
 
-Run（在 `d:\likenovels`）:
+Run（在 `d:\likenovel`）:
 ```
-python 竞品分析/_raw/extract_apk.py "竞品分析/竞品apk/GoodNovel_v2.5.8.1168.apk" 竞品分析/_raw/goodnovel.json
+python docs/research/_raw/extract_apk.py "docs/research/竞品apk/GoodNovel_v2.5.8.1168.apk" docs/research/_raw/goodnovel.json
 ```
-Expected: 打印 `WROTE 竞品分析/_raw/goodnovel.json` 与 keys 列表。
+Expected: 打印 `WROTE docs/research/_raw/goodnovel.json` 与 keys 列表。
 
 - [ ] **Step 2: 校验输出**
 
-读 `竞品分析/_raw/goodnovel.json`，确认 `package`、`permissions`、`activities`、`sdks` 非空且无大面积 `_error`。若某区块报错，记录在该 APK 文档的「数据缺口」小节，继续后续步骤（不阻塞）。
+读 `docs/research/_raw/goodnovel.json`，确认 `package`、`permissions`、`activities`、`sdks` 非空且无大面积 `_error`。若某区块报错，记录在该 APK 文档的「数据缺口」小节，继续后续步骤（不阻塞）。
 
 ### Task 3: 提取 iReader 数据
 
 **Files:**
-- Create: `竞品分析/_raw/ireader.json`
+- Create: `docs/research/_raw/ireader.json`
 
 - [ ] **Step 1: 运行提取脚本**
 
 Run:
 ```
-python 竞品分析/_raw/extract_apk.py "竞品分析/竞品apk/iReader_international_v8.7.3.1.apk" 竞品分析/_raw/ireader.json
+python docs/research/_raw/extract_apk.py "docs/research/竞品apk/iReader_international_v8.7.3.1.apk" docs/research/_raw/ireader.json
 ```
-Expected: 打印 `WROTE 竞品分析/_raw/ireader.json`。
+Expected: 打印 `WROTE docs/research/_raw/ireader.json`。
 
 - [ ] **Step 2: 校验输出** — 同 Task 2 的校验标准。
 
 ### Task 4: 撰写 GoodNovel 技术拆解 + 产品分析
 
 **Files:**
-- Create: `竞品分析/GoodNovel/技术拆解.md`
-- Create: `竞品分析/GoodNovel/产品分析.md`
+- Create: `docs/research/GoodNovel/技术拆解.md`
+- Create: `docs/research/GoodNovel/产品分析.md`
 
 - [ ] **Step 1: 写技术拆解.md**
 
@@ -185,15 +185,15 @@ Expected: 打印 `WROTE 竞品分析/_raw/ireader.json`。
 ### Task 5: 撰写 iReader 技术拆解 + 产品分析
 
 **Files:**
-- Create: `竞品分析/iReader国际版/技术拆解.md`
-- Create: `竞品分析/iReader国际版/产品分析.md`
+- Create: `docs/research/iReader国际版/技术拆解.md`
+- Create: `docs/research/iReader国际版/产品分析.md`
 
 - [ ] **Step 1-3:** 同 Task 4 的三步，数据源改为 `ireader.json`，目录改为 `iReader国际版/`。
 
 ### Task 6: 撰写竞品横向对比
 
 **Files:**
-- Create: `竞品分析/竞品横向对比.md`
+- Create: `docs/research/竞品横向对比.md`
 
 - [ ] **Step 1: 写对比文档**
 
@@ -203,7 +203,7 @@ Expected: 打印 `WROTE 竞品分析/_raw/ireader.json`。
 
 ### ⛳ 检查点（阶段 1 结束）
 
-暂停，请用户复核 `竞品分析/` 全部内容，确认结论无误后再进入阶段 2。
+暂停，请用户复核 `docs/research/` 全部内容，确认结论无误后再进入阶段 2。
 
 ---
 
@@ -212,42 +212,42 @@ Expected: 打印 `WROTE 竞品分析/_raw/ireader.json`。
 ### Task 7: 市场与定位建议
 
 **Files:**
-- Create: `项目规划/市场与定位建议.md`
+- Create: `docs/plan/市场与定位建议.md`
 
 - [ ] **Step 1:** 基于竞品对比，给出目标市场建议（欧美英语 / 东南亚 / 多区域多语言）、目标人群画像、差异化定位与理由。
 
 ### Task 8: 产品功能规划
 
 **Files:**
-- Create: `项目规划/产品功能规划.md`
+- Create: `docs/plan/产品功能规划.md`
 
 - [ ] **Step 1:** 功能清单按模块（账号/书库/发现/阅读器/付费/增长）罗列，每项标 MoSCoW（Must/Should/Could/Won't）与对标竞品来源。
 
 ### Task 9: MVP 范围与路线图
 
 **Files:**
-- Create: `项目规划/MVP范围与路线图.md`
+- Create: `docs/plan/MVP范围与路线图.md`
 
 - [ ] **Step 1:** 定义 MVP（取 Task 8 的 Must 项），给出 V1/V2/V3 迭代路线与里程碑。
 
 ### Task 10: 变现模型
 
 **Files:**
-- Create: `项目规划/变现模型.md`
+- Create: `docs/plan/变现模型.md`
 
 - [ ] **Step 1:** 设计金币/订阅/章节解锁/广告的组合，定价区间、解锁节奏、广告位策略，参考竞品做法。
 
 ### Task 11: 技术选型建议
 
 **Files:**
-- Create: `项目规划/技术选型建议.md`
+- Create: `docs/plan/技术选型建议.md`
 
 - [ ] **Step 1:** 客户端（原生/跨平台）、后端、内容管理、本地化、支付与广告 SDK 选型建议及理由。
 
 ### Task 12: 项目总览 README
 
 **Files:**
-- Create: `项目文档/README.md`
+- Create: `README.md`
 
 - [ ] **Step 1:** 写总览索引，串联竞品分析与规划全部文档，附阅读顺序与当前进度。
 

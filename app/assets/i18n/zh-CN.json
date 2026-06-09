@@ -1,0 +1,22 @@
+{
+  "_note": "示例：部分翻译。缺失的键会自动回退到 en.json，演示多语言预留机制。",
+  "common": {
+    "appName": "likenovel",
+    "ok": "确定",
+    "cancel": "取消",
+    "retry": "重试",
+    "networkError": "网络错误",
+    "noContent": "暂无内容。",
+    "loading": "加载中…"
+  },
+  "nav": {
+    "discover": "发现",
+    "library": "书架",
+    "wallet": "钱包",
+    "me": "我的"
+  },
+  "discover": {
+    "header": "发现",
+    "searchHint": "搜索书名、作者、标签"
+  }
+}

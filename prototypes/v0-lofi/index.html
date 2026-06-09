@@ -1,0 +1,275 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>likenovel · Reading App</title>
+  <meta name="theme-color" content="#fbf7f3">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600;6..72,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <main class="app" aria-label="likenovel reading app prototype">
+
+    <!-- ONBOARDING -->
+    <section class="view onboarding-view is-active" data-view="onboarding" aria-label="Welcome">
+      <div class="onb-hero" id="onb-hero" aria-hidden="true"></div>
+      <div class="onb-body">
+        <p class="brandmark"><span class="brand-spark" data-icon="spark"></span> likenovel</p>
+        <h1>Romance you won't put down.</h1>
+        <p class="onb-sub">Millions of werewolf, billionaire and romantasy chapters. Read the first ones free, unlock the rest your way.</p>
+        <div class="onb-actions">
+          <button class="btn btn-primary btn-block" type="button" data-enter-guide="google"><span data-icon="google"></span>Continue with Google</button>
+          <button class="btn btn-ghost btn-block" type="button" data-enter-guide="facebook"><span data-icon="facebook"></span>Continue with Facebook</button>
+          <button class="btn btn-ghost btn-block" type="button" data-enter-guide="email"><span data-icon="mail"></span>Continue with email</button>
+          <button class="btn btn-text" type="button" data-enter-guide="guest">Browse as guest</button>
+        </div>
+        <p class="onb-legal">By continuing you agree to our <button type="button" data-subpage="privacy">Terms &amp; Privacy</button>.</p>
+      </div>
+    </section>
+
+    <!-- GUIDE / TASTE -->
+    <section class="view guide-view" data-view="guide" aria-label="Reading preferences">
+      <header class="subbar">
+        <button class="icon-btn" type="button" data-back aria-label="Back"><span data-icon="chevron-left"></span></button>
+        <div class="subbar-title"><p class="eyebrow">Personalize</p><h1>What do you love?</h1></div>
+      </header>
+      <div class="guide-body">
+        <p class="lead">Pick a few tropes and we'll tune your first feed. Change these anytime.</p>
+        <div class="taste-grid" id="taste-grid"></div>
+      </div>
+      <footer class="action-bar">
+        <button class="btn btn-primary btn-block" type="button" data-enter-app><span id="guide-cta-label">Skip for now</span></button>
+      </footer>
+    </section>
+
+    <!-- HOME / DISCOVER -->
+    <section class="view view-home" data-view="home" aria-label="Discover">
+      <header class="topbar">
+        <div class="topbar-brand">
+          <p class="eyebrow">Discover</p>
+          <h1 class="brand">likenovel</h1>
+        </div>
+        <div class="topbar-actions">
+          <button class="pill pill-coin" type="button" data-route="wallet" aria-label="Coins, 1240"><span data-icon="coin"></span>1,240</button>
+          <button class="icon-btn" type="button" data-subpage="message-center" aria-label="Inbox">
+            <span data-icon="bell"></span><i class="dot" aria-hidden="true"></i>
+          </button>
+        </div>
+      </header>
+
+      <button class="searchbar" type="button" data-subpage="search-results">
+        <span data-icon="search"></span>
+        <span class="searchbar-ph">Search titles, authors, tropes</span>
+      </button>
+
+      <nav class="chip-row" aria-label="Genres">
+        <button class="chip is-on" type="button" data-subpage="for-you">For you</button>
+        <button class="chip" type="button" data-subpage="genre-werewolf">Werewolf</button>
+        <button class="chip" type="button" data-subpage="genre-ceo">CEO</button>
+        <button class="chip" type="button" data-subpage="genre-reborn">Reborn</button>
+        <button class="chip" type="button" data-subpage="genre-vampire">Vampire</button>
+        <button class="chip" type="button" data-subpage="genre-romantasy">Romantasy</button>
+      </nav>
+
+      <section class="hero-rail" id="hero-rail" aria-label="Featured"></section>
+
+      <section class="shelf">
+        <div class="section-head"><h2>Top charts</h2><button class="link" type="button" data-subpage="top-charts">See all<span data-icon="chevron-right"></span></button></div>
+        <div class="rank-row" id="row-charts"></div>
+      </section>
+
+      <section class="shelf">
+        <div class="section-head"><h2>New &amp; rising</h2><button class="link" type="button" data-subpage="new-releases">See all<span data-icon="chevron-right"></span></button></div>
+        <div class="book-row" id="row-new"></div>
+      </section>
+
+      <section class="feed-section" aria-labelledby="feed-title">
+        <div class="section-head"><h2 id="feed-title">For you</h2><button class="link" type="button" data-subpage="recommendation-tune">Tune<span data-icon="sliders"></span></button></div>
+        <div class="waterfall" id="discover-feed" aria-live="polite"></div>
+        <div class="feed-sentinel" id="feed-sentinel" aria-hidden="true"></div>
+      </section>
+    </section>
+
+    <!-- BOOK DETAIL -->
+    <section class="view detail-view" data-view="detail" aria-label="Book detail">
+      <button class="icon-btn floating-back" type="button" data-back aria-label="Back"><span data-icon="chevron-left"></span></button>
+      <div class="detail-hero" id="detail-hero"></div>
+      <article class="detail-body" id="detail-body"></article>
+      <footer class="action-bar action-bar--split">
+        <button class="btn btn-ghost btn-icon" type="button" data-subpage="save-book" aria-label="Save to library"><span data-icon="heart"></span></button>
+        <button class="btn btn-primary btn-grow" type="button" data-route="reader"><span data-icon="play"></span>Read chapter 1 free</button>
+      </footer>
+    </section>
+
+    <!-- READER -->
+    <section class="view reader-view" data-view="reader" data-theme="paper" aria-label="Reader">
+      <header class="reader-top">
+        <button class="icon-btn" type="button" data-back aria-label="Back"><span data-icon="chevron-left"></span></button>
+        <span class="reader-title">The Alpha's Forbidden Mate</span>
+        <button class="icon-btn" type="button" data-subpage="chapter-catalog" aria-label="Chapters"><span data-icon="list"></span></button>
+        <button class="icon-btn" type="button" data-open-settings aria-label="Reading settings"><span data-icon="text"></span></button>
+      </header>
+      <article class="reader-copy">
+        <p class="reader-kicker">Chapter 12</p>
+        <h1>The vow beneath the moon</h1>
+        <p>Mara should have turned back when the corridor lamps dimmed, but the scent of cedar smoke and winter rain had already found her.</p>
+        <p>Behind the carved black door, the Alpha's study waited in silence. Every wolf in the northern pack knew that room was forbidden.</p>
+        <p>Kael stood in the amber spill of the firelight, coat unbuttoned, silver eyes fixed on her as if he had been listening to her breathe.</p>
+        <p>"You should not be here," he said. His voice was low enough to feel like a warning and close enough to feel like a promise.</p>
+        <button class="paywall-inline" type="button" data-open-paywall>
+          <span class="pw-lock" data-icon="lock"></span>
+          <b>Continue Chapter 12</b>
+          <small>Unlock with coins, a free ad, or wait-to-unlock.</small>
+        </button>
+      </article>
+      <footer class="reader-bottom">
+        <span class="reader-pct">64%</span>
+        <span class="reader-track"><i style="width:64%"></i></span>
+        <button class="btn btn-primary btn-sm" type="button" data-open-paywall>Unlock</button>
+      </footer>
+    </section>
+
+    <!-- LIBRARY -->
+    <section class="view tab-page" data-view="library" aria-label="Library">
+      <header class="topbar">
+        <div class="topbar-brand"><p class="eyebrow">Library</p><h1>My books</h1></div>
+        <button class="pill" type="button" data-subpage="sync-status"><span data-icon="sync"></span>Synced</button>
+      </header>
+      <section class="continue-card" data-route="reader" id="continue-card"></section>
+      <nav class="chip-row chip-row--tabs" aria-label="Library filters">
+        <button class="chip is-on" type="button" data-subpage="library-reading">Reading</button>
+        <button class="chip" type="button" data-subpage="library-unlocked">Unlocked</button>
+        <button class="chip" type="button" data-subpage="library-finished">Finished</button>
+      </nav>
+      <section class="book-list" id="library-list"></section>
+    </section>
+
+    <!-- WALLET -->
+    <section class="view tab-page" data-view="wallet" aria-label="Wallet and rewards">
+      <header class="topbar">
+        <div class="topbar-brand"><p class="eyebrow">Wallet</p><h1>Coins &amp; rewards</h1></div>
+      </header>
+      <section class="balance-card">
+        <div class="balance-glow" aria-hidden="true"></div>
+        <p class="balance-label">Available balance</p>
+        <p class="balance-amount"><span data-icon="coin"></span>1,240</p>
+        <p class="balance-sub">About 32 standard chapters</p>
+        <button class="btn btn-onlight btn-block" type="button" data-open-recharge><span data-icon="plus"></span>Top up coins</button>
+      </section>
+      <section class="reward-grid">
+        <button class="reward" type="button" data-subpage="daily-checkin">
+          <span class="reward-ic" data-icon="gift"></span>
+          <b>Daily check-in</b><span class="reward-cta">+20 coins</span>
+        </button>
+        <button class="reward" type="button" data-open-paywall>
+          <span class="reward-ic" data-icon="play"></span>
+          <b>Watch &amp; earn</b><span class="reward-cta">+12 coins</span>
+        </button>
+      </section>
+      <section class="block">
+        <div class="section-head"><h2>Recharge packages</h2><button class="link" type="button" data-open-recharge>More<span data-icon="chevron-right"></span></button></div>
+        <div class="pack-list" id="wallet-packs"></div>
+      </section>
+    </section>
+
+    <!-- PROFILE -->
+    <section class="view tab-page" data-view="profile" aria-label="Profile">
+      <header class="topbar">
+        <div class="topbar-brand"><p class="eyebrow">Account</p><h1>Me</h1></div>
+        <button class="icon-btn" type="button" data-subpage="settings" aria-label="Settings"><span data-icon="settings"></span></button>
+      </header>
+      <section class="profile-card">
+        <span class="avatar">M</span>
+        <div class="profile-id">
+          <h2>Mara Reader</h2>
+          <p>Level 4 · 16-day streak</p>
+        </div>
+        <button class="pill" type="button" data-subpage="settings">Edit</button>
+      </section>
+      <section class="stat-row">
+        <div><b>42</b><span>Books</span></div>
+        <div><b>186</b><span>Chapters</span></div>
+        <div><b>16d</b><span>Streak</span></div>
+      </section>
+      <nav class="menu" id="profile-menu"></nav>
+    </section>
+
+    <!-- GENERIC SUBPAGE -->
+    <section class="view subpage-view" data-view="subpage" aria-label="Subpage">
+      <header class="subbar">
+        <button class="icon-btn" type="button" data-back aria-label="Back"><span data-icon="chevron-left"></span></button>
+        <div class="subbar-title"><p class="eyebrow" id="subpage-kicker">Details</p><h1 id="subpage-title">Details</h1></div>
+      </header>
+      <div class="subpage-content" id="subpage-content"></div>
+    </section>
+
+    <!-- GLOBAL BOTTOM NAV -->
+    <nav class="tabbar global-nav" aria-label="Main">
+      <button class="tab is-on" type="button" data-route="home"><span data-icon="home"></span>Discover</button>
+      <button class="tab" type="button" data-route="library"><span data-icon="books"></span>Library</button>
+      <button class="tab" type="button" data-route="wallet"><span data-icon="coin"></span>Wallet</button>
+      <button class="tab" type="button" data-route="profile"><span data-icon="user"></span>Me</button>
+    </nav>
+
+    <!-- OVERLAYS -->
+    <div class="scrim" data-close-overlay></div>
+
+    <section class="sheet" data-sheet="paywall" aria-label="Unlock chapter">
+      <div class="grab"></div>
+      <div class="sheet-head"><h2>Unlock Chapter 12</h2><p>Pick how you'd like to keep reading.</p></div>
+      <button class="option option--primary" type="button" data-unlock>
+        <span class="option-ic" data-icon="coin"></span>
+        <span class="option-main"><b>Unlock with 38 coins</b><small>Balance 1,240 · instant access</small></span>
+        <span class="option-go" data-icon="chevron-right"></span>
+      </button>
+      <button class="option" type="button" data-toast="Reward video would play here">
+        <span class="option-ic" data-icon="play"></span>
+        <span class="option-main"><b>Watch a short ad</b><small>About 30 seconds, free</small></span>
+        <span class="option-go" data-icon="chevron-right"></span>
+      </button>
+      <button class="option" type="button" data-toast="We'll remind you when it's free">
+        <span class="option-ic" data-icon="clock"></span>
+        <span class="option-main"><b>Wait to unlock</b><small>Free in 03:58:21</small></span>
+        <span class="option-go" data-icon="chevron-right"></span>
+      </button>
+      <button class="btn btn-text btn-block" type="button" data-open-recharge>Need more coins? Top up</button>
+    </section>
+
+    <section class="sheet" data-sheet="settings" aria-label="Reading settings">
+      <div class="grab"></div>
+      <div class="sheet-head"><h2>Reading comfort</h2><p>Tune the page to your eyes.</p></div>
+      <div class="setting-row">
+        <span class="setting-label">Text size</span>
+        <div class="stepper">
+          <button type="button" data-size="-" aria-label="Smaller text">A<small>−</small></button>
+          <button type="button" data-size="+" aria-label="Larger text">A<small>+</small></button>
+        </div>
+      </div>
+      <div class="setting-row setting-row--col">
+        <span class="setting-label">Theme</span>
+        <div class="theme-swatches">
+          <button type="button" data-theme="paper" class="swatch sw-paper is-on" aria-label="Paper">Aa</button>
+          <button type="button" data-theme="sepia" class="swatch sw-sepia" aria-label="Sepia">Aa</button>
+          <button type="button" data-theme="dark" class="swatch sw-dark" aria-label="Dark">Aa</button>
+          <button type="button" data-theme="black" class="swatch sw-black" aria-label="Black">Aa</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="sheet" data-sheet="recharge" aria-label="Recharge coins">
+      <div class="grab"></div>
+      <div class="sheet-head"><h2>Top up coins</h2><p>Secure checkout via Google Play.</p></div>
+      <div class="pack-grid" id="recharge-packs"></div>
+      <button class="btn btn-primary btn-block" type="button" data-toast="Purchase confirmed — coins added"><span data-icon="lock"></span>Pay with Google Play</button>
+      <p class="fineprint">Prices localized by region. Bonus coins are non-refundable.</p>
+    </section>
+
+    <div class="toast" role="status" aria-live="polite"></div>
+  </main>
+
+  <script src="./app.js"></script>
+</body>
+</html>

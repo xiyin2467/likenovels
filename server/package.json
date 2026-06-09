@@ -1,0 +1,15 @@
+{
+  "name": "likenovel-server",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "MVP V0.1 后端脚手架：模块化单体，零依赖 Node 实现，覆盖游客登录→找书→读章→付费墙→充值→解锁闭环。",
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "node --watch src/index.js",
+    "test": "node test/smoke.mjs"
+  }
+}

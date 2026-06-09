@@ -1,0 +1,94 @@
+{
+  "common": {
+    "appName": "likenovel",
+    "ok": "OK",
+    "cancel": "Cancel",
+    "confirm": "Confirm",
+    "save": "Save",
+    "delete": "Delete",
+    "remove": "Remove",
+    "edit": "Edit",
+    "done": "Done",
+    "retry": "Retry",
+    "selectAll": "Select All",
+    "seeMore": "More",
+    "search": "Search",
+    "networkError": "Network Error",
+    "noContent": "No content available.",
+    "loading": "Loading…"
+  },
+  "nav": {
+    "discover": "Discover",
+    "library": "Library",
+    "wallet": "Wallet",
+    "me": "Me"
+  },
+  "onboarding": {
+    "tagline": "Stories that keep you up all night",
+    "continueWithGoogle": "Continue with Google",
+    "continueWithApple": "Continue with Apple",
+    "continueAsGuest": "Continue as Guest",
+    "agreement": "By continuing you agree to our Terms and Privacy Policy"
+  },
+  "guide": {
+    "title": "What do you love to read?",
+    "subtitle": "Pick a few to personalize your feed",
+    "continueAction": "Continue"
+  },
+  "discover": {
+    "header": "Discover",
+    "searchHint": "Search titles, authors, tropes",
+    "sectionTopCharts": "Top charts",
+    "sectionNewRising": "New & rising",
+    "sectionForYou": "For you"
+  },
+  "library": {
+    "title": "Library",
+    "tabReading": "Reading",
+    "tabUnlocked": "Unlocked",
+    "tabFinished": "Finished",
+    "emptyReading": "You haven't started any book yet.",
+    "continueReading": "Continue reading"
+  },
+  "wallet": {
+    "title": "Wallet",
+    "balance": "Balance",
+    "coins": "Coins",
+    "bonus": "Bonus",
+    "recharge": "Recharge",
+    "balanceHistory": "Balance History",
+    "dailyCheckin": "Daily check-in"
+  },
+  "reader": {
+    "themePaper": "Paper",
+    "themeSepia": "Sepia",
+    "themeDark": "Dark",
+    "themeBlack": "Black",
+    "fontSize": "Font size",
+    "nextChapter": "Next chapter",
+    "autoUnlockNext": "Auto-unlock next chapter"
+  },
+  "paywall": {
+    "title": "Unlock Chapter {chapter}",
+    "price": "Price",
+    "balance": "Balance",
+    "unlockNow": "Unlock Now",
+    "goToStore": "Go to Store",
+    "unlockSuccess": "Unlocked! Enjoy reading.",
+    "insufficient": "Not enough coins. Top up to continue."
+  },
+  "profile": {
+    "title": "Me",
+    "signIn": "Sign in",
+    "copyId": "Copy",
+    "guestName": "Guest_{id}",
+    "menuOrders": "My Orders",
+    "menuPurchased": "Purchased Chapters",
+    "menuAutoUnlock": "Auto-unlock List",
+    "menuHelp": "Help Center",
+    "menuAbout": "About Us",
+    "menuTerms": "Terms of Service",
+    "menuPrivacy": "Privacy Policy",
+    "menuSettings": "Settings"
+  }
+}

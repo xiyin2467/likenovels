@@ -1,4 +1,4 @@
-# PRODUCT.md — Emberlune（工作名）
+# PRODUCT.md — likenovel（工作名）
 
 ## 一句话
 面向欧美市场的女频网络小说阅读 App，主打"暗夜沉浸追更"，用免费试读 + 金币解锁 + 激励广告变现。
