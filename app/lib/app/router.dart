@@ -11,6 +11,7 @@ import 'package:likenovel/core/mock/mock_data.dart';
 import 'package:likenovel/features/onboarding/onboarding_screen.dart';
 import 'package:likenovel/features/guide/guide_screen.dart';
 import 'package:likenovel/features/discover/discover_screen.dart';
+import 'package:likenovel/features/category/category_screen.dart';
 import 'package:likenovel/features/book_detail/book_detail_screen.dart';
 import 'package:likenovel/features/reader/reader_screen.dart';
 import 'package:likenovel/features/library/library_screen.dart';
@@ -59,16 +60,16 @@ final appRouter = GoRouter(
         StatefulShellBranch(
           routes: [
             GoRoute(
-              path: '/library',
-              builder: (context, state) => const _LibraryWrapper(),
+              path: '/category',
+              builder: (context, state) => const _CategoryWrapper(),
             ),
           ],
         ),
         StatefulShellBranch(
           routes: [
             GoRoute(
-              path: '/wallet',
-              builder: (context, state) => const _WalletWrapper(),
+              path: '/library',
+              builder: (context, state) => const _LibraryWrapper(),
             ),
           ],
         ),
@@ -81,6 +82,25 @@ final appRouter = GoRouter(
           ],
         ),
       ],
+    ),
+    // 钱包改为从「我的」内进入的独立页（不再占用底部 Tab）
+    GoRoute(
+      path: '/wallet',
+      pageBuilder: (context, state) => CustomTransitionPage(
+        child: Consumer(
+          builder: (context, ref, _) => WalletScreen(
+            coins: ref.watch(coinsProvider),
+            onTopUp: () =>
+                _showRecharge(context, ProviderScope.containerOf(context)),
+            onMembership: () =>
+                _showMembership(context, ProviderScope.containerOf(context)),
+            onCheckin: () => context.push('/subpage/daily-checkin'),
+            onBack: () => context.pop(),
+          ),
+        ),
+        transitionsBuilder: _slideRightTransition,
+        transitionDuration: const Duration(milliseconds: 220),
+      ),
     ),
     GoRoute(
       path: '/book/:id',
@@ -185,6 +205,22 @@ void _showRecharge(BuildContext context, ProviderContainer container) {
   );
 }
 
+void _showMembership(BuildContext context, ProviderContainer container) {
+  showModalBottomSheet(
+    context: context,
+    isScrollControlled: true,
+    backgroundColor: Colors.transparent,
+    builder: (_) => MembershipSheet(
+      onClose: () => Navigator.pop(context),
+      onSubscribe: (plan) {
+        // MVP：订阅成功后先按权益发放每日金币，便于演示
+        container.read(coinsProvider.notifier).add(plan.dailyCoins);
+        Navigator.pop(context);
+      },
+    ),
+  );
+}
+
 class AppShell extends StatelessWidget {
   final StatefulNavigationShell navigationShell;
 
@@ -208,23 +244,23 @@ class AppShell extends StatelessWidget {
                 _TabItem(
                   icon: Icons.home_outlined,
                   activeIcon: Icons.home,
-                  label: l.tr('nav.discover'),
+                  label: l.tr('nav.home'),
                   isActive: navigationShell.currentIndex == 0,
                   onTap: () => navigationShell.goBranch(0,
                       initialLocation: navigationShell.currentIndex == 0),
                 ),
                 _TabItem(
-                  icon: Icons.menu_book_outlined,
-                  activeIcon: Icons.menu_book,
-                  label: l.tr('nav.library'),
+                  icon: Icons.grid_view_outlined,
+                  activeIcon: Icons.grid_view_rounded,
+                  label: l.tr('nav.category'),
                   isActive: navigationShell.currentIndex == 1,
                   onTap: () => navigationShell.goBranch(1,
                       initialLocation: navigationShell.currentIndex == 1),
                 ),
                 _TabItem(
-                  icon: Icons.monetization_on_outlined,
-                  activeIcon: Icons.monetization_on,
-                  label: l.tr('nav.wallet'),
+                  icon: Icons.menu_book_outlined,
+                  activeIcon: Icons.menu_book,
+                  label: l.tr('nav.library'),
                   isActive: navigationShell.currentIndex == 2,
                   onTap: () => navigationShell.goBranch(2,
                       initialLocation: navigationShell.currentIndex == 2),
@@ -307,10 +343,20 @@ class _DiscoverWrapper extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return DiscoverScreen(
       onBook: (book) => context.push('/book/${book.id}'),
-      onWallet: () =>
-          GoRouter.of(context).go('/wallet'),
+      onWallet: () => context.push('/wallet'),
       onMessages: () => context.push('/subpage/messages'),
       onSearch: () => context.push('/subpage/search'),
+    );
+  }
+}
+
+class _CategoryWrapper extends StatelessWidget {
+  const _CategoryWrapper();
+
+  @override
+  Widget build(BuildContext context) {
+    return CategoryScreen(
+      onBook: (book) => context.push('/book/${book.id}'),
     );
   }
 }
@@ -327,19 +373,6 @@ class _LibraryWrapper extends StatelessWidget {
   }
 }
 
-class _WalletWrapper extends ConsumerWidget {
-  const _WalletWrapper();
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    return WalletScreen(
-      coins: ref.watch(coinsProvider),
-      onTopUp: () => _showRecharge(context, ProviderScope.containerOf(context)),
-      onCheckin: () => context.push('/subpage/daily-checkin'),
-    );
-  }
-}
-
 class _ProfileWrapper extends ConsumerWidget {
   const _ProfileWrapper();
 
@@ -347,7 +380,14 @@ class _ProfileWrapper extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return ProfileScreen(
       coins: ref.watch(coinsProvider),
-      onNav: (key) => context.push('/subpage/$key'),
+      onNav: (key) {
+        // 钱包入口指向独立钱包页，其余走通用子页
+        if (key == 'wallet') {
+          context.push('/wallet');
+        } else {
+          context.push('/subpage/$key');
+        }
+      },
       onSettings: () => context.push('/subpage/settings'),
     );
   }

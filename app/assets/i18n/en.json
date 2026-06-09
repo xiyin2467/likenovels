@@ -18,7 +18,9 @@
     "loading": "Loading…"
   },
   "nav": {
+    "home": "Home",
     "discover": "Discover",
+    "category": "Categories",
     "library": "Library",
     "wallet": "Wallet",
     "me": "Me"

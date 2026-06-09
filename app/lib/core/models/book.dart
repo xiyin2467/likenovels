@@ -99,3 +99,26 @@ class RechargePackage {
     this.tag,
   });
 }
+
+/// 会员订阅套餐（与金币充值并行的第二套变现体系）。
+class MembershipPlan {
+  final String id;
+  final String name;
+  final String period;
+  final String price;
+  final String? originalPrice;
+  final String? perMonthNote;
+  final String? tag;
+  final int dailyCoins;
+
+  const MembershipPlan({
+    required this.id,
+    required this.name,
+    required this.period,
+    required this.price,
+    this.originalPrice,
+    this.perMonthNote,
+    this.tag,
+    required this.dailyCoins,
+  });
+}

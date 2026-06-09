@@ -13,37 +13,42 @@
 
 | Tab | 图标 | 标签 | 对应视图 |
 |-----|------|------|----------|
-| 1 | home | Discover | 书城首页 |
-| 2 | books | Library | 我的书架 |
-| 3 | coin | Wallet | 钱包/充值 |
-| 4 | user | Me | 个人中心 |
+| 1 | home | Home（首页） | 书城首页（原 Discover） |
+| 2 | grid | Categories（分类） | 题材分类浏览 |
+| 3 | books | Library（书架） | 我的书架 |
+| 4 | user | Me（我的） | 个人中心 |
 
-> 底部导航在以下页面隐藏：Onboarding、口味引导、阅读器、书籍详情、子页面。
+> 钱包不再占用底部 Tab：自 v0.3 起，钱包从底部导航移入「我的」，作为独立 push 页（带返回）进入。这样可腾出一个 Tab 给「分类」，并把变现入口收敛到个人中心，降低首屏的「商业感」。
+> 底部导航在以下页面隐藏：Onboarding、口味引导、阅读器、书籍详情、子页面、钱包页。
 
 ### 页面层级
 
 ```
 ├── Onboarding（欢迎 + 登录）
 ├── Guide（口味选择）
-├── Discover（首页）
+├── Home / Discover（首页，Tab1）
+│   ├── 题材 Chips（点击联动下方 Hero 轮播按题材筛选）
 │   ├── 搜索结果
-│   ├── 分类/Genre 子页
 │   ├── 榜单详情
 │   └── 推荐调优
+├── Categories（分类，Tab2）
+│   ├── 题材筛选 Chips（All + 各题材）
+│   └── 书籍网格 → 书籍详情
 ├── Book Detail（书籍详情）
 │   ├── 章节目录
 │   ├── 书评
 │   └── 收藏确认
 ├── Reader（阅读器）
 │   ├── 阅读设置 Sheet
-│   └── 付费墙 Sheet
-├── Library（书架）
+│   └── 付费墙 Sheet（金币解锁 / 看广告 / 等待）
+├── Library（书架，Tab3）
 │   ├── 正在读 / 已解锁 / 已读完
 │   └── 同步状态
-├── Wallet（钱包）
-│   ├── 充值 Sheet
-│   └── 签到/每日奖励
-├── Me（个人中心）
+├── Me（个人中心，Tab4）
+│   ├── Wallet（钱包，push 进入）
+│   │   ├── 余额 + Top up coins → Recharge Sheet（金币充值）
+│   │   ├── VIP Membership 卡片 → Membership Sheet（会员订阅）
+│   │   └── 签到/每日奖励
 │   ├── Transactions（交易记录）
 │   ├── Messages（消息中心）
 │   ├── Settings
@@ -52,7 +57,8 @@
 │   │   ├── Push management
 │   │   └── Privacy & data
 │   └── Delete account
-└── 充值 Sheet（全局可唤起）
+├── Recharge Sheet（金币充值，全局可唤起）
+└── Membership Sheet（会员订阅，全局可唤起）
 ```
 
 ---
@@ -229,25 +235,28 @@
 
 ---
 
-### 3.8 Wallet（钱包）
+### 3.8 Wallet（钱包，从「我的」push 进入）
 
-**顶栏**：eyebrow "Wallet" + 标题 "Coins & rewards"
+> 自 v0.3 起钱包不在底部 Tab，由「我的」进入，顶部带返回按钮。页面承载**两套并行的变现体系**：金币充值（消耗型）与会员订阅（订阅型）。
+
+**顶栏**：返回按钮 + eyebrow "Wallet" + 标题 "Coins & rewards"
 
 **余额卡片**（渐变/发光效果）：
 - "Available balance"
 - 金币数量（大字 + coin 图标）
-- 换算提示 "About 32 standard chapters"
-- CTA 按钮 "Top up coins"
+- 换算提示 "About N standard chapters"
+- CTA 按钮 "Top up coins" → 唤起 **Recharge Sheet**（金币充值包不再平铺在钱包页，收进 Sheet，更隐蔽）
+
+**VIP Membership 卡片**（第二套变现，置于显眼位置）：
+- 金色高光卡片：标题 "VIP Membership" + 权益摘要（Unlimited stories · Ad-free · Daily coins）
+- CTA "View plans · from $2.99" → 唤起 **Membership Sheet**
 
 **奖励入口网格**（2 格）：
 1. Daily check-in → +20 coins
 2. Watch & earn → +12 coins
 
-**充值套餐区**：
-- section head "Recharge packages" + More 链接
-- 套餐卡片（显示 2 个精选）
-
-> 注意：此前钱包页有"Recent activity"流水区块，已移除。交易记录收纳至「Me → Transactions」。
+> 设计意图：把消耗型的金币充值包「藏」进 Top-up Sheet，首屏只露余额与会员，弱化「商店感」、突出订阅 LTV。
+> 注意：此前钱包页的"Recent activity"流水区块已移除。交易记录收纳至「Me → Transactions」。
 
 ---
 
@@ -289,6 +298,34 @@
 
 **操作**：选中套餐 → Pay with Google Play 按钮  
 **底部小字**：Prices localized by region. Bonus coins are non-refundable.
+
+> 入口：金币 pill / 钱包页 "Top up coins" / Paywall 底部 "Need more coins?"。金币是**消耗型**内购（Google Play 一次性商品）。
+
+---
+
+### 3.10b Membership Sheet（会员订阅弹窗，全局可唤起）
+
+**标题**：奖杯图标 + "Become a VIP member" + "Read more, pay less"
+
+**权益清单**（check 列表）：
+- Unlock VIP-tagged stories for free
+- Ad-free reading experience
+- Daily bonus coins, auto-credited
+- Early access to new chapters
+- Exclusive member badge
+
+**套餐选择**（3 列卡片）：
+
+| 套餐 | 价格 | 标签 | 每日赠币 |
+|------|------|------|----------|
+| Weekly | $2.99 / week | — | +30 |
+| Monthly | $9.99 / month | Most popular（高亮） | +50 |
+| Yearly | $79.99 / year | Best value | +80 |
+
+**操作**：选中套餐 → "Subscribe · $X/period" 按钮 + "+N bonus coins every day" 提示  
+**底部小字**：Subscription auto-renews until cancelled. Manage in Google Play.
+
+> 会员是**订阅型**内购（Google Play 订阅商品，自动续订）。与金币充值互补：金币偏「单本即时解锁」，会员偏「重度读者长期权益」。
 
 ---
 
@@ -560,9 +597,14 @@ Reader（读到付费墙）→ Paywall Sheet → 选择解锁方式：
   └── 等待解锁 → 提示倒计时 → 返回书架
 ```
 
-### 流程 D：充值金币
+### 流程 D：充值金币（消耗型）
 ```
-任意页面金币 pill / Wallet Tab / Paywall 底部链接 → Recharge Sheet → 选套餐 → Pay → Toast 成功
+任意页面金币 pill / Me → Wallet → Top up coins / Paywall 底部链接 → Recharge Sheet → 选套餐 → Pay → Toast 成功
+```
+
+### 流程 D2：开通会员（订阅型）
+```
+Me → Wallet → VIP Membership 卡片 → Membership Sheet → 选套餐（周/月/年）→ Subscribe → 自动续订 → 每日赠币
 ```
 
 ### 流程 E：查看交易记录
@@ -572,5 +614,5 @@ Me Tab → 点击 Transactions → wallet-history 子页面（流水列表）
 
 ### 流程 F：签到领币
 ```
-Wallet Tab → 点击 Daily check-in → 签到页 → 领取
+Me → Wallet → 点击 Daily check-in → 签到页 → 领取
 ```

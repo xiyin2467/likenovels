@@ -27,72 +27,120 @@ class OnboardingScreen extends StatefulWidget {
   State<OnboardingScreen> createState() => _OnboardingScreenState();
 }
 
-class _OnboardingScreenState extends State<OnboardingScreen> {
+class _OnboardingScreenState extends State<OnboardingScreen>
+    with SingleTickerProviderStateMixin {
   static final _books = kBooks.sublist(0, 4);
+
   int _active = 0;
+  int _previous = 0;
+  late final AnimationController _ctrl;
   late final Timer _timer;
+
+  /// (dx, dy, angleDeg, scale, opacity) per relative slot around the fan.
+  /// 加大左右展开（±112）让两侧卡明显露出，形成清晰扇形。
+  static const _fan = <int, (double, double, double, double, double)>{
+    0: (0, -6, 0, 1.0, 1.0), // 中心（最前）
+    1: (112, 18, 12, 0.82, 0.95), // 右侧，顺时针旋转
+    2: (0, 30, 0, 0.6, 0.0), // 后方（隐藏，承接进出）
+    3: (-112, 18, -12, 0.82, 0.95), // 左侧，逆时针旋转
+  };
 
   @override
   void initState() {
     super.initState();
-    _timer = Timer.periodic(
-      const Duration(seconds: 3),
-      (_) => setState(() => _active = (_active + 1) % _books.length),
+    _ctrl = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 620),
+      value: 1.0, // 初始即静止态，避免首帧动画/白屏
     );
+    _timer = Timer.periodic(const Duration(seconds: 3), (_) => _advance());
+  }
+
+  void _advance() {
+    if (!mounted) return;
+    setState(() {
+      _previous = _active;
+      _active = (_active + 1) % _books.length;
+    });
+    _ctrl.forward(from: 0.0);
   }
 
   @override
   void dispose() {
     _timer.cancel();
+    _ctrl.dispose();
     super.dispose();
   }
 
-  /// (dx, dy, angleDeg, scale, opacity) per relative position.
-  static const _fan = <int, (double, double, double, double, double)>{
-    0: (0, 0, 0, 1.08, 1.0),
-    1: (80, 8, 6, 0.88, 0.8),
-    2: (0, 20, 0, 0.75, 0.0),
-    3: (-80, 8, -6, 0.88, 0.8),
-  };
+  /// 在「上一帧槽位」与「目标槽位」之间按 t 插值，直接对数值插值可避免
+  /// rel 索引环绕造成的跳变。
+  (double, double, double, double, double) _slotAt(int i, double t) {
+    final relPrev = (i - _previous + _books.length) % _books.length;
+    final relNext = (i - _active + _books.length) % _books.length;
+    final a = _fan[relPrev]!;
+    final b = _fan[relNext]!;
+    double lp(double x, double y) => x + (y - x) * t;
+    return (lp(a.$1, b.$1), lp(a.$2, b.$2), lp(a.$3, b.$3), lp(a.$4, b.$4),
+        lp(a.$5, b.$5));
+  }
 
+  /// 显式 [AnimationController] 驱动的扇形轮播：单一动画源 + 固定时长插值 +
+  /// 每张卡 [RepaintBoundary] 隔离重绘，保留卡牌旋转/重叠的扇形观感，
+  /// 同时避免老方案（隐式动画 + 每帧重排）在 Web 上的卡顿与白屏。
   List<Widget> _buildFanCards() {
     final indices = List.generate(_books.length, (i) => i);
-
-    // Z‑order: behind → sides → center (last = on top).
+    // z 序：后方 → 两侧 → 中心（中心最后绘制，位于最前）。每次切换只重排一次。
     const zOrder = {0: 10, 1: 5, 2: 0, 3: 5};
-    indices.sort((a, b) {
-      final ra = (a - _active + _books.length) % _books.length;
-      final rb = (b - _active + _books.length) % _books.length;
-      return zOrder[ra]!.compareTo(zOrder[rb]!);
+    indices.sort((x, y) {
+      final rx = (x - _active + _books.length) % _books.length;
+      final ry = (y - _active + _books.length) % _books.length;
+      return zOrder[rx]!.compareTo(zOrder[ry]!);
     });
 
-    const dur = Duration(milliseconds: 500);
-    const curve = Curves.easeInOut;
-
     return indices.map((i) {
-      final rel = (i - _active + _books.length) % _books.length;
-      final (dx, dy, deg, sc, op) = _fan[rel]!;
       final book = _books[i];
-
-      return AnimatedOpacity(
+      // 用 Align 显式把每张卡钉在中心，再由 Transform 偏移，避免依赖 Stack
+      // 居中规则导致的布局歧义（这是之前「看不到扇形」的根因）。
+      return Align(
         key: ValueKey('fan_$i'),
-        duration: dur,
-        curve: curve,
-        opacity: op,
-        child: AnimatedContainer(
-          duration: dur,
-          curve: curve,
-          transform: Matrix4.identity()
-            ..translateByDouble(dx, dy, 0, 0)
-            ..rotateZ(deg * pi / 180)
-            ..scaleByDouble(sc, sc, 1, 1),
-          transformAlignment: Alignment.center,
-          child: BookCover(
-            genre: book.genre,
-            title: book.title,
-            author: book.author,
-            badge: book.badge,
-            size: CoverSize.lg,
+        alignment: Alignment.center,
+        child: AnimatedBuilder(
+          animation: _ctrl,
+          builder: (context, child) {
+            final t = Curves.easeInOutCubic.transform(_ctrl.value);
+            final (dx, dy, deg, sc, op) = _slotAt(i, t);
+            return Opacity(
+              opacity: op.clamp(0.0, 1.0),
+              child: Transform(
+                alignment: Alignment.center,
+                transform: Matrix4.identity()
+                  ..translateByDouble(dx, dy, 0, 0)
+                  ..rotateZ(deg * pi / 180)
+                  ..scaleByDouble(sc, sc, 1, 1),
+                child: child,
+              ),
+            );
+          },
+          child: RepaintBoundary(
+            child: DecoratedBox(
+              decoration: BoxDecoration(
+                borderRadius: ElRadius.controlR,
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withValues(alpha: 0.22),
+                    blurRadius: 28,
+                    offset: const Offset(0, 14),
+                  ),
+                ],
+              ),
+              child: BookCover(
+                genre: book.genre,
+                title: book.title,
+                author: book.author,
+                badge: book.badge,
+                size: CoverSize.lg,
+              ),
+            ),
           ),
         ),
       );

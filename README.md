@@ -66,7 +66,8 @@ likenovel/
 ## 核心结论
 
 - **对标 GoodNovel**（出海网文标杆），iReader 仅作体验借鉴
-- **首发市场**：欧美英语，女频网文为核心；架构预留多语言
-- **变现三件套**：金币内购解锁 + 激励视频广告 + 等待解锁
-- **技术栈**：Flutter + NestJS + FCM + Google Billing + AppLovin MAX
-- **MVP**：注册 → 发现 → 读书 → 付费墙 → 充值 → 解锁闭环
+- **首发市场**：欧美英语，女频网文为核心；架构预留多语言（默认 English，JSON i18n 脚手架）
+- **底部导航（4 Tab）**：首页 / 分类 / 书架 / 我的；钱包并入「我的」（push 进入）
+- **两套并行变现**：① 金币充值（消耗型，收进 Top-up Sheet）② 会员订阅（VIP，钱包页显眼入口）；外加激励视频广告 + 等待解锁
+- **技术栈**：Flutter + NestJS + FCM + Google Billing（内购+订阅）+ AppLovin MAX；字体本地打包（Inter / Newsreader）
+- **MVP**：注册 → 发现/分类 → 读书 → 付费墙 → 充值/会员 → 解锁闭环

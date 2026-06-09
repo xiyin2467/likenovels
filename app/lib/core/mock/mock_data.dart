@@ -217,6 +217,46 @@ const List<RechargePackage> kRechargePackages = [
   ),
 ];
 
+/// 会员权益（VIP）通用列表。
+const List<String> kMembershipPerks = [
+  'Unlock VIP-tagged stories for free',
+  'Ad-free reading experience',
+  'Daily bonus coins, auto-credited',
+  'Early access to new chapters',
+  'Exclusive member badge',
+];
+
+/// 会员订阅套餐：与金币充值并行的第二套变现体系。
+const List<MembershipPlan> kMembershipPlans = [
+  MembershipPlan(
+    id: 'm_weekly',
+    name: 'Weekly',
+    period: '/week',
+    price: r'$2.99',
+    dailyCoins: 30,
+  ),
+  MembershipPlan(
+    id: 'm_monthly',
+    name: 'Monthly',
+    period: '/month',
+    price: r'$9.99',
+    originalPrice: r'$12.99',
+    perMonthNote: 'Billed monthly',
+    tag: 'Most popular',
+    dailyCoins: 50,
+  ),
+  MembershipPlan(
+    id: 'm_yearly',
+    name: 'Yearly',
+    period: '/year',
+    price: r'$79.99',
+    originalPrice: r'$119.88',
+    perMonthNote: r'Just $6.67 / month',
+    tag: 'Best value',
+    dailyCoins: 80,
+  ),
+];
+
 const List<String> kTasteTags = [
   'Werewolf',
   'CEO & Billionaire',
@@ -231,12 +271,20 @@ const List<String> kTasteTags = [
 ];
 
 const List<String> kGenreTabs = [
-  'For you',
   'Werewolf',
   'CEO',
   'Reborn',
   'Vampire',
   'Romantasy',
+];
+
+/// 与 [kGenreTabs] 一一对应的题材枚举，用于按分类筛选发现页内容。
+const List<Genre> kGenreTabValues = [
+  Genre.werewolf,
+  Genre.ceo,
+  Genre.reborn,
+  Genre.vampire,
+  Genre.romantasy,
 ];
 
 const String kChapterSampleText =

@@ -2,19 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:likenovel/app/fonts.dart';
 
 import 'package:likenovel/app/theme.dart';
-import 'package:likenovel/core/models/book.dart';
-import 'package:likenovel/core/mock/mock_data.dart';
 
 class WalletScreen extends StatelessWidget {
   final int coins;
   final VoidCallback onTopUp;
+  final VoidCallback onMembership;
   final VoidCallback onCheckin;
+  final VoidCallback? onBack;
 
   const WalletScreen({
     super.key,
     required this.coins,
     required this.onTopUp,
+    required this.onMembership,
     required this.onCheckin,
+    this.onBack,
   });
 
   int get _chaptersEstimate => (coins / 38).floor();
@@ -36,9 +38,9 @@ class WalletScreen extends StatelessWidget {
               const SizedBox(height: ElSpacing.s20),
               _buildBalanceCard(),
               const SizedBox(height: ElSpacing.s24),
-              _buildDailyRewards(),
+              _buildMembershipCard(),
               const SizedBox(height: ElSpacing.s24),
-              _buildRechargeSection(),
+              _buildDailyRewards(),
             ],
           ),
         ),
@@ -50,6 +52,27 @@ class WalletScreen extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        if (onBack != null)
+          Padding(
+            padding: const EdgeInsets.only(bottom: ElSpacing.s8),
+            child: GestureDetector(
+              onTap: onBack,
+              behavior: HitTestBehavior.opaque,
+              child: Container(
+                width: 38,
+                height: 38,
+                decoration: const BoxDecoration(
+                  color: ElTheme.surface2,
+                  shape: BoxShape.circle,
+                ),
+                child: const Icon(
+                  Icons.arrow_back_rounded,
+                  size: 20,
+                  color: ElTheme.ink,
+                ),
+              ),
+            ),
+          ),
         Text(
           'Wallet',
           style: AppFont.inter(
@@ -231,25 +254,94 @@ class WalletScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildRechargeSection() {
-    final featured = kRechargePackages.where((p) => p.tag != null).take(2);
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          'Recharge packages',
-          style: AppFont.inter(
-            fontSize: 16,
-            fontWeight: FontWeight.w600,
-            color: ElTheme.ink,
+  /// 会员（VIP）入口卡片——第二套变现体系，放在显眼位置。
+  Widget _buildMembershipCard() {
+    return GestureDetector(
+      onTap: onMembership,
+      child: Container(
+        width: double.infinity,
+        padding: const EdgeInsets.all(ElSpacing.s20),
+        decoration: BoxDecoration(
+          borderRadius: ElRadius.cardR,
+          gradient: const LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [Color(0xFF2A2118), Color(0xFF3D2F1C), Color(0xFF1C160F)],
           ),
+          boxShadow: [
+            BoxShadow(
+              color: ElTheme.gold.withValues(alpha: 0.22),
+              blurRadius: 22,
+              offset: const Offset(0, 8),
+            ),
+          ],
         ),
-        const SizedBox(height: ElSpacing.s12),
-        ...featured.map((pkg) => Padding(
-              padding: const EdgeInsets.only(bottom: ElSpacing.s12),
-              child: _PackageRow(package: pkg, onTap: onTopUp),
-            )),
-      ],
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                Container(
+                  width: 38,
+                  height: 38,
+                  decoration: BoxDecoration(
+                    gradient: const LinearGradient(
+                      colors: [ElTheme.gold, Color(0xFFE0B84A)],
+                    ),
+                    borderRadius: BorderRadius.circular(11),
+                  ),
+                  child: const Icon(Icons.workspace_premium_rounded,
+                      color: Colors.white, size: 20),
+                ),
+                const SizedBox(width: ElSpacing.s12),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'VIP Membership',
+                        style: AppFont.inter(
+                          fontSize: 15,
+                          fontWeight: FontWeight.w700,
+                          color: const Color(0xFFF5E6C8),
+                        ),
+                      ),
+                      const SizedBox(height: 2),
+                      Text(
+                        'Unlimited stories · Ad-free · Daily coins',
+                        style: AppFont.inter(
+                          fontSize: 12,
+                          color: const Color(0xFFF5E6C8).withValues(alpha: 0.65),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const Icon(Icons.chevron_right_rounded,
+                    color: ElTheme.gold, size: 22),
+              ],
+            ),
+            const SizedBox(height: ElSpacing.s16),
+            Container(
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+              decoration: BoxDecoration(
+                color: ElTheme.gold,
+                borderRadius: ElRadius.controlR,
+              ),
+              alignment: Alignment.center,
+              child: Text(
+                'View plans · from \$2.99',
+                style: AppFont.inter(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w700,
+                  color: const Color(0xFF1A1200),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
@@ -319,91 +411,3 @@ class _RewardCard extends StatelessWidget {
   }
 }
 
-class _PackageRow extends StatelessWidget {
-  final RechargePackage package;
-  final VoidCallback onTap;
-
-  const _PackageRow({required this.package, required this.onTap});
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        padding: const EdgeInsets.all(ElSpacing.s16),
-        decoration: BoxDecoration(
-          color: ElTheme.surface,
-          borderRadius: ElRadius.cardR,
-          border: Border.all(color: ElTheme.line, width: 0.5),
-        ),
-        child: Row(
-          children: [
-            Container(
-              width: 40,
-              height: 40,
-              decoration: const BoxDecoration(
-                color: ElTheme.goldSoft,
-                shape: BoxShape.circle,
-              ),
-              child: const Icon(Icons.monetization_on_rounded,
-                  color: ElTheme.gold, size: 20),
-            ),
-            const SizedBox(width: ElSpacing.s12),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    children: [
-                      Text(
-                        '${package.coins} coins',
-                        style: AppFont.inter(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w600,
-                          color: ElTheme.ink,
-                        ),
-                      ),
-                      if (package.tag != null) ...[
-                        const SizedBox(width: 8),
-                        Container(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 6, vertical: 2),
-                          decoration: BoxDecoration(
-                            color: ElTheme.gold.withValues(alpha: 0.15),
-                            borderRadius: BorderRadius.circular(5),
-                          ),
-                          child: Text(
-                            package.tag!,
-                            style: AppFont.inter(
-                              fontSize: 10,
-                              fontWeight: FontWeight.w700,
-                              color: ElTheme.gold,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ],
-                  ),
-                  const SizedBox(height: 2),
-                  Text(
-                    package.bonusLabel,
-                    style:
-                        AppFont.inter(fontSize: 12, color: ElTheme.muted),
-                  ),
-                ],
-              ),
-            ),
-            Text(
-              package.price,
-              style: AppFont.inter(
-                fontSize: 15,
-                fontWeight: FontWeight.w700,
-                color: ElTheme.primary,
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}

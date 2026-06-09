@@ -10,8 +10,10 @@ final localeProvider = NotifierProvider<LocaleController, Locale?>(
 );
 
 class LocaleController extends Notifier<Locale?> {
+  /// 默认强制英文，不跟随系统语言（海外 App 以英文为基线）。
+  /// 后续接入持久化后，可改为读取用户保存的语言、缺省回落到 en。
   @override
-  Locale? build() => null;
+  Locale? build() => const Locale('en');
 
   /// 切换语言；传入 `null` 恢复跟随系统。
   void setLocale(Locale? locale) => state = locale;

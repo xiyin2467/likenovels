@@ -60,7 +60,7 @@ class _DiscoverScreenState extends ConsumerState<DiscoverScreen> {
         SliverToBoxAdapter(child: _TopBar(coins: coins, onWallet: widget.onWallet, onMessages: widget.onMessages)),
         SliverToBoxAdapter(child: _SearchBar(onTap: widget.onSearch)),
         SliverToBoxAdapter(child: _GenreChips(selected: _selectedGenre, onChanged: (i) => setState(() => _selectedGenre = i))),
-        SliverToBoxAdapter(child: _HeroCarousel(onBook: widget.onBook)),
+        SliverToBoxAdapter(child: _HeroCarousel(onBook: widget.onBook, genre: kGenreTabValues[_selectedGenre])),
         SliverToBoxAdapter(child: _SectionHeader(title: 'Top charts', onMore: () {})),
         SliverToBoxAdapter(child: _TopChartsRow(onBook: widget.onBook)),
         SliverToBoxAdapter(child: _SectionHeader(title: 'New & rising', onMore: () {})),
@@ -359,15 +359,19 @@ class _GenreChips extends StatelessWidget {
 // =============================================================================
 class _HeroCarousel extends StatelessWidget {
   final ValueChanged<Book> onBook;
+  final Genre genre;
 
-  const _HeroCarousel({required this.onBook});
+  const _HeroCarousel({required this.onBook, required this.genre});
 
   @override
   Widget build(BuildContext context) {
-    final heroBooks = kBooks.take(4).toList();
+    // 按选中分类筛选；该题材暂无书时回退到全部，避免空白。
+    final heroBooks = kBooks.where((b) => b.genre == genre).toList();
+    if (heroBooks.isEmpty) heroBooks.addAll(kBooks.take(4));
     return SizedBox(
       height: 220,
       child: ListView.separated(
+        key: ValueKey('hero_${genre.name}'),
         scrollDirection: Axis.horizontal,
         padding: const EdgeInsets.symmetric(horizontal: ElSpacing.s16, vertical: ElSpacing.s4),
         itemCount: heroBooks.length,
@@ -585,7 +589,7 @@ class _RankBadge extends StatelessWidget {
       ),
       alignment: Alignment.center,
       child: Text(
-        '#$rank',
+        '$rank',
         style: AppFont.inter(
           fontSize: 11,
           fontWeight: FontWeight.w700,
@@ -648,7 +652,7 @@ class _NewRisingRow extends StatelessWidget {
 }
 
 // =============================================================================
-// For-you grid
+// For-you grid (瀑布流，放在发现页最底部)
 // =============================================================================
 class _ForYouGrid extends StatelessWidget {
   final ValueChanged<Book> onBook;
@@ -711,3 +715,4 @@ class _ForYouGrid extends StatelessWidget {
     );
   }
 }
+

@@ -10,7 +10,9 @@
     "loading": "加载中…"
   },
   "nav": {
+    "home": "首页",
     "discover": "发现",
+    "category": "分类",
     "library": "书架",
     "wallet": "钱包",
     "me": "我的"

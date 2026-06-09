@@ -501,3 +501,255 @@ class _RechargeSheetState extends State<RechargeSheet> {
     );
   }
 }
+
+// ---------------------------------------------------------------------------
+// MembershipSheet —— 会员订阅（第二套变现体系）
+// ---------------------------------------------------------------------------
+
+class MembershipSheet extends StatefulWidget {
+  final VoidCallback onClose;
+  final void Function(MembershipPlan plan) onSubscribe;
+
+  const MembershipSheet({
+    super.key,
+    required this.onClose,
+    required this.onSubscribe,
+  });
+
+  @override
+  State<MembershipSheet> createState() => _MembershipSheetState();
+}
+
+class _MembershipSheetState extends State<MembershipSheet> {
+  int _selectedIndex = 1; // 默认选中 Monthly
+
+  MembershipPlan get _selected => kMembershipPlans[_selectedIndex];
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: const BoxDecoration(
+        color: ElTheme.surface,
+        borderRadius: BorderRadius.vertical(
+          top: Radius.circular(ElRadius.sheet),
+        ),
+      ),
+      child: SafeArea(
+        top: false,
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.fromLTRB(
+            ElSpacing.s20,
+            ElSpacing.s8,
+            ElSpacing.s20,
+            ElSpacing.s24,
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Center(child: _buildGrabHandle()),
+              const SizedBox(height: ElSpacing.s16),
+              Row(
+                children: [
+                  Container(
+                    width: 40,
+                    height: 40,
+                    decoration: BoxDecoration(
+                      gradient: const LinearGradient(
+                        colors: [ElTheme.gold, Color(0xFFE0B84A)],
+                      ),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: const Icon(Icons.workspace_premium_rounded,
+                        color: Colors.white, size: 22),
+                  ),
+                  const SizedBox(width: ElSpacing.s12),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Become a VIP member',
+                          style: AppFont.newsreader(
+                            fontSize: 20,
+                            fontWeight: FontWeight.w700,
+                            color: ElTheme.ink,
+                          ),
+                        ),
+                        Text(
+                          'Read more, pay less',
+                          style: AppFont.inter(
+                              fontSize: 13, color: ElTheme.muted),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: ElSpacing.s20),
+              ...kMembershipPerks.map(_buildPerkRow),
+              const SizedBox(height: ElSpacing.s20),
+              Row(
+                children: List.generate(kMembershipPlans.length, (i) {
+                  return Expanded(
+                    child: Padding(
+                      padding: EdgeInsets.only(
+                        right: i < kMembershipPlans.length - 1
+                            ? ElSpacing.s12
+                            : 0,
+                      ),
+                      child: _buildPlanCard(i),
+                    ),
+                  );
+                }),
+              ),
+              const SizedBox(height: ElSpacing.s20),
+              _buildSubscribeButton(),
+              const SizedBox(height: ElSpacing.s12),
+              Text(
+                'Subscription auto-renews until cancelled. Manage or cancel '
+                'anytime in Google Play. Subject to their terms of service.',
+                textAlign: TextAlign.center,
+                style: AppFont.inter(
+                  fontSize: 11,
+                  color: ElTheme.faint,
+                  height: 1.4,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildGrabHandle() {
+    return Container(
+      width: 36,
+      height: 4,
+      decoration: BoxDecoration(
+        color: ElTheme.line,
+        borderRadius: BorderRadius.circular(2),
+      ),
+    );
+  }
+
+  Widget _buildPerkRow(String perk) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: ElSpacing.s8),
+      child: Row(
+        children: [
+          const Icon(Icons.check_circle_rounded,
+              color: ElTheme.success, size: 18),
+          const SizedBox(width: ElSpacing.s8),
+          Expanded(
+            child: Text(
+              perk,
+              style: AppFont.inter(fontSize: 13, color: ElTheme.ink),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildPlanCard(int index) {
+    final plan = kMembershipPlans[index];
+    final selected = index == _selectedIndex;
+
+    return GestureDetector(
+      onTap: () => setState(() => _selectedIndex = index),
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 180),
+        padding: const EdgeInsets.symmetric(
+            horizontal: ElSpacing.s8, vertical: ElSpacing.s16),
+        decoration: BoxDecoration(
+          color: selected ? ElTheme.primarySoft : ElTheme.surface,
+          borderRadius: ElRadius.cardR,
+          border: Border.all(
+            color: selected ? ElTheme.primary : ElTheme.line,
+            width: selected ? 1.5 : 0.5,
+          ),
+        ),
+        child: Column(
+          children: [
+            if (plan.tag != null)
+              Container(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                decoration: BoxDecoration(
+                  color: ElTheme.gold.withValues(alpha: 0.15),
+                  borderRadius: BorderRadius.circular(6),
+                ),
+                child: Text(
+                  plan.tag!,
+                  textAlign: TextAlign.center,
+                  style: AppFont.inter(
+                    fontSize: 9,
+                    fontWeight: FontWeight.w700,
+                    color: ElTheme.gold,
+                  ),
+                ),
+              )
+            else
+              const SizedBox(height: 16),
+            const SizedBox(height: 6),
+            Text(
+              plan.name,
+              style: AppFont.inter(
+                fontSize: 13,
+                fontWeight: FontWeight.w600,
+                color: ElTheme.ink,
+              ),
+            ),
+            const SizedBox(height: 4),
+            Text(
+              plan.price,
+              style: AppFont.inter(
+                fontSize: 16,
+                fontWeight: FontWeight.w700,
+                color: selected ? ElTheme.primary : ElTheme.ink,
+              ),
+            ),
+            Text(
+              plan.period,
+              style: AppFont.inter(fontSize: 11, color: ElTheme.muted),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildSubscribeButton() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        ElevatedButton(
+          onPressed: () => widget.onSubscribe(_selected),
+          style: ElevatedButton.styleFrom(
+            backgroundColor: ElTheme.primary,
+            foregroundColor: ElTheme.onPrimary,
+            padding: const EdgeInsets.symmetric(vertical: 16),
+            shape: RoundedRectangleBorder(borderRadius: ElRadius.controlR),
+          ),
+          child: Text(
+            'Subscribe · ${_selected.price}${_selected.period}',
+            style: AppFont.inter(fontSize: 15, fontWeight: FontWeight.w600),
+          ),
+        ),
+        const SizedBox(height: 6),
+        Center(
+          child: Text(
+            '+${_selected.dailyCoins} bonus coins every day',
+            style: AppFont.inter(
+              fontSize: 12,
+              fontWeight: FontWeight.w500,
+              color: ElTheme.success,
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+}

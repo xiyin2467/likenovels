@@ -1,4 +1,4 @@
-﻿# DESIGN.md — likenovel 设计系统
+# DESIGN.md — likenovel 设计系统
 
 > register: product。调性：浅色编辑感书房（暖象牙底 + 墨梅文字 + 石榴酒红主色 + 金色细节）。
 > 颜色策略：Committed（克制的浅底 + 酒红主色贯穿强调 + 金色点缀）。
@@ -64,7 +64,7 @@
 
 - **Newsreader**（衬线）：书名、Hero、封面标题、阅读器正文、统计数字 —— 文学/阅读质感。
 - **Inter**（无衬线）：导航、按钮、标签、计量、表单等所有 UI chrome。
-- 通过 Google Fonts 加载，`display=swap`。
+- Flutter App 中**字体本地打包**（`app/assets/fonts/` 下的可变字体 TTF，经 `AppFont` 封装），不再依赖 Google Fonts 网络加载——离线可用、首屏无字体闪烁，符合出海弱网/合规要求。低保真原型（v0-lofi）仍用 Google Fonts CDN。
 
 ## 图标
 
@@ -83,7 +83,15 @@
 
 ## 组件状态
 
-按钮/可点项均含 default/hover/focus-visible/active；列表含锁定/新章/已存等状态；阅读器含 4 主题切换与字号实时调节；付费墙含解锁成功 toast；瀑布流含骨架屏 + 无限加载；底部导航在阅读器/详情/引导/登录页自动隐藏。
+按钮/可点项均含 default/hover/focus-visible/active；列表含锁定/新章/已存等状态；阅读器含 4 主题切换与字号实时调节；付费墙含解锁成功 toast；瀑布流含骨架屏 + 无限加载；底部导航在阅读器/详情/引导/登录页/钱包页自动隐藏。
+
+## 导航与变现入口（IA 摘要）
+
+- **底部导航 4 Tab**：首页（Home）/ 分类（Categories）/ 书架（Library）/ 我的（Me）。
+- **钱包并入「我的」**：钱包不占 Tab，由「我的」push 进入（带返回）。承载两套并行变现：
+  - **金币充值（消耗型）**：钱包页 "Top up coins" → Recharge Sheet。套餐卡片**收进 Sheet**，不在首屏平铺，弱化「商店感」。
+  - **会员订阅（VIP，订阅型）**：钱包页金色「VIP Membership」卡片 → Membership Sheet（周/月/年套餐 + 每日赠币）。
+- 详见 `docs/design/前端设计PRD.md`、`docs/plan/变现模型.md`。
 
 ## 响应式
 
