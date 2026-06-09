@@ -2,6 +2,39 @@
 
 面向海外市场的网络小说 App，主打英语女频。当前已完成竞品分析、产品规划、设计系统、UI 原型（V0 低保真 + V1 Figma 高保真）、Flutter 前端原型。
 
+## 快速启动
+
+### Flutter App（推荐）
+
+```powershell
+# 1. 确保 Flutter 在 PATH 中（SDK 已安装在 C:\flutter）
+$env:PATH = "C:\flutter\bin;" + $env:PATH
+# 2. 安装依赖
+cd D:\likenovel\app
+flutter pub get
+# 3. 启动（Chrome 浏览器，无需 Android SDK）
+flutter run -d chrome
+# 或 Windows 桌面
+flutter run -d windows
+```
+
+> 启动前可先 `flutter analyze` 检查代码质量。
+
+### V0 低保真原型
+
+```powershell
+# 最快：直接双击
+prototypes/v0-lofi/index.html
+```
+
+### V1 Figma 高保真原型
+
+```powershell
+cd D:\likenovel\prototypes\v1-figma
+npm install
+npm run dev
+```
+
 ## 项目结构
 
 ```text

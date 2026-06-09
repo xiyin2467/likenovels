@@ -26,9 +26,15 @@
 
 ### 安装依赖
 
-```bash
+```powershell
 cd D:\likenovel\app
 flutter pub get
+```
+
+### 检查代码
+
+```powershell
+flutter analyze
 ```
 
 ### 运行应用
