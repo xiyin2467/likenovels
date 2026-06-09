@@ -257,6 +257,40 @@ const List<MembershipPlan> kMembershipPlans = [
   ),
 ];
 
+/// 题材 → 偏好标签（与 [kTasteTags] 对齐），用于把书籍题材并入偏好打分。
+const Map<Genre, String> kGenreTasteTag = {
+  Genre.werewolf: 'Werewolf',
+  Genre.ceo: 'CEO & Billionaire',
+  Genre.reborn: 'Reborn',
+  Genre.vampire: 'Vampire',
+  Genre.romantasy: 'Romantasy',
+  Genre.modern: 'Second chance',
+};
+
+/// 按用户偏好给单本书打分：命中题材或标签越多分越高。
+int preferenceScore(Book book, Set<String> prefs) {
+  if (prefs.isEmpty) return 0;
+  var score = 0;
+  if (prefs.contains(kGenreTasteTag[book.genre])) score += 2;
+  for (final t in book.tropes) {
+    if (prefs.contains(t)) score += 1;
+  }
+  return score;
+}
+
+/// 依据偏好对书单做稳定排序（高分在前，未命中保持原序）。
+List<Book> sortByPreference(List<Book> books, Set<String> prefs) {
+  if (prefs.isEmpty) return books;
+  final indexed = books.asMap().entries.toList();
+  indexed.sort((a, b) {
+    final sa = preferenceScore(a.value, prefs);
+    final sb = preferenceScore(b.value, prefs);
+    if (sa != sb) return sb.compareTo(sa);
+    return a.key.compareTo(b.key); // 稳定：同分保持原顺序
+  });
+  return indexed.map((e) => e.value).toList();
+}
+
 const List<String> kTasteTags = [
   'Werewolf',
   'CEO & Billionaire',

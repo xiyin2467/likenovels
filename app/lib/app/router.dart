@@ -185,6 +185,10 @@ void _showPaywall(
         Navigator.pop(context);
         _showRecharge(context, ProviderScope.containerOf(context));
       },
+      onMembership: () {
+        Navigator.pop(context);
+        _showMembership(context, ProviderScope.containerOf(context));
+      },
     ),
   );
 }
@@ -213,12 +217,26 @@ void _showMembership(BuildContext context, ProviderContainer container) {
     builder: (_) => MembershipSheet(
       onClose: () => Navigator.pop(context),
       onSubscribe: (plan) {
-        // MVP：订阅成功后先按权益发放每日金币，便于演示
+        // MVP：订阅成功后写入会员状态（含到期日）并按权益发放每日金币
         container.read(coinsProvider.notifier).add(plan.dailyCoins);
+        container.read(membershipProvider.notifier).subscribe(
+              plan.id,
+              plan.name,
+              _planDuration(plan.id),
+            );
         Navigator.pop(context);
       },
     ),
   );
+}
+
+/// 套餐 ID → 时长。用于设置会员到期日。
+Duration _planDuration(String planId) {
+  return switch (planId) {
+    'm_weekly' => const Duration(days: 7),
+    'm_yearly' => const Duration(days: 365),
+    _ => const Duration(days: 30),
+  };
 }
 
 class AppShell extends StatelessWidget {
@@ -381,10 +399,13 @@ class _ProfileWrapper extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return ProfileScreen(
       coins: ref.watch(coinsProvider),
+      membership: ref.watch(membershipProvider),
       onNav: (key) {
-        // 钱包入口指向独立钱包页，其余走通用子页
+        // 钱包入口指向独立钱包页；会员入口弹出订阅；其余走通用子页
         if (key == 'wallet') {
           context.push('/wallet');
+        } else if (key == 'membership') {
+          _showMembership(context, ProviderScope.containerOf(context));
         } else {
           context.push('/subpage/$key');
         }

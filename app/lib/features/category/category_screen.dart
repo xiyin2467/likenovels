@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:likenovel/app/fonts.dart';
 
 import 'package:likenovel/app/theme.dart';
+import 'package:likenovel/app/providers.dart';
 import 'package:likenovel/core/models/book.dart';
 import 'package:likenovel/core/mock/mock_data.dart';
 import 'package:likenovel/shared/widgets/book_cover.dart';
@@ -16,23 +18,27 @@ const _kGenreLabels = <Genre, String>{
 };
 
 /// 分类页：顶部题材筛选 + 书籍网格，点击进入详情。
-class CategoryScreen extends StatefulWidget {
+class CategoryScreen extends ConsumerStatefulWidget {
   final ValueChanged<Book> onBook;
 
   const CategoryScreen({super.key, required this.onBook});
 
   @override
-  State<CategoryScreen> createState() => _CategoryScreenState();
+  ConsumerState<CategoryScreen> createState() => _CategoryScreenState();
 }
 
-class _CategoryScreenState extends State<CategoryScreen> {
+class _CategoryScreenState extends ConsumerState<CategoryScreen> {
   Genre? _selected; // null = 全部
 
   @override
   Widget build(BuildContext context) {
-    final books = _selected == null
+    final prefs = ref.watch(preferencesProvider);
+    final filtered = _selected == null
         ? kBooks
         : kBooks.where((b) => b.genre == _selected).toList();
+    // 全部视图按偏好排序；选定具体题材时保持原序。
+    final books =
+        _selected == null ? sortByPreference(filtered, prefs) : filtered;
 
     return Scaffold(
       backgroundColor: ElTheme.bg,

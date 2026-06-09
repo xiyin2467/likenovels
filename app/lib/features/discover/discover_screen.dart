@@ -45,17 +45,18 @@ class _DiscoverScreenState extends ConsumerState<DiscoverScreen> {
   @override
   Widget build(BuildContext context) {
     final coins = ref.watch(coinsProvider);
+    final prefs = ref.watch(preferencesProvider);
 
     return Scaffold(
       backgroundColor: ElTheme.bg,
       body: SafeArea(
         bottom: false,
-        child: _loading ? _buildSkeleton() : _buildContent(coins),
+        child: _loading ? _buildSkeleton() : _buildContent(coins, prefs),
       ),
     );
   }
 
-  Widget _buildContent(int coins) {
+  Widget _buildContent(int coins, Set<String> prefs) {
     return CustomScrollView(
       slivers: [
         SliverToBoxAdapter(child: _TopBar(coins: coins, onWallet: widget.onWallet, onMessages: widget.onMessages)),
@@ -66,7 +67,7 @@ class _DiscoverScreenState extends ConsumerState<DiscoverScreen> {
         SliverToBoxAdapter(child: _SectionHeader(title: 'New & rising', onMore: widget.onMore)),
         SliverToBoxAdapter(child: _NewRisingRow(onBook: widget.onBook)),
         SliverToBoxAdapter(child: _SectionHeader(title: 'For you', onMore: widget.onMore)),
-        _ForYouGrid(onBook: widget.onBook),
+        _ForYouGrid(onBook: widget.onBook, prefs: prefs),
         const SliverToBoxAdapter(child: SizedBox(height: 100)),
       ],
     );
@@ -599,12 +600,13 @@ class _NewRisingRow extends StatelessWidget {
 // =============================================================================
 class _ForYouGrid extends StatelessWidget {
   final ValueChanged<Book> onBook;
+  final Set<String> prefs;
 
-  const _ForYouGrid({required this.onBook});
+  const _ForYouGrid({required this.onBook, required this.prefs});
 
   @override
   Widget build(BuildContext context) {
-    final books = kBooks;
+    final books = sortByPreference(kBooks, prefs);
     return SliverPadding(
       padding: const EdgeInsets.symmetric(horizontal: ElSpacing.s16),
       sliver: SliverGrid(

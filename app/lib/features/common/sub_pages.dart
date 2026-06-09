@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:likenovel/app/fonts.dart';
 
 import 'package:likenovel/app/theme.dart';
+import 'package:likenovel/core/i18n/locale_controller.dart';
 import 'package:likenovel/core/models/book.dart';
 import 'package:likenovel/core/mock/mock_data.dart';
 import 'package:likenovel/shared/widgets/book_cover.dart';
@@ -903,33 +905,32 @@ class _NotificationsPageState extends State<NotificationsPage> {
 // LanguagePage
 // ---------------------------------------------------------------------------
 
-class LanguagePage extends StatefulWidget {
+class LanguagePage extends ConsumerWidget {
   final VoidCallback onBack;
 
   const LanguagePage({super.key, required this.onBack});
 
-  @override
-  State<LanguagePage> createState() => _LanguagePageState();
-}
-
-class _LanguagePageState extends State<LanguagePage> {
-  String _selected = 'English';
-
-  static const _languages = [
-    'English',
-    'Spanish',
-    'French',
-    'German',
-    'Portuguese',
-    'Italian',
+  /// (label, locale)。locale 为 null 表示跟随系统。
+  static const _languages = <(String, Locale)>[
+    ('English', Locale('en')),
+    ('简体中文', Locale('zh', 'CN')),
+    ('繁體中文', Locale('zh', 'TW')),
   ];
 
+  bool _matches(Locale? current, Locale target) {
+    if (current == null) return false;
+    return current.languageCode == target.languageCode &&
+        (current.countryCode ?? '') == (target.countryCode ?? '');
+  }
+
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final current = ref.watch(localeProvider);
+
     return SubShell(
       eyebrow: 'Settings',
       title: 'Language',
-      onBack: widget.onBack,
+      onBack: onBack,
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: ElSpacing.s20),
         child: Container(
@@ -942,52 +943,56 @@ class _LanguagePageState extends State<LanguagePage> {
             mainAxisSize: MainAxisSize.min,
             children: [
               for (int i = 0; i < _languages.length; i++) ...[
-                GestureDetector(
-                  onTap: () => setState(() => _selected = _languages[i]),
-                  behavior: HitTestBehavior.opaque,
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: ElSpacing.s16,
-                      vertical: ElSpacing.s12,
-                    ),
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: Text(
-                            _languages[i],
-                            style: AppFont.inter(
-                              fontSize: 14,
-                              fontWeight: _selected == _languages[i]
-                                  ? FontWeight.w600
-                                  : FontWeight.w400,
-                              color: _selected == _languages[i]
-                                  ? ElTheme.primary
-                                  : ElTheme.ink,
-                            ),
-                          ),
-                        ),
-                        if (_selected == _languages[i])
-                          const Icon(
-                            Icons.check_circle_rounded,
-                            size: 20,
-                            color: ElTheme.primary,
-                          )
-                        else
-                          Container(
-                            width: 20,
-                            height: 20,
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              border: Border.all(
-                                color: ElTheme.line,
-                                width: 1.5,
+                Builder(builder: (context) {
+                  final selected = _matches(current, _languages[i].$2);
+                  return GestureDetector(
+                    onTap: () => ref
+                        .read(localeProvider.notifier)
+                        .setLocale(_languages[i].$2),
+                    behavior: HitTestBehavior.opaque,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: ElSpacing.s16,
+                        vertical: ElSpacing.s12,
+                      ),
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: Text(
+                              _languages[i].$1,
+                              style: AppFont.inter(
+                                fontSize: 14,
+                                fontWeight: selected
+                                    ? FontWeight.w600
+                                    : FontWeight.w400,
+                                color:
+                                    selected ? ElTheme.primary : ElTheme.ink,
                               ),
                             ),
                           ),
-                      ],
+                          if (selected)
+                            const Icon(
+                              Icons.check_circle_rounded,
+                              size: 20,
+                              color: ElTheme.primary,
+                            )
+                          else
+                            Container(
+                              width: 20,
+                              height: 20,
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                border: Border.all(
+                                  color: ElTheme.line,
+                                  width: 1.5,
+                                ),
+                              ),
+                            ),
+                        ],
+                      ),
                     ),
-                  ),
-                ),
+                  );
+                }),
                 if (i < _languages.length - 1)
                   Divider(
                     height: 0.5,

@@ -1,0 +1,65 @@
+@import 'tailwindcss';
+
+/* ---------------------------------------------------------------------------
+   likenovel 品牌设计令牌（对齐前台 app/lib/app/theme.dart）
+   暗夜书房：暖米底色 + 酒红主色 + 琥珀金点缀，Newsreader 衬线标题 + Inter 正文
+--------------------------------------------------------------------------- */
+@theme {
+  --color-bg: #faf7f2;
+  --color-surface: #fefcfa;
+  --color-surface-2: #f4f0ea;
+  --color-surface-3: #ebe6de;
+  --color-line: #e2dbd2;
+  --color-line-strong: #d1c9bd;
+  --color-ink: #2e1f2e;
+  --color-muted: #6b5a6b;
+  --color-faint: #8a7a8a;
+
+  --color-primary: #8b2252;
+  --color-primary-press: #6e1a41;
+  --color-primary-ink: #5c1536;
+  --color-primary-soft: #fceef2;
+  --color-gold: #d4a853;
+  --color-gold-soft: #fdf6e3;
+  --color-success: #2e8b57;
+  --color-danger: #b3261e;
+  --color-on-primary: #fffbf5;
+
+  --font-sans: 'Inter', system-ui, sans-serif;
+  --font-serif: 'Newsreader', Georgia, serif;
+
+  --radius-control: 13px;
+  --radius-card: 18px;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--color-bg);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+.font-serif {
+  font-family: var(--font-serif);
+}
+
+/* 细滚动条 */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-line-strong) transparent;
+}
+*::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+*::-webkit-scrollbar-thumb {
+  background: var(--color-line-strong);
+  border-radius: 8px;
+}

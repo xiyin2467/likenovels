@@ -104,6 +104,7 @@ class AppLocales {
   static const List<Locale> supported = <Locale>[
     Locale('en'),
     Locale('zh', 'CN'),
+    Locale('zh', 'TW'),
   ];
 
   static bool isSupported(Locale locale) {

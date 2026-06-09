@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:likenovel/app/fonts.dart';
 
 import 'package:likenovel/app/theme.dart';
+import 'package:likenovel/app/providers.dart';
 import 'package:likenovel/core/mock/mock_data.dart';
 
-class GuideScreen extends StatefulWidget {
+class GuideScreen extends ConsumerStatefulWidget {
   final VoidCallback onBack;
   final VoidCallback onContinue;
 
@@ -15,11 +17,16 @@ class GuideScreen extends StatefulWidget {
   });
 
   @override
-  State<GuideScreen> createState() => _GuideScreenState();
+  ConsumerState<GuideScreen> createState() => _GuideScreenState();
 }
 
-class _GuideScreenState extends State<GuideScreen> {
+class _GuideScreenState extends ConsumerState<GuideScreen> {
   final _selected = <String>{};
+
+  void _finish() {
+    ref.read(preferencesProvider.notifier).setAll(_selected);
+    widget.onContinue();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -155,7 +162,7 @@ class _GuideScreenState extends State<GuideScreen> {
                 child: SizedBox(
                   width: double.infinity,
                   child: ElevatedButton(
-                    onPressed: widget.onContinue,
+                    onPressed: _finish,
                     style: ElevatedButton.styleFrom(
                       backgroundColor:
                           hasSelection ? ElTheme.primary : ElTheme.surface3,

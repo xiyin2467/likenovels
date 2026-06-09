@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:likenovel/app/fonts.dart';
 
 import 'package:likenovel/app/theme.dart';
+import 'package:likenovel/app/providers.dart';
 import 'package:likenovel/core/models/book.dart';
 import 'package:likenovel/core/mock/mock_data.dart';
 import 'package:likenovel/shared/widgets/book_cover.dart';
@@ -35,7 +36,6 @@ class BookDetailScreen extends ConsumerStatefulWidget {
 }
 
 class _BookDetailScreenState extends ConsumerState<BookDetailScreen> {
-  bool _favorited = false;
   bool _chaptersExpanded = false;
   late final List<Chapter> _chapters;
 
@@ -311,22 +311,41 @@ class _BookDetailScreenState extends ConsumerState<BookDetailScreen> {
         ),
         child: Row(
           children: [
-            GestureDetector(
-              onTap: () => setState(() => _favorited = !_favorited),
-              child: Container(
-                width: 52,
-                height: 52,
-                decoration: BoxDecoration(
-                  color: ElTheme.surface,
-                  borderRadius: ElRadius.controlR,
-                  border: Border.all(color: ElTheme.line),
-                ),
-                child: Icon(
-                  _favorited ? Icons.favorite_rounded : Icons.favorite_border_rounded,
-                  color: _favorited ? ElTheme.primary : ElTheme.muted,
-                  size: 22,
-                ),
-              ),
+            Builder(
+              builder: (context) {
+                final favorited =
+                    ref.watch(favoritesProvider).contains(book.id);
+                return GestureDetector(
+                  onTap: () {
+                    ref.read(favoritesProvider.notifier).toggle(book.id);
+                    ScaffoldMessenger.of(context)
+                      ..hideCurrentSnackBar()
+                      ..showSnackBar(
+                        SnackBar(
+                          content: Text(favorited ? '已取消收藏' : '已加入收藏'),
+                          duration: const Duration(milliseconds: 1200),
+                          behavior: SnackBarBehavior.floating,
+                        ),
+                      );
+                  },
+                  child: Container(
+                    width: 52,
+                    height: 52,
+                    decoration: BoxDecoration(
+                      color: ElTheme.surface,
+                      borderRadius: ElRadius.controlR,
+                      border: Border.all(color: ElTheme.line),
+                    ),
+                    child: Icon(
+                      favorited
+                          ? Icons.favorite_rounded
+                          : Icons.favorite_border_rounded,
+                      color: favorited ? ElTheme.primary : ElTheme.muted,
+                      size: 22,
+                    ),
+                  ),
+                );
+              },
             ),
             const SizedBox(width: 12),
             Expanded(

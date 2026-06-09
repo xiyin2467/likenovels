@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:likenovel/app/fonts.dart';
 
 import 'package:likenovel/app/theme.dart';
+import 'package:likenovel/app/providers.dart';
 import 'package:likenovel/core/models/book.dart';
 import 'package:likenovel/core/mock/mock_data.dart';
 import 'package:likenovel/shared/widgets/book_cover.dart';
 
-class LibraryScreen extends StatefulWidget {
+class LibraryScreen extends ConsumerStatefulWidget {
   final Function(Book) onBook;
   final Function(Book) onRead;
 
@@ -17,17 +19,17 @@ class LibraryScreen extends StatefulWidget {
   });
 
   @override
-  State<LibraryScreen> createState() => _LibraryScreenState();
+  ConsumerState<LibraryScreen> createState() => _LibraryScreenState();
 }
 
-class _LibraryScreenState extends State<LibraryScreen>
+class _LibraryScreenState extends ConsumerState<LibraryScreen>
     with SingleTickerProviderStateMixin {
   late final TabController _tabController;
 
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 3, vsync: this);
+    _tabController = TabController(length: 4, vsync: this);
     _tabController.addListener(() => setState(() {}));
   }
 
@@ -44,6 +46,11 @@ class _LibraryScreenState extends State<LibraryScreen>
 
   List<LibraryBook> get _finishedBooks =>
       kLibraryBooks.where((b) => b.progress >= 100).toList();
+
+  List<Book> get _favoriteBooks {
+    final ids = ref.watch(favoritesProvider);
+    return kBooks.where((b) => ids.contains(b.id)).toList();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -145,6 +152,7 @@ class _LibraryScreenState extends State<LibraryScreen>
           ),
           tabs: const [
             Tab(text: 'Reading'),
+            Tab(text: 'Favorites'),
             Tab(text: 'Unlocked'),
             Tab(text: 'Finished'),
           ],
@@ -158,9 +166,121 @@ class _LibraryScreenState extends State<LibraryScreen>
       controller: _tabController,
       children: [
         _buildReadingTab(),
+        _buildFavoritesTab(),
         _buildBookList(_unlockedBooks),
         _buildFinishedTab(),
       ],
+    );
+  }
+
+  Widget _buildFavoritesTab() {
+    final books = _favoriteBooks;
+    if (books.isEmpty) {
+      return _buildEmptyState(
+        icon: Icons.favorite_border_rounded,
+        title: 'No favorites yet',
+        description: 'Tap the heart on any book to save it here.',
+      );
+    }
+    return ListView.separated(
+      padding: const EdgeInsets.all(ElSpacing.s20),
+      itemCount: books.length,
+      separatorBuilder: (_, _) => const SizedBox(height: ElSpacing.s12),
+      itemBuilder: (_, i) => _buildFavoriteRow(books[i]),
+    );
+  }
+
+  Widget _buildFavoriteRow(Book book) {
+    return GestureDetector(
+      onTap: () => widget.onBook(book),
+      child: Container(
+        padding: const EdgeInsets.all(ElSpacing.s12),
+        decoration: BoxDecoration(
+          color: ElTheme.surface,
+          borderRadius: ElRadius.controlR,
+          border: Border.all(color: ElTheme.line, width: 0.5),
+        ),
+        child: Row(
+          children: [
+            BookCover(
+              genre: book.genre,
+              title: book.title,
+              author: book.author,
+              size: CoverSize.sm,
+            ),
+            const SizedBox(width: ElSpacing.s12),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    book.title,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: AppFont.inter(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w600,
+                      color: ElTheme.ink,
+                    ),
+                  ),
+                  const SizedBox(height: 2),
+                  Text(
+                    book.author,
+                    style: AppFont.inter(fontSize: 12, color: ElTheme.muted),
+                  ),
+                  const SizedBox(height: 6),
+                  Row(
+                    children: [
+                      const Icon(Icons.star_rounded,
+                          size: 13, color: ElTheme.gold),
+                      const SizedBox(width: 3),
+                      Text('${book.rating}',
+                          style: AppFont.inter(
+                              fontSize: 11,
+                              fontWeight: FontWeight.w600,
+                              color: ElTheme.ink)),
+                      const SizedBox(width: 10),
+                      Text('${book.chapters} ch',
+                          style:
+                              AppFont.inter(fontSize: 11, color: ElTheme.faint)),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(width: ElSpacing.s8),
+            GestureDetector(
+              onTap: () => ref.read(favoritesProvider.notifier).toggle(book.id),
+              behavior: HitTestBehavior.opaque,
+              child: const Padding(
+                padding: EdgeInsets.all(4),
+                child: Icon(Icons.favorite_rounded,
+                    size: 20, color: ElTheme.primary),
+              ),
+            ),
+            const SizedBox(width: ElSpacing.s8),
+            SizedBox(
+              height: 32,
+              child: TextButton(
+                onPressed: () => widget.onRead(book),
+                style: TextButton.styleFrom(
+                  backgroundColor: ElTheme.primary,
+                  foregroundColor: ElTheme.onPrimary,
+                  padding: const EdgeInsets.symmetric(horizontal: 14),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  textStyle: AppFont.inter(
+                    fontSize: 12,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+                child: const Text('Read'),
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 
@@ -212,15 +332,17 @@ class _LibraryScreenState extends State<LibraryScreen>
     return ListView.separated(
       padding: const EdgeInsets.all(ElSpacing.s20),
       itemCount: books.length,
-      separatorBuilder: (_, __) => const SizedBox(height: ElSpacing.s12),
+      separatorBuilder: (_, _) => const SizedBox(height: ElSpacing.s12),
       itemBuilder: (_, i) => _buildBookRow(books[i]),
     );
   }
 
   Widget _buildContinueReadingCard(LibraryBook item) {
     final book = item.book;
+    // 中间区域点击进入详情；封面与右侧箭头点击直接进入阅读内容。
     return GestureDetector(
       onTap: () => widget.onBook(book),
+      behavior: HitTestBehavior.opaque,
       child: Container(
         padding: const EdgeInsets.all(ElSpacing.s16),
         decoration: BoxDecoration(
@@ -230,12 +352,16 @@ class _LibraryScreenState extends State<LibraryScreen>
         ),
         child: Row(
           children: [
-            BookCover(
-              genre: book.genre,
-              title: book.title,
-              author: book.author,
-              badge: book.badge,
-              size: CoverSize.md,
+            GestureDetector(
+              onTap: () => widget.onRead(book),
+              behavior: HitTestBehavior.opaque,
+              child: BookCover(
+                genre: book.genre,
+                title: book.title,
+                author: book.author,
+                badge: book.badge,
+                size: CoverSize.md,
+              ),
             ),
             const SizedBox(width: ElSpacing.s16),
             Expanded(
@@ -284,10 +410,22 @@ class _LibraryScreenState extends State<LibraryScreen>
               ),
             ),
             const SizedBox(width: ElSpacing.s8),
-            Icon(
-              Icons.chevron_right_rounded,
-              color: ElTheme.muted,
-              size: 22,
+            GestureDetector(
+              onTap: () => widget.onRead(book),
+              behavior: HitTestBehavior.opaque,
+              child: Container(
+                width: 40,
+                height: 40,
+                decoration: BoxDecoration(
+                  color: ElTheme.primarySoft,
+                  shape: BoxShape.circle,
+                ),
+                child: const Icon(
+                  Icons.chevron_right_rounded,
+                  color: ElTheme.primary,
+                  size: 22,
+                ),
+              ),
             ),
           ],
         ),

@@ -2,15 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:likenovel/app/fonts.dart';
 
 import 'package:likenovel/app/theme.dart';
+import 'package:likenovel/app/providers.dart';
 
 class ProfileScreen extends StatelessWidget {
   final int coins;
+  final MembershipState? membership;
   final Function(String key) onNav;
   final VoidCallback onSettings;
 
   const ProfileScreen({
     super.key,
     required this.coins,
+    required this.membership,
     required this.onNav,
     required this.onSettings,
   });
@@ -30,6 +33,8 @@ class ProfileScreen extends StatelessWidget {
             const SizedBox(height: ElSpacing.s20),
             _buildStatsRow(),
             const SizedBox(height: ElSpacing.s16),
+            _buildMembershipCard(),
+            const SizedBox(height: ElSpacing.s12),
             _buildCoinBalance(),
             const SizedBox(height: ElSpacing.s20),
             _buildMenuList(),
@@ -220,6 +225,91 @@ class ProfileScreen extends StatelessWidget {
       width: 1,
       height: 28,
       color: ElTheme.line,
+    );
+  }
+
+  /// 会员卡片：显示到期日（已开通）或引导开通（未开通）。置于金币余额上方。
+  Widget _buildMembershipCard() {
+    final active = membership != null && membership!.isActive;
+    final expiry = membership?.expiry;
+    final expiryText = expiry == null
+        ? ''
+        : '${expiry.year}-${expiry.month.toString().padLeft(2, '0')}-${expiry.day.toString().padLeft(2, '0')}';
+
+    return GestureDetector(
+      onTap: () => onNav('membership'),
+      child: Container(
+        padding: const EdgeInsets.symmetric(
+          horizontal: ElSpacing.s16,
+          vertical: ElSpacing.s12,
+        ),
+        decoration: BoxDecoration(
+          borderRadius: ElRadius.controlR,
+          gradient: const LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [Color(0xFF2A2118), Color(0xFF3D2F1C), Color(0xFF1C160F)],
+          ),
+        ),
+        child: Row(
+          children: [
+            Container(
+              width: 32,
+              height: 32,
+              decoration: BoxDecoration(
+                gradient: const LinearGradient(
+                  colors: [ElTheme.gold, Color(0xFFE0B84A)],
+                ),
+                shape: BoxShape.circle,
+              ),
+              child: const Icon(Icons.workspace_premium_rounded,
+                  size: 18, color: Colors.white),
+            ),
+            const SizedBox(width: ElSpacing.s12),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    active ? 'VIP Membership' : 'Become a VIP member',
+                    style: AppFont.inter(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w700,
+                      color: const Color(0xFFF5E6C8),
+                    ),
+                  ),
+                  const SizedBox(height: 2),
+                  Text(
+                    active
+                        ? 'Active · expires $expiryText'
+                        : 'Unlimited reading · Ad-free · Daily coins',
+                    style: AppFont.inter(
+                      fontSize: 12,
+                      color: const Color(0xFFF5E6C8).withValues(alpha: 0.65),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Container(
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+              decoration: BoxDecoration(
+                color: ElTheme.gold,
+                borderRadius: BorderRadius.circular(99),
+              ),
+              child: Text(
+                active ? 'Renew' : 'Subscribe',
+                style: AppFont.inter(
+                  fontSize: 12,
+                  fontWeight: FontWeight.w700,
+                  color: const Color(0xFF1A1200),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 

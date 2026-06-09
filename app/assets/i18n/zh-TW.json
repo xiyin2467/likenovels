@@ -1,0 +1,24 @@
+{
+  "_note": "繁體中文。缺失的鍵會自動回退到 en.json。",
+  "common": {
+    "appName": "likenovel",
+    "ok": "確定",
+    "cancel": "取消",
+    "retry": "重試",
+    "networkError": "網路錯誤",
+    "noContent": "暫無內容。",
+    "loading": "載入中…"
+  },
+  "nav": {
+    "home": "首頁",
+    "discover": "發現",
+    "category": "分類",
+    "library": "書架",
+    "wallet": "錢包",
+    "me": "我的"
+  },
+  "discover": {
+    "header": "發現",
+    "searchHint": "搜尋書名、作者、標籤"
+  }
+}

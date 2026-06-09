@@ -12,6 +12,21 @@ import 'package:likenovel/core/mock/mock_data.dart';
 
 enum ReaderTheme { paper, sepia, dark, black }
 
+/// 翻页方式：上下滚动 / 仿真书页（3D 翻页）/ 横向翻页（覆盖平移）。
+enum PageTurnMode { scroll, simulation, slide }
+
+const _pageTurnLabels = <PageTurnMode, String>{
+  PageTurnMode.scroll: 'Scroll',
+  PageTurnMode.simulation: 'Page curl',
+  PageTurnMode.slide: 'Slide',
+};
+
+const _pageTurnIcons = <PageTurnMode, IconData>{
+  PageTurnMode.scroll: Icons.swap_vert_rounded,
+  PageTurnMode.simulation: Icons.auto_stories_rounded,
+  PageTurnMode.slide: Icons.view_carousel_rounded,
+};
+
 class _ReaderColors {
   final Color bg;
   final Color text;
@@ -85,25 +100,36 @@ class _ReaderScreenState extends State<ReaderScreen> {
   int _fontSizeIdx = 1;
   bool _showChrome = false;
   bool _showSettings = false;
+  PageTurnMode _pageMode = PageTurnMode.scroll;
 
   _ReaderColors get _colors => _themeColors[_theme]!;
   double get _fontSize => _fontSizes[_fontSizeIdx];
   bool get _dark => _isDarkTheme(_theme);
 
   late final List<String> _paragraphs;
+  late final String _bodyText;
   late final List<Chapter> _chapters;
   late int _chapterId;
   late Chapter _chapter;
   late double _progress;
+
+  final PageController _pageController = PageController();
 
   @override
   void initState() {
     super.initState();
     final raw = kChapterSampleText.split('\n\n');
     _paragraphs = [...raw, ...raw];
+    _bodyText = _paragraphs.join('\n\n');
     _chapters = getChapters(widget.book.id);
     _chapterId = widget.chapterId;
     _applyChapter(_chapterId);
+  }
+
+  @override
+  void dispose() {
+    _pageController.dispose();
+    super.dispose();
   }
 
   void _applyChapter(int chapterId) {
@@ -138,6 +164,7 @@ class _ReaderScreenState extends State<ReaderScreen> {
     );
     if (selected != null && selected != _chapterId && mounted) {
       setState(() => _applyChapter(selected));
+      if (_pageController.hasClients) _pageController.jumpToPage(0);
     }
   }
 
@@ -159,7 +186,9 @@ class _ReaderScreenState extends State<ReaderScreen> {
             GestureDetector(
               onTap: _toggleChrome,
               behavior: HitTestBehavior.translucent,
-              child: _buildContent(topPad, bottomPad),
+              child: _pageMode == PageTurnMode.scroll
+                  ? _buildContent(topPad, bottomPad)
+                  : _buildPagedContent(topPad, bottomPad),
             ),
 
             // ── Top chrome ──
@@ -234,6 +263,179 @@ class _ReaderScreenState extends State<ReaderScreen> {
         const SizedBox(height: 40),
       ],
     );
+  }
+
+  // =========================================================================
+  // Paged content (仿真书页 / 横向翻页)
+  // =========================================================================
+
+  Widget _buildPagedContent(double topPad, double bottomPad) {
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        const sidePad = 24.0;
+        final maxWidth = constraints.maxWidth - sidePad * 2;
+        final topInset = topPad + 64;
+        final bottomInset = bottomPad + 56;
+        // 首页需为「章节标记 + 标题」预留空间。
+        const headerHeight = 8 + 22 * 1.3 + 28 + 16;
+        final fullHeight =
+            (constraints.maxHeight - topInset - bottomInset).clamp(80.0, 4000.0);
+        final firstHeight =
+            (fullHeight - headerHeight).clamp(60.0, fullHeight);
+
+        final style = AppFont.newsreader(
+          fontSize: _fontSize,
+          fontWeight: FontWeight.w400,
+          color: _colors.text,
+          height: 1.85,
+        );
+
+        final pages =
+            _paginate(_bodyText, style, maxWidth, firstHeight, fullHeight);
+        final total = pages.length + 1; // 末页为付费墙
+
+        return PageView.builder(
+          controller: _pageController,
+          itemCount: total,
+          itemBuilder: (context, index) {
+            final isPaywall = index == pages.length;
+            Widget content = Padding(
+              padding: EdgeInsets.fromLTRB(
+                  sidePad, topInset, sidePad, bottomInset),
+              child: isPaywall
+                  ? Center(
+                      child: SingleChildScrollView(child: _buildPaywallCard()),
+                    )
+                  : Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        if (index == 0) ...[
+                          Text(
+                            'CHAPTER $_chapterId',
+                            style: AppFont.inter(
+                              fontSize: 11,
+                              fontWeight: FontWeight.w700,
+                              letterSpacing: 2.0,
+                              color: _colors.muted,
+                            ),
+                          ),
+                          const SizedBox(height: 8),
+                          Text(
+                            _chapter.title,
+                            style: AppFont.newsreader(
+                              fontSize: 22,
+                              fontWeight: FontWeight.w600,
+                              color: _colors.text,
+                              height: 1.3,
+                            ),
+                          ),
+                          const SizedBox(height: 28),
+                        ],
+                        Expanded(
+                          child: Text(pages[index], style: style),
+                        ),
+                        // 页码
+                        Center(
+                          child: Text(
+                            '${index + 1} / ${pages.length}',
+                            style: AppFont.inter(
+                              fontSize: 11,
+                              color: _colors.muted,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+            );
+            if (_pageMode == PageTurnMode.simulation) {
+              content = _curlWrap(index, content);
+            }
+            return content;
+          },
+        );
+      },
+    );
+  }
+
+  /// 仿真书页：根据 PageView 偏移对页面施加 Y 轴 3D 旋转，营造翻书质感。
+  Widget _curlWrap(int index, Widget child) {
+    return AnimatedBuilder(
+      animation: _pageController,
+      builder: (context, inner) {
+        double page = index.toDouble();
+        if (_pageController.hasClients &&
+            _pageController.position.haveDimensions) {
+          page = _pageController.page ?? index.toDouble();
+        }
+        final delta = (index - page).clamp(-1.0, 1.0);
+        final transform = Matrix4.identity()
+          ..setEntry(3, 2, 0.0012)
+          ..rotateY(-delta * 1.05);
+        return Transform(
+          alignment:
+              delta >= 0 ? Alignment.centerLeft : Alignment.centerRight,
+          transform: transform,
+          child: inner,
+        );
+      },
+      child: child,
+    );
+  }
+
+  /// 将整段正文按可用高度切分为多页（贪心 + 二分查找最大可容纳前缀）。
+  List<String> _paginate(
+    String text,
+    TextStyle style,
+    double maxWidth,
+    double firstHeight,
+    double otherHeight,
+  ) {
+    final pages = <String>[];
+    var remaining = text;
+    var first = true;
+    var guard = 0;
+    while (remaining.trim().isNotEmpty && guard < 500) {
+      guard++;
+      final h = first ? firstHeight : otherHeight;
+      final cut = _fitChars(remaining, style, maxWidth, h);
+      if (cut <= 0) {
+        pages.add(remaining.trim());
+        break;
+      }
+      pages.add(remaining.substring(0, cut).trim());
+      remaining = remaining.substring(cut);
+      first = false;
+    }
+    if (pages.isEmpty) pages.add('');
+    return pages;
+  }
+
+  int _fitChars(
+      String text, TextStyle style, double maxWidth, double maxHeight) {
+    if (maxHeight <= 0 || text.isEmpty) return 0;
+    var lo = 1;
+    var hi = text.length;
+    var best = 0;
+    while (lo <= hi) {
+      final mid = (lo + hi) >> 1;
+      final tp = TextPainter(
+        text: TextSpan(text: text.substring(0, mid), style: style),
+        textDirection: TextDirection.ltr,
+      )..layout(maxWidth: maxWidth);
+      if (tp.height <= maxHeight) {
+        best = mid;
+        lo = mid + 1;
+      } else {
+        hi = mid - 1;
+      }
+    }
+    // 尽量在空白处断开，避免截断单词。
+    if (best > 0 && best < text.length) {
+      final slice = text.substring(0, best);
+      final lastSpace = slice.lastIndexOf(RegExp(r'[\s\n]'));
+      if (lastSpace > best * 0.5) best = lastSpace + 1;
+    }
+    return best;
   }
 
   // =========================================================================
@@ -516,11 +718,16 @@ class _ReaderScreenState extends State<ReaderScreen> {
             child: _SettingsSheet(
               theme: _theme,
               fontSizeIdx: _fontSizeIdx,
+              pageMode: _pageMode,
               bottomPad: bottomPad,
               colors: _colors,
               dark: _dark,
               onThemeChanged: (t) => setState(() => _theme = t),
               onFontSizeChanged: (i) => setState(() => _fontSizeIdx = i),
+              onPageModeChanged: (m) {
+                setState(() => _pageMode = m);
+                if (_pageController.hasClients) _pageController.jumpToPage(0);
+              },
               onClose: _closeSettings,
             ),
           ),
@@ -537,21 +744,25 @@ class _ReaderScreenState extends State<ReaderScreen> {
 class _SettingsSheet extends StatelessWidget {
   final ReaderTheme theme;
   final int fontSizeIdx;
+  final PageTurnMode pageMode;
   final double bottomPad;
   final _ReaderColors colors;
   final bool dark;
   final ValueChanged<ReaderTheme> onThemeChanged;
   final ValueChanged<int> onFontSizeChanged;
+  final ValueChanged<PageTurnMode> onPageModeChanged;
   final VoidCallback onClose;
 
   const _SettingsSheet({
     required this.theme,
     required this.fontSizeIdx,
+    required this.pageMode,
     required this.bottomPad,
     required this.colors,
     required this.dark,
     required this.onThemeChanged,
     required this.onFontSizeChanged,
+    required this.onPageModeChanged,
     required this.onClose,
   });
 
@@ -660,6 +871,73 @@ class _SettingsSheet extends StatelessWidget {
                           ),
                         )
                       : null,
+                ),
+              );
+            }).toList(),
+          ),
+          const SizedBox(height: 24),
+
+          Divider(height: 1, color: divider),
+          const SizedBox(height: 24),
+
+          // ── Page turn mode ──
+          Text(
+            'Page turn',
+            style: AppFont.inter(
+              fontSize: 12,
+              fontWeight: FontWeight.w600,
+              letterSpacing: 0.6,
+              color: colors.muted,
+            ),
+          ),
+          const SizedBox(height: 14),
+          Row(
+            children: PageTurnMode.values.map((m) {
+              final selected = m == pageMode;
+              return Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 4),
+                  child: GestureDetector(
+                    onTap: () => onPageModeChanged(m),
+                    behavior: HitTestBehavior.opaque,
+                    child: AnimatedContainer(
+                      duration: const Duration(milliseconds: 200),
+                      padding: const EdgeInsets.symmetric(vertical: 12),
+                      decoration: BoxDecoration(
+                        color: selected
+                            ? ElTheme.primary.withValues(alpha: 0.12)
+                            : colors.text.withValues(alpha: 0.05),
+                        borderRadius: BorderRadius.circular(ElRadius.control),
+                        border: Border.all(
+                          color: selected
+                              ? ElTheme.primary
+                              : colors.text.withValues(alpha: 0.10),
+                          width: selected ? 1.5 : 1,
+                        ),
+                      ),
+                      child: Column(
+                        children: [
+                          Icon(
+                            _pageTurnIcons[m],
+                            size: 20,
+                            color: selected ? ElTheme.primary : colors.muted,
+                          ),
+                          const SizedBox(height: 6),
+                          Text(
+                            _pageTurnLabels[m]!,
+                            style: AppFont.inter(
+                              fontSize: 11,
+                              fontWeight: selected
+                                  ? FontWeight.w600
+                                  : FontWeight.w500,
+                              color:
+                                  selected ? ElTheme.primary : colors.muted,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
                 ),
               );
             }).toList(),

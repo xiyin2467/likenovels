@@ -14,6 +14,7 @@ class PaywallSheet extends StatefulWidget {
   final VoidCallback onClose;
   final VoidCallback onUnlock;
   final VoidCallback onTopUp;
+  final VoidCallback onMembership;
 
   const PaywallSheet({
     super.key,
@@ -23,6 +24,7 @@ class PaywallSheet extends StatefulWidget {
     required this.onClose,
     required this.onUnlock,
     required this.onTopUp,
+    required this.onMembership,
   });
 
   @override
@@ -82,6 +84,8 @@ class _PaywallSheetState extends State<PaywallSheet> {
               _buildCoinOption(),
               const SizedBox(height: ElSpacing.s12),
               _buildAdOption(),
+              const SizedBox(height: ElSpacing.s12),
+              _buildMembershipOption(),
               if (!_hasEnough) ...[
                 const SizedBox(height: ElSpacing.s16),
                 GestureDetector(
@@ -194,6 +198,29 @@ class _PaywallSheetState extends State<PaywallSheet> {
     );
   }
 
+  /// 会员购买解锁：开通 VIP 后免费畅读，引导至会员订阅弹窗。
+  Widget _buildMembershipOption() {
+    return _OptionCard(
+      onTap: widget.onMembership,
+      icon: Container(
+        width: 40,
+        height: 40,
+        decoration: BoxDecoration(
+          gradient: const LinearGradient(
+            colors: [ElTheme.gold, Color(0xFFE0B84A)],
+          ),
+          shape: BoxShape.circle,
+        ),
+        child: const Icon(Icons.workspace_premium_rounded,
+            color: Colors.white, size: 22),
+      ),
+      title: 'Unlock with VIP membership',
+      subtitle: Text(
+        'Read all chapters free · from \$2.99',
+        style: AppFont.inter(fontSize: 12, color: ElTheme.muted),
+      ),
+    );
+  }
 }
 
 class _OptionCard extends StatelessWidget {

@@ -3,7 +3,8 @@
   "defaultLocale": "en",
   "locales": [
     { "code": "en", "name": "English", "nativeName": "English", "rtl": false, "complete": true },
-    { "code": "zh-CN", "name": "Chinese (Simplified)", "nativeName": "简体中文", "rtl": false, "complete": false }
+    { "code": "zh-CN", "name": "Chinese (Simplified)", "nativeName": "简体中文", "rtl": false, "complete": false },
+    { "code": "zh-TW", "name": "Chinese (Traditional)", "nativeName": "繁體中文", "rtl": false, "complete": false }
   ],
   "_roadmap": "对标公司短剧 App，后续可扩展至：ar, de, es, fil, fr, hi, id, it, ja, ko, ms, nl, pt, ru, th, tr, vi, zh-TW。新增语言：放入 <code>.json 并在 locales 中登记即可，缺失键自动回退到 fallbackLocale。"
 }
