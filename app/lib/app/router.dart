@@ -244,7 +244,7 @@ class AppShell extends StatelessWidget {
                 _TabItem(
                   icon: Icons.home_outlined,
                   activeIcon: Icons.home,
-                  label: l.tr('nav.home'),
+                  label: l.tr('nav.discover'),
                   isActive: navigationShell.currentIndex == 0,
                   onTap: () => navigationShell.goBranch(0,
                       initialLocation: navigationShell.currentIndex == 0),
@@ -346,6 +346,7 @@ class _DiscoverWrapper extends ConsumerWidget {
       onWallet: () => context.push('/wallet'),
       onMessages: () => context.push('/subpage/messages'),
       onSearch: () => context.push('/subpage/search'),
+      onMore: () => context.push('/subpage/top-charts'),
     );
   }
 }

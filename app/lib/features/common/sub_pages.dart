@@ -57,7 +57,7 @@ class SubShell extends StatelessWidget {
                     ),
                   ),
                   const Spacer(),
-                  if (trailing != null) trailing!,
+                  ?trailing,
                 ],
               ),
             ),
@@ -90,6 +90,92 @@ class SubShell extends StatelessWidget {
             Expanded(child: child),
           ],
         ),
+      ),
+    );
+  }
+}
+
+// ---------------------------------------------------------------------------
+// TopChartsPage — book list for "More" navigation from Discover
+// ---------------------------------------------------------------------------
+
+class TopChartsPage extends StatelessWidget {
+  final VoidCallback onBack;
+  final void Function(Book book)? onBook;
+  final bool reversed;
+
+  const TopChartsPage({
+    super.key,
+    required this.onBack,
+    this.onBook,
+    this.reversed = false,
+  });
+
+  List<Book> get _books {
+    final source = List<Book>.from(kBooks);
+    if (reversed) source.sort((a, b) => b.rating.compareTo(a.rating));
+    return source;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return SubShell(
+      eyebrow: 'Discover',
+      title: reversed ? 'New & rising' : 'Top charts',
+      onBack: onBack,
+      child: ListView.separated(
+        padding: const EdgeInsets.symmetric(horizontal: ElSpacing.s16, vertical: ElSpacing.s8),
+        itemCount: _books.length,
+        separatorBuilder: (_, _) => Divider(height: 1, thickness: 0.5, color: ElTheme.line),
+        itemBuilder: (_, i) {
+          final book = _books[i];
+          return GestureDetector(
+            onTap: () => onBook?.call(book),
+            behavior: HitTestBehavior.opaque,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 10),
+              child: Row(
+                children: [
+                  BookCover(
+                    genre: book.genre,
+                    title: book.title,
+                    author: book.author,
+                    badge: book.badge,
+                    size: CoverSize.md,
+                  ),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          book.title,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: AppFont.newsreader(fontSize: 14, fontWeight: FontWeight.w600, color: ElTheme.ink),
+                        ),
+                        const SizedBox(height: 2),
+                        Text(book.author, style: AppFont.inter(fontSize: 12, color: ElTheme.faint)),
+                        const SizedBox(height: 4),
+                        Row(
+                          children: [
+                            const Icon(Icons.star_rounded, size: 13, color: ElTheme.gold),
+                            const SizedBox(width: 2),
+                            Text('${book.rating}', style: AppFont.inter(fontSize: 11, fontWeight: FontWeight.w600, color: ElTheme.ink)),
+                            const SizedBox(width: 10),
+                            Text(book.blurb, maxLines: 1, overflow: TextOverflow.ellipsis, style: AppFont.inter(fontSize: 11, color: ElTheme.muted)),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(width: 8),
+                  Icon(Icons.chevron_right, size: 18, color: ElTheme.faint),
+                ],
+              ),
+            ),
+          );
+        },
       ),
     );
   }
@@ -129,6 +215,9 @@ class SubPage extends StatelessWidget {
       'language' => LanguagePage(onBack: onBack),
       'delete_account' => DeleteAccountPage(onBack: onBack),
       'search' => SearchResultsPage(onBack: onBack, onBook: onBook),
+      'top-charts' => TopChartsPage(onBack: onBack, onBook: onBook),
+      'new-rising' => TopChartsPage(onBack: onBack, onBook: onBook, reversed: true),
+      'for-you' => TopChartsPage(onBack: onBack, onBook: onBook),
       'push' || 'privacy' || 'purchase_history' =>
         GenericListPage(onBack: onBack, pageKey: pageKey),
       _ => GenericListPage(onBack: onBack, pageKey: pageKey),
@@ -240,7 +329,7 @@ class TransactionsPage extends StatelessWidget {
       child: ListView.separated(
         padding: const EdgeInsets.symmetric(horizontal: ElSpacing.s20),
         itemCount: _kTransactions.length,
-        separatorBuilder: (_, __) => Divider(
+        separatorBuilder: (_, _) => Divider(
           height: 1,
           thickness: 0.5,
           color: ElTheme.line,
@@ -535,7 +624,7 @@ class MessagesPage extends StatelessWidget {
       child: ListView.separated(
         padding: const EdgeInsets.symmetric(horizontal: ElSpacing.s20),
         itemCount: _kMessages.length,
-        separatorBuilder: (_, __) => Divider(
+        separatorBuilder: (_, _) => Divider(
           height: 1,
           thickness: 0.5,
           color: ElTheme.line,
@@ -1171,7 +1260,7 @@ class _SearchResultsPageState extends State<SearchResultsPage> {
                         horizontal: ElSpacing.s20,
                       ),
                       itemCount: _results.length,
-                      separatorBuilder: (_, __) =>
+                      separatorBuilder: (_, _) =>
                           const SizedBox(height: ElSpacing.s12),
                       itemBuilder: (context, i) {
                         final book = _results[i];

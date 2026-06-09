@@ -16,6 +16,7 @@ class DiscoverScreen extends ConsumerStatefulWidget {
   final VoidCallback onWallet;
   final VoidCallback onMessages;
   final VoidCallback onSearch;
+  final VoidCallback onMore;
 
   const DiscoverScreen({
     super.key,
@@ -23,6 +24,7 @@ class DiscoverScreen extends ConsumerStatefulWidget {
     required this.onWallet,
     required this.onMessages,
     required this.onSearch,
+    required this.onMore,
   });
 
   @override
@@ -31,7 +33,6 @@ class DiscoverScreen extends ConsumerStatefulWidget {
 
 class _DiscoverScreenState extends ConsumerState<DiscoverScreen> {
   bool _loading = true;
-  int _selectedGenre = 0;
 
   @override
   void initState() {
@@ -59,13 +60,12 @@ class _DiscoverScreenState extends ConsumerState<DiscoverScreen> {
       slivers: [
         SliverToBoxAdapter(child: _TopBar(coins: coins, onWallet: widget.onWallet, onMessages: widget.onMessages)),
         SliverToBoxAdapter(child: _SearchBar(onTap: widget.onSearch)),
-        SliverToBoxAdapter(child: _GenreChips(selected: _selectedGenre, onChanged: (i) => setState(() => _selectedGenre = i))),
-        SliverToBoxAdapter(child: _HeroCarousel(onBook: widget.onBook, genre: kGenreTabValues[_selectedGenre])),
-        SliverToBoxAdapter(child: _SectionHeader(title: 'Top charts', onMore: () {})),
+        SliverToBoxAdapter(child: _HeroCarousel(onBook: widget.onBook)),
+        SliverToBoxAdapter(child: _SectionHeader(title: 'Top charts', onMore: widget.onMore)),
         SliverToBoxAdapter(child: _TopChartsRow(onBook: widget.onBook)),
-        SliverToBoxAdapter(child: _SectionHeader(title: 'New & rising', onMore: () {})),
+        SliverToBoxAdapter(child: _SectionHeader(title: 'New & rising', onMore: widget.onMore)),
         SliverToBoxAdapter(child: _NewRisingRow(onBook: widget.onBook)),
-        SliverToBoxAdapter(child: _SectionHeader(title: 'For you', onMore: () {})),
+        SliverToBoxAdapter(child: _SectionHeader(title: 'For you', onMore: widget.onMore)),
         _ForYouGrid(onBook: widget.onBook),
         const SliverToBoxAdapter(child: SizedBox(height: 100)),
       ],
@@ -105,13 +105,6 @@ class _DiscoverScreenState extends ConsumerState<DiscoverScreen> {
             // search skeleton
             _skeletonBox(double.infinity, 48, radius: ElRadius.control),
             const SizedBox(height: ElSpacing.s16),
-            // genre chips skeleton
-            SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              physics: const NeverScrollableScrollPhysics(),
-              child: Row(children: List.generate(4, (i) => Padding(padding: const EdgeInsets.only(right: 8), child: _skeletonBox(64, 32, radius: 99)))),
-            ),
-            const SizedBox(height: ElSpacing.s24),
             // hero card skeleton
             _skeletonBox(288, 200, radius: ElRadius.card),
             const SizedBox(height: ElSpacing.s24),
@@ -309,73 +302,23 @@ class _SearchBar extends StatelessWidget {
 }
 
 // =============================================================================
-// Genre chips
-// =============================================================================
-class _GenreChips extends StatelessWidget {
-  final int selected;
-  final ValueChanged<int> onChanged;
-
-  const _GenreChips({required this.selected, required this.onChanged});
-
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      height: 52,
-      child: ListView.separated(
-        scrollDirection: Axis.horizontal,
-        padding: const EdgeInsets.symmetric(horizontal: ElSpacing.s16, vertical: ElSpacing.s8),
-        itemCount: kGenreTabs.length,
-        separatorBuilder: (_, __) => const SizedBox(width: 8),
-        itemBuilder: (_, i) {
-          final isSelected = i == selected;
-          return GestureDetector(
-            onTap: () => onChanged(i),
-            child: AnimatedContainer(
-              duration: const Duration(milliseconds: 180),
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 7),
-              decoration: BoxDecoration(
-                color: isSelected ? ElTheme.primarySoft : ElTheme.surface,
-                borderRadius: BorderRadius.circular(99),
-                border: Border.all(color: isSelected ? ElTheme.primary.withValues(alpha: 0.25) : ElTheme.line),
-              ),
-              child: Text(
-                kGenreTabs[i],
-                style: AppFont.inter(
-                  fontSize: 13,
-                  fontWeight: isSelected ? FontWeight.w600 : FontWeight.w400,
-                  color: isSelected ? ElTheme.primaryInk : ElTheme.muted,
-                ),
-              ),
-            ),
-          );
-        },
-      ),
-    );
-  }
-}
-
-// =============================================================================
 // Hero carousel
 // =============================================================================
 class _HeroCarousel extends StatelessWidget {
   final ValueChanged<Book> onBook;
-  final Genre genre;
 
-  const _HeroCarousel({required this.onBook, required this.genre});
+  const _HeroCarousel({required this.onBook});
 
   @override
   Widget build(BuildContext context) {
-    // 按选中分类筛选；该题材暂无书时回退到全部，避免空白。
-    final heroBooks = kBooks.where((b) => b.genre == genre).toList();
-    if (heroBooks.isEmpty) heroBooks.addAll(kBooks.take(4));
+    final heroBooks = kBooks.take(5).toList();
     return SizedBox(
       height: 220,
       child: ListView.separated(
-        key: ValueKey('hero_${genre.name}'),
         scrollDirection: Axis.horizontal,
         padding: const EdgeInsets.symmetric(horizontal: ElSpacing.s16, vertical: ElSpacing.s4),
         itemCount: heroBooks.length,
-        separatorBuilder: (_, __) => const SizedBox(width: 14),
+        separatorBuilder: (_, _) => const SizedBox(width: 14),
         itemBuilder: (_, i) => _HeroCard(book: heroBooks[i], onTap: () => onBook(heroBooks[i])),
       ),
     );
@@ -537,7 +480,7 @@ class _TopChartsRow extends StatelessWidget {
         scrollDirection: Axis.horizontal,
         padding: const EdgeInsets.symmetric(horizontal: ElSpacing.s16),
         itemCount: ranked.length,
-        separatorBuilder: (_, __) => const SizedBox(width: 14),
+        separatorBuilder: (_, _) => const SizedBox(width: 14),
         itemBuilder: (_, i) {
           final book = ranked[i];
           return GestureDetector(
@@ -617,7 +560,7 @@ class _NewRisingRow extends StatelessWidget {
         scrollDirection: Axis.horizontal,
         padding: const EdgeInsets.symmetric(horizontal: ElSpacing.s16),
         itemCount: books.length,
-        separatorBuilder: (_, __) => const SizedBox(width: 12),
+        separatorBuilder: (_, _) => const SizedBox(width: 12),
         itemBuilder: (_, i) {
           final book = books[i];
           return GestureDetector(
