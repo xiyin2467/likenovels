@@ -92,8 +92,9 @@ class _ReaderScreenState extends State<ReaderScreen> {
 
   late final List<String> _paragraphs;
   late final List<Chapter> _chapters;
-  late final Chapter _chapter;
-  late final double _progress;
+  late int _chapterId;
+  late Chapter _chapter;
+  late double _progress;
 
   @override
   void initState() {
@@ -101,11 +102,17 @@ class _ReaderScreenState extends State<ReaderScreen> {
     final raw = kChapterSampleText.split('\n\n');
     _paragraphs = [...raw, ...raw];
     _chapters = getChapters(widget.book.id);
+    _chapterId = widget.chapterId;
+    _applyChapter(_chapterId);
+  }
+
+  void _applyChapter(int chapterId) {
+    _chapterId = chapterId;
     _chapter = _chapters.firstWhere(
-      (c) => c.id == widget.chapterId,
+      (c) => c.id == chapterId,
       orElse: () => _chapters.first,
     );
-    _progress = (widget.chapterId / widget.book.chapters).clamp(0.0, 1.0);
+    _progress = (chapterId / widget.book.chapters).clamp(0.0, 1.0);
   }
 
   void _toggleChrome() => setState(() {
@@ -115,6 +122,24 @@ class _ReaderScreenState extends State<ReaderScreen> {
 
   void _openSettings() => setState(() => _showSettings = true);
   void _closeSettings() => setState(() => _showSettings = false);
+
+  Future<void> _openChapters() async {
+    final selected = await showModalBottomSheet<int>(
+      context: context,
+      backgroundColor: Colors.transparent,
+      isScrollControlled: true,
+      builder: (_) => _ChaptersSheet(
+        bookTitle: widget.book.title,
+        chapters: _chapters,
+        currentChapterId: _chapterId,
+        colors: _colors,
+        dark: _dark,
+      ),
+    );
+    if (selected != null && selected != _chapterId && mounted) {
+      setState(() => _applyChapter(selected));
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -163,7 +188,7 @@ class _ReaderScreenState extends State<ReaderScreen> {
 
         // Chapter kicker
         Text(
-          'CHAPTER ${widget.chapterId}',
+          'CHAPTER $_chapterId',
           style: AppFont.inter(
             fontSize: 11,
             fontWeight: FontWeight.w700,
@@ -216,7 +241,7 @@ class _ReaderScreenState extends State<ReaderScreen> {
   // =========================================================================
 
   Widget _buildPaywallCard() {
-    final nextChapter = widget.chapterId + 1;
+    final nextChapter = _chapterId + 1;
     final cardBg = _dark
         ? _colors.text.withValues(alpha: 0.06)
         : _colors.text.withValues(alpha: 0.04);
@@ -352,7 +377,7 @@ class _ReaderScreenState extends State<ReaderScreen> {
                     ),
                   ),
                   IconButton(
-                    onPressed: () {},
+                    onPressed: _openChapters,
                     icon: Icon(
                       Icons.list_rounded,
                       color: _colors.text,
@@ -384,7 +409,7 @@ class _ReaderScreenState extends State<ReaderScreen> {
   Widget _buildBottomChrome(double bottomPad) {
     final chromeBg = _colors.bg.withValues(alpha: 0.95);
     final pct = (_progress * 100).round();
-    final nextChapter = widget.chapterId + 1;
+    final nextChapter = _chapterId + 1;
 
     return Positioned(
       bottom: 0,
@@ -749,6 +774,185 @@ class _StepButton extends StatelessWidget {
               fontWeight: FontWeight.w600,
               color: colors.text,
             ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+// ===========================================================================
+// Chapters sheet (table of contents)
+// ===========================================================================
+
+class _ChaptersSheet extends StatelessWidget {
+  final String bookTitle;
+  final List<Chapter> chapters;
+  final int currentChapterId;
+  final _ReaderColors colors;
+  final bool dark;
+
+  const _ChaptersSheet({
+    required this.bookTitle,
+    required this.chapters,
+    required this.currentChapterId,
+    required this.colors,
+    required this.dark,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final mq = MediaQuery.of(context);
+    final sheetBg = dark ? colors.bg.withValues(alpha: 0.98) : colors.bg;
+    final divider = colors.text.withValues(alpha: 0.08);
+
+    return Container(
+      constraints: BoxConstraints(maxHeight: mq.size.height * 0.78),
+      decoration: BoxDecoration(
+        color: sheetBg,
+        borderRadius: const BorderRadius.vertical(
+          top: Radius.circular(ElRadius.sheet),
+        ),
+        border: Border(top: BorderSide(color: divider)),
+      ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          const SizedBox(height: 12),
+          // Drag handle
+          Container(
+            width: 36,
+            height: 4,
+            decoration: BoxDecoration(
+              color: colors.text.withValues(alpha: 0.15),
+              borderRadius: BorderRadius.circular(2),
+            ),
+          ),
+          const SizedBox(height: 16),
+
+          // Header
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 24),
+            child: Row(
+              children: [
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Chapters',
+                        style: AppFont.inter(
+                          fontSize: 17,
+                          fontWeight: FontWeight.w700,
+                          color: colors.text,
+                        ),
+                      ),
+                      const SizedBox(height: 2),
+                      Text(
+                        '${chapters.length} chapters',
+                        style: AppFont.inter(
+                          fontSize: 12,
+                          color: colors.muted,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                IconButton(
+                  onPressed: () => Navigator.of(context).pop(),
+                  icon: Icon(Icons.close_rounded, color: colors.muted),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(height: 8),
+          Divider(height: 1, color: divider),
+
+          // List
+          Flexible(
+            child: ListView.builder(
+              padding: EdgeInsets.fromLTRB(8, 8, 8, mq.padding.bottom + 16),
+              itemCount: chapters.length,
+              itemBuilder: (context, i) {
+                final ch = chapters[i];
+                final selected = ch.id == currentChapterId;
+                return _ChapterTile(
+                  chapter: ch,
+                  selected: selected,
+                  colors: colors,
+                  onTap: () => Navigator.of(context).pop(ch.id),
+                );
+              },
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _ChapterTile extends StatelessWidget {
+  final Chapter chapter;
+  final bool selected;
+  final _ReaderColors colors;
+  final VoidCallback onTap;
+
+  const _ChapterTile({
+    required this.chapter,
+    required this.selected,
+    required this.colors,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(ElRadius.control),
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+          decoration: BoxDecoration(
+            color: selected
+                ? ElTheme.primary.withValues(alpha: 0.10)
+                : Colors.transparent,
+            borderRadius: BorderRadius.circular(ElRadius.control),
+          ),
+          child: Row(
+            children: [
+              SizedBox(
+                width: 36,
+                child: Text(
+                  '${chapter.id}',
+                  style: AppFont.inter(
+                    fontSize: 13,
+                    fontWeight: FontWeight.w700,
+                    color: selected ? ElTheme.primary : colors.muted,
+                  ),
+                ),
+              ),
+              Expanded(
+                child: Text(
+                  chapter.title,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: AppFont.inter(
+                    fontSize: 14,
+                    fontWeight:
+                        selected ? FontWeight.w600 : FontWeight.w500,
+                    color: selected ? ElTheme.primary : colors.text,
+                  ),
+                ),
+              ),
+              const SizedBox(width: 8),
+              if (selected)
+                Icon(Icons.menu_book_rounded,
+                    size: 16, color: ElTheme.primary)
+              else if (!chapter.free)
+                Icon(Icons.lock_rounded,
+                    size: 14, color: colors.muted.withValues(alpha: 0.7)),
+            ],
           ),
         ),
       ),

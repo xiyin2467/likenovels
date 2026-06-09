@@ -82,8 +82,6 @@ class _PaywallSheetState extends State<PaywallSheet> {
               _buildCoinOption(),
               const SizedBox(height: ElSpacing.s12),
               _buildAdOption(),
-              const SizedBox(height: ElSpacing.s12),
-              _buildWaitOption(),
               if (!_hasEnough) ...[
                 const SizedBox(height: ElSpacing.s16),
                 GestureDetector(
@@ -196,25 +194,6 @@ class _PaywallSheetState extends State<PaywallSheet> {
     );
   }
 
-  Widget _buildWaitOption() {
-    return _OptionCard(
-      onTap: null,
-      icon: Container(
-        width: 40,
-        height: 40,
-        decoration: BoxDecoration(
-          color: ElTheme.surface2,
-          shape: BoxShape.circle,
-        ),
-        child: const Icon(Icons.schedule_rounded, color: ElTheme.muted, size: 22),
-      ),
-      title: 'Wait to unlock',
-      subtitle: Text(
-        'Free in 03:58:21',
-        style: AppFont.inter(fontSize: 12, color: ElTheme.muted),
-      ),
-    );
-  }
 }
 
 class _OptionCard extends StatelessWidget {
