@@ -114,9 +114,9 @@ class _OnboardingScreenState extends State<OnboardingScreen>
               child: Transform(
                 alignment: Alignment.center,
                 transform: Matrix4.identity()
-                  ..translateByDouble(dx, dy, 0, 0)
+                  ..translate(dx, dy)
                   ..rotateZ(deg * pi / 180)
-                  ..scaleByDouble(sc, sc, 1, 1),
+                  ..scale(sc, sc),
                 child: child,
               ),
             );
