@@ -1,0 +1,3 @@
+# Large binary research artifacts
+docs/research/*.apk*
+docs/research/竞品apk/*.apk

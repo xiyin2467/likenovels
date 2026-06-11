@@ -94,18 +94,47 @@ class _AppLocalizationsDelegate
   bool shouldReload(_AppLocalizationsDelegate old) => false;
 }
 
+/// 单个语言的元数据（与 manifest.json 的 locales 条目对应）。
+class AppLocaleInfo {
+  final Locale locale;
+  final String nativeName;
+  final bool rtl;
+
+  const AppLocaleInfo(this.locale, this.nativeName, {this.rtl = false});
+}
+
 /// 支持的语言清单，与 `assets/i18n/manifest.json` 保持一致。
-/// 新增语言：放入 `<code>.json` 并在此登记对应 [Locale]。
+/// 语言矩阵对齐公司短剧 App（likereels），中文仅保留繁体。
+/// 新增语言：放入 `<code>.json` 并在此与 manifest 中登记。
 class AppLocales {
   AppLocales._();
 
   static const String fallbackCode = 'en';
 
-  static const List<Locale> supported = <Locale>[
-    Locale('en'),
-    Locale('zh', 'CN'),
-    Locale('zh', 'TW'),
+  static const List<AppLocaleInfo> all = <AppLocaleInfo>[
+    AppLocaleInfo(Locale('en'), 'English'),
+    AppLocaleInfo(Locale('zh', 'TW'), '繁體中文'),
+    AppLocaleInfo(Locale('es'), 'Español'),
+    AppLocaleInfo(Locale('pt'), 'Português'),
+    AppLocaleInfo(Locale('fr'), 'Français'),
+    AppLocaleInfo(Locale('de'), 'Deutsch'),
+    AppLocaleInfo(Locale('it'), 'Italiano'),
+    AppLocaleInfo(Locale('nl'), 'Nederlands'),
+    AppLocaleInfo(Locale('ru'), 'Русский'),
+    AppLocaleInfo(Locale('tr'), 'Türkçe'),
+    AppLocaleInfo(Locale('ar'), 'العربية', rtl: true),
+    AppLocaleInfo(Locale('hi'), 'हिंदी'),
+    AppLocaleInfo(Locale('id'), 'Bahasa Indonesia'),
+    AppLocaleInfo(Locale('ms'), 'Bahasa Melayu'),
+    AppLocaleInfo(Locale('fil'), 'Filipino'),
+    AppLocaleInfo(Locale('th'), 'ไทย'),
+    AppLocaleInfo(Locale('vi'), 'Tiếng Việt'),
+    AppLocaleInfo(Locale('ja'), '日本語'),
+    AppLocaleInfo(Locale('ko'), '한국어'),
   ];
+
+  static List<Locale> get supported =>
+      all.map((i) => i.locale).toList(growable: false);
 
   static bool isSupported(Locale locale) {
     return supported.any((l) =>

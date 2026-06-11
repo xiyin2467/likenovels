@@ -42,7 +42,24 @@ class _LibraryScreenState extends ConsumerState<LibraryScreen>
   List<LibraryBook> get _readingBooks =>
       kLibraryBooks.where((b) => b.progress < 100).toList();
 
-  List<LibraryBook> get _unlockedBooks => kLibraryBooks;
+  /// 已解锁：预置书目 + 本次会话内消费解锁过章节的书（联动解锁账本）。
+  List<LibraryBook> get _unlockedBooks {
+    final unlockedMap = ref.watch(unlockedChaptersProvider);
+    final extra = kBooks
+        .where((b) =>
+            unlockedMap.containsKey(b.id) &&
+            !kLibraryBooks.any((lb) => lb.book.id == b.id))
+        .map((b) {
+      final chapters = unlockedMap[b.id]!;
+      final latest = chapters.reduce((a, c) => a > c ? a : c);
+      return LibraryBook(
+        book: b,
+        progress: (latest / b.chapters * 100).clamp(0, 99),
+        currentChapter: latest,
+      );
+    });
+    return [...kLibraryBooks, ...extra];
+  }
 
   List<LibraryBook> get _finishedBooks =>
       kLibraryBooks.where((b) => b.progress >= 100).toList();

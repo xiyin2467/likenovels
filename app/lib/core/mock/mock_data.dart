@@ -18,6 +18,7 @@ const List<Book> kBooks = [
         "eastern seaboard — and she's walked right back into his territory.",
     badge: 'hot',
     rank: 1,
+    chapterPrice: 40,
   ),
   Book(
     id: 'b2',
@@ -35,6 +36,7 @@ const List<Book> kBooks = [
         'every rule.',
     badge: 'complete',
     rank: 2,
+    chapterPrice: 35,
   ),
   Book(
     id: 'b3',
@@ -51,6 +53,7 @@ const List<Book> kBooks = [
         "19-year-old self, she's ready to change everything — except him.",
     badge: 'hot',
     rank: 3,
+    chapterPrice: 25,
   ),
   Book(
     id: 'b4',
@@ -67,6 +70,7 @@ const List<Book> kBooks = [
         'smelling of rain and old books — and everything changed.',
     badge: 'hot',
     rank: 4,
+    chapterPrice: 42,
   ),
   Book(
     id: 'b5',
@@ -82,6 +86,7 @@ const List<Book> kBooks = [
         'The princess who cannot die. The assassin sworn to kill her. What '
         'happens when the curse they both carry is the same one?',
     badge: 'hot',
+    chapterPrice: 45,
   ),
   Book(
     id: 'b6',
@@ -97,6 +102,7 @@ const List<Book> kBooks = [
         "She swore she'd never race again. He's the infuriating new team "
         "owner who clearly doesn't know what the word \"no\" means.",
     badge: 'complete',
+    chapterPrice: 28,
   ),
   Book(
     id: 'b7',
@@ -112,6 +118,7 @@ const List<Book> kBooks = [
         "She's the pack healer. He's the Alpha who promised himself to "
         "another. Some bonds can't be broken — even the ones you fight "
         'against.',
+    chapterPrice: 30,
   ),
   Book(
     id: 'b8',
@@ -127,6 +134,7 @@ const List<Book> kBooks = [
         'He needed a wife for the board. She needed tuition money. A simple '
         "transaction — until their first kiss at the altar wasn't simple "
         'at all.',
+    chapterPrice: 50,
   ),
 ];
 
@@ -161,10 +169,11 @@ final List<LibraryBook> kLibraryBooks = [
 ];
 
 List<Chapter> getChapters(String bookId) {
-  final total = kBooks
-      .cast<Book?>()
-      .firstWhere((b) => b?.id == bookId, orElse: () => null)
-      ?.chapters ?? 50;
+  final book =
+      kBooks.cast<Book?>().firstWhere((b) => b?.id == bookId, orElse: () => null);
+  final total = book?.chapters ?? 50;
+  // 章价随书走；会员全场畅读时不使用章价。
+  final price = book?.chapterPrice ?? 38;
   final rng = Random(bookId.hashCode);
 
   return List.generate(min(total, 30), (i) {
@@ -178,7 +187,7 @@ List<Chapter> getChapters(String bookId) {
       id: i + 1,
       title: title,
       free: i < 3,
-      coins: 38,
+      coins: price,
       wordCount: 2200 + rng.nextInt(800),
     );
   });
@@ -187,63 +196,61 @@ List<Chapter> getChapters(String bookId) {
 const List<RechargePackage> kRechargePackages = [
   RechargePackage(
     id: 'p1',
-    coins: 300,
-    bonus: 0,
-    bonusLabel: 'First-time price',
+    coins: 100,
+    bonus: 100,
+    bonusLabel: 'First top-up only',
     price: r'$0.99',
-    tag: 'Starter',
+    tag: 'Double coins',
   ),
   RechargePackage(
     id: 'p2',
-    coins: 600,
-    bonus: 60,
-    bonusLabel: '+60 bonus',
+    coins: 500,
+    bonus: 25,
+    bonusLabel: '+25 bonus',
     price: r'$4.99',
   ),
   RechargePackage(
     id: 'p3',
-    coins: 1400,
-    bonus: 240,
-    bonusLabel: '+240 bonus',
+    coins: 1000,
+    bonus: 80,
+    bonusLabel: '+80 bonus',
     price: r'$9.99',
-    tag: 'Best value',
+    tag: 'Membership alternative',
   ),
   RechargePackage(
     id: 'p4',
-    coins: 3200,
-    bonus: 720,
-    bonusLabel: '+720 bonus',
+    coins: 2000,
+    bonus: 240,
+    bonusLabel: '+240 bonus',
     price: r'$19.99',
   ),
 ];
 
-/// 会员权益（VIP）通用列表。
+/// 会员权益：全场畅读是主承诺，不再按 VIP 标签书分流。
 const List<String> kMembershipPerks = [
-  'Unlock VIP-tagged stories for free',
+  'Read everything. No limits.',
   'Ad-free reading experience',
-  'Daily bonus coins, auto-credited',
-  'Early access to new chapters',
+  'Download full books offline',
   'Exclusive member badge',
 ];
 
-/// 会员订阅套餐：与金币充值并行的第二套变现体系。
+/// 会员订阅套餐：订阅优先，金币仅为非会员按章出口。
 const List<MembershipPlan> kMembershipPlans = [
   MembershipPlan(
     id: 'm_weekly',
     name: 'Weekly',
     period: '/week',
-    price: r'$2.99',
-    dailyCoins: 30,
+    price: r'$4.99',
   ),
   MembershipPlan(
     id: 'm_monthly',
     name: 'Monthly',
     period: '/month',
     price: r'$9.99',
-    originalPrice: r'$12.99',
-    perMonthNote: 'Billed monthly',
+    originalPrice: r'$14.99',
+    perMonthNote: r'First month $5.99',
     tag: 'Most popular',
-    dailyCoins: 50,
+    introOffer: r'$5.99 first month',
   ),
   MembershipPlan(
     id: 'm_yearly',
@@ -253,7 +260,6 @@ const List<MembershipPlan> kMembershipPlans = [
     originalPrice: r'$119.88',
     perMonthNote: r'Just $6.67 / month',
     tag: 'Best value',
-    dailyCoins: 80,
   ),
 ];
 

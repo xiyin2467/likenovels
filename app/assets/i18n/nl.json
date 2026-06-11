@@ -1,0 +1,97 @@
+{
+  "_meta": { "code": "nl", "nativeName": "Nederlands", "rtl": false },
+  "common": {
+    "appName": "likenovel",
+    "ok": "OK",
+    "cancel": "Annuleren",
+    "confirm": "Bevestigen",
+    "save": "Opslaan",
+    "delete": "Verwijderen",
+    "remove": "Weghalen",
+    "edit": "Bewerken",
+    "done": "Klaar",
+    "retry": "Opnieuw proberen",
+    "selectAll": "Alles selecteren",
+    "seeMore": "Meer",
+    "search": "Zoeken",
+    "networkError": "Netwerkfout",
+    "noContent": "Geen inhoud beschikbaar.",
+    "loading": "Laden…"
+  },
+  "nav": {
+    "home": "Home",
+    "discover": "Ontdekken",
+    "category": "Categorieën",
+    "library": "Bibliotheek",
+    "wallet": "Portemonnee",
+    "me": "Ik"
+  },
+  "onboarding": {
+    "tagline": "Verhalen die je de hele nacht wakker houden",
+    "continueWithGoogle": "Doorgaan met Google",
+    "continueWithApple": "Doorgaan met Apple",
+    "continueAsGuest": "Doorgaan als gast",
+    "agreement": "Door verder te gaan ga je akkoord met onze Voorwaarden en het Privacybeleid"
+  },
+  "guide": {
+    "title": "Wat lees je graag?",
+    "subtitle": "Kies er een paar om je feed te personaliseren",
+    "continueAction": "Doorgaan"
+  },
+  "discover": {
+    "header": "Ontdekken",
+    "searchHint": "Zoek titels, auteurs, thema's",
+    "sectionTopCharts": "Toplijsten",
+    "sectionNewRising": "Nieuw & in opkomst",
+    "sectionForYou": "Voor jou"
+  },
+  "library": {
+    "title": "Bibliotheek",
+    "tabReading": "Aan het lezen",
+    "tabUnlocked": "Ontgrendeld",
+    "tabFinished": "Uitgelezen",
+    "emptyReading": "Je bent nog geen boek begonnen.",
+    "continueReading": "Verder lezen"
+  },
+  "wallet": {
+    "title": "Portemonnee",
+    "balance": "Saldo",
+    "coins": "Munten",
+    "bonus": "Bonus",
+    "recharge": "Opwaarderen",
+    "balanceHistory": "Saldogeschiedenis",
+    "dailyCheckin": "Dagelijkse check-in"
+  },
+  "reader": {
+    "themePaper": "Papier",
+    "themeSepia": "Sepia",
+    "themeDark": "Donker",
+    "themeBlack": "Zwart",
+    "fontSize": "Lettergrootte",
+    "nextChapter": "Volgend hoofdstuk",
+    "autoUnlockNext": "Volgend hoofdstuk automatisch ontgrendelen"
+  },
+  "paywall": {
+    "title": "Hoofdstuk {chapter} ontgrendelen",
+    "price": "Prijs",
+    "balance": "Saldo",
+    "unlockNow": "Nu ontgrendelen",
+    "goToStore": "Naar de winkel",
+    "unlockSuccess": "Ontgrendeld! Veel leesplezier.",
+    "insufficient": "Niet genoeg munten. Waardeer op om door te gaan."
+  },
+  "profile": {
+    "title": "Ik",
+    "signIn": "Inloggen",
+    "copyId": "Kopiëren",
+    "guestName": "Gast_{id}",
+    "menuOrders": "Mijn bestellingen",
+    "menuPurchased": "Gekochte hoofdstukken",
+    "menuAutoUnlock": "Automatische ontgrendellijst",
+    "menuHelp": "Helpcentrum",
+    "menuAbout": "Over ons",
+    "menuTerms": "Servicevoorwaarden",
+    "menuPrivacy": "Privacybeleid",
+    "menuSettings": "Instellingen"
+  }
+}

@@ -1,0 +1,97 @@
+{
+  "_meta": { "code": "ja", "nativeName": "日本語", "rtl": false },
+  "common": {
+    "appName": "likenovel",
+    "ok": "OK",
+    "cancel": "キャンセル",
+    "confirm": "確認",
+    "save": "保存",
+    "delete": "削除",
+    "remove": "外す",
+    "edit": "編集",
+    "done": "完了",
+    "retry": "再試行",
+    "selectAll": "すべて選択",
+    "seeMore": "もっと見る",
+    "search": "検索",
+    "networkError": "ネットワークエラー",
+    "noContent": "コンテンツがありません。",
+    "loading": "読み込み中…"
+  },
+  "nav": {
+    "home": "ホーム",
+    "discover": "見つける",
+    "category": "カテゴリー",
+    "library": "本棚",
+    "wallet": "ウォレット",
+    "me": "マイページ"
+  },
+  "onboarding": {
+    "tagline": "夜通し読みたくなる物語",
+    "continueWithGoogle": "Googleで続ける",
+    "continueWithApple": "Appleで続ける",
+    "continueAsGuest": "ゲストとして続ける",
+    "agreement": "続行すると、利用規約とプライバシーポリシーに同意したことになります"
+  },
+  "guide": {
+    "title": "どんな物語が好きですか？",
+    "subtitle": "いくつか選んでフィードをカスタマイズ",
+    "continueAction": "次へ"
+  },
+  "discover": {
+    "header": "見つける",
+    "searchHint": "タイトル・作者・テーマで検索",
+    "sectionTopCharts": "人気ランキング",
+    "sectionNewRising": "新着・急上昇",
+    "sectionForYou": "あなたへのおすすめ"
+  },
+  "library": {
+    "title": "本棚",
+    "tabReading": "読書中",
+    "tabUnlocked": "解放済み",
+    "tabFinished": "読了",
+    "emptyReading": "まだ本を読み始めていません。",
+    "continueReading": "続きを読む"
+  },
+  "wallet": {
+    "title": "ウォレット",
+    "balance": "残高",
+    "coins": "コイン",
+    "bonus": "ボーナス",
+    "recharge": "チャージ",
+    "balanceHistory": "残高履歴",
+    "dailyCheckin": "毎日チェックイン"
+  },
+  "reader": {
+    "themePaper": "ペーパー",
+    "themeSepia": "セピア",
+    "themeDark": "ダーク",
+    "themeBlack": "ブラック",
+    "fontSize": "文字サイズ",
+    "nextChapter": "次の章",
+    "autoUnlockNext": "次の章を自動で解放"
+  },
+  "paywall": {
+    "title": "第{chapter}章を解放",
+    "price": "価格",
+    "balance": "残高",
+    "unlockNow": "今すぐ解放",
+    "goToStore": "ストアへ",
+    "unlockSuccess": "解放しました！読書をお楽しみください。",
+    "insufficient": "コインが足りません。チャージして続けてください。"
+  },
+  "profile": {
+    "title": "マイページ",
+    "signIn": "ログイン",
+    "copyId": "コピー",
+    "guestName": "ゲスト_{id}",
+    "menuOrders": "注文履歴",
+    "menuPurchased": "購入済みの章",
+    "menuAutoUnlock": "自動解放リスト",
+    "menuHelp": "ヘルプセンター",
+    "menuAbout": "私たちについて",
+    "menuTerms": "利用規約",
+    "menuPrivacy": "プライバシーポリシー",
+    "menuSettings": "設定"
+  }
+}

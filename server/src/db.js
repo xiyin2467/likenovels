@@ -27,6 +27,8 @@ const seedBooks = [
       "She ran from him once. Now he's the Alpha of the largest pack on the eastern seaboard — and she's walked right back into his territory.",
     badge: 'hot',
     rank: 1,
+    coinPrice: 40,
+    freeChapters: 5,
   },
   {
     id: 'b2',
@@ -42,6 +44,8 @@ const seedBooks = [
       'One contract. Six months. No feelings allowed. But when Daniel Whitmore looks at her like that, Maya knows she has already broken every rule.',
     badge: 'complete',
     rank: 2,
+    coinPrice: 35,
+    freeChapters: 5,
   },
   {
     id: 'b3',
@@ -57,6 +61,8 @@ const seedBooks = [
       "She died at 32, betrayed by everyone she loved. Reborn as her 19-year-old self, she's ready to change everything — except him.",
     badge: 'hot',
     rank: 3,
+    coinPrice: 25,
+    freeChapters: 5,
   },
   {
     id: 'b4',
@@ -72,6 +78,8 @@ const seedBooks = [
       'Three hundred years of solitude. Then she walked into his gallery, smelling of rain and old books — and everything changed.',
     badge: 'hot',
     rank: 4,
+    coinPrice: 42,
+    freeChapters: 5,
   },
   {
     id: 'b5',
@@ -87,6 +95,8 @@ const seedBooks = [
       'The princess who cannot die. The assassin sworn to kill her. What happens when the curse they both carry is the same one?',
     badge: 'hot',
     rank: null,
+    coinPrice: 45,
+    freeChapters: 5,
   },
   {
     id: 'b6',
@@ -102,6 +112,8 @@ const seedBooks = [
       "She swore she'd never race again. He's the infuriating new team owner who clearly doesn't know what the word \"no\" means.",
     badge: 'complete',
     rank: null,
+    coinPrice: 28,
+    freeChapters: 5,
   },
   {
     id: 'b7',
@@ -117,6 +129,8 @@ const seedBooks = [
       "She's the pack healer. He's the Alpha who promised himself to another. Some bonds can't be broken — even the ones you fight against.",
     badge: null,
     rank: null,
+    coinPrice: 30,
+    freeChapters: 5,
   },
   {
     id: 'b8',
@@ -132,10 +146,12 @@ const seedBooks = [
       'He needed a wife for the board. She needed tuition money. A simple transaction — until their first kiss at the altar was not simple at all.',
     badge: null,
     rank: null,
+    coinPrice: 50,
+    freeChapters: 5,
   },
 ];
 
-// ── 章节生成 (与前台 getChapters 一致：最多 30 章，前 3 章免费) ──────────────
+// ── 章节生成 (最多 30 章，免费章数 / 非会员单章价格由书籍配置决定) ──────────
 function buildChapters(book) {
   const total = Math.min(book.chapters, 30);
   const list = [];
@@ -152,8 +168,8 @@ function buildChapters(book) {
       id: i + 1,
       bookId: book.id,
       title,
-      free: i < 3,
-      coins: 38,
+      free: i < (book.freeChapters ?? 3),
+      coins: book.coinPrice ?? 38,
       wordCount: 2200 + ((i * 137) % 800),
       published: true,
     });
@@ -161,19 +177,30 @@ function buildChapters(book) {
   return list;
 }
 
+// ── 按书籍配置同步章节的免费/金币状态 (修改书籍配置后调用) ────────────────
+// 会员全场畅读；金币价格仅用于非会员按章购买。
+export function syncChaptersPaywall(book, chapters) {
+  const list = chapters || [];
+  list.forEach((c, i) => {
+    c.free = i < (book.freeChapters ?? 0);
+    c.coins = book.coinPrice ?? 0;
+  });
+  return list;
+}
+
 // ── 充值套餐种子 ────────────────────────────────────────────────────────────
 const seedPackages = [
-  { id: 'p1', coins: 300, bonus: 0, bonusLabel: 'First-time price', price: '$0.99', pricevalue: 0.99, tag: 'Starter', active: true },
-  { id: 'p2', coins: 600, bonus: 60, bonusLabel: '+60 bonus', price: '$4.99', pricevalue: 4.99, tag: null, active: true },
-  { id: 'p3', coins: 1400, bonus: 240, bonusLabel: '+240 bonus', price: '$9.99', pricevalue: 9.99, tag: 'Best value', active: true },
-  { id: 'p4', coins: 3200, bonus: 720, bonusLabel: '+720 bonus', price: '$19.99', pricevalue: 19.99, tag: null, active: true },
+  { id: 'p1', coins: 100, bonus: 100, bonusLabel: 'First top-up only', price: '$0.99', pricevalue: 0.99, tag: 'Double coins', active: true },
+  { id: 'p2', coins: 500, bonus: 25, bonusLabel: '+25 bonus', price: '$4.99', pricevalue: 4.99, tag: null, active: true },
+  { id: 'p3', coins: 1000, bonus: 80, bonusLabel: '+80 bonus', price: '$9.99', pricevalue: 9.99, tag: 'Membership alternative', active: true },
+  { id: 'p4', coins: 2000, bonus: 240, bonusLabel: '+240 bonus', price: '$19.99', pricevalue: 19.99, tag: null, active: true },
 ];
 
 // ── 会员套餐种子 ────────────────────────────────────────────────────────────
 const seedPlans = [
-  { id: 'm_weekly', name: 'Weekly', period: '/week', price: '$2.99', originalPrice: null, tag: null, dailyCoins: 30, active: true },
-  { id: 'm_monthly', name: 'Monthly', period: '/month', price: '$9.99', originalPrice: '$12.99', tag: 'Most popular', dailyCoins: 50, active: true },
-  { id: 'm_yearly', name: 'Yearly', period: '/year', price: '$79.99', originalPrice: '$119.88', tag: 'Best value', dailyCoins: 80, active: true },
+  { id: 'm_weekly', name: 'Weekly', period: '/week', price: '$4.99', originalPrice: null, introOffer: null, tag: null, active: true },
+  { id: 'm_monthly', name: 'Monthly', period: '/month', price: '$9.99', originalPrice: '$14.99', introOffer: '$5.99 first month', tag: 'Most popular', active: true },
+  { id: 'm_yearly', name: 'Yearly', period: '/year', price: '$79.99', originalPrice: '$119.88', introOffer: null, tag: 'Best value', active: true },
 ];
 
 // ── 用户种子 ────────────────────────────────────────────────────────────────

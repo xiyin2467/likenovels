@@ -88,9 +88,9 @@
 ## 导航与变现入口（IA 摘要）
 
 - **底部导航 4 Tab**：首页（Home）/ 分类（Categories）/ 书架（Library）/ 我的（Me）。
-- **钱包并入「我的」**：钱包不占 Tab，由「我的」push 进入（带返回）。承载两套并行变现：
+- **钱包并入「我的」**：钱包不占 Tab，由「我的」push 进入（带返回）。承载订阅优先的变现入口：
   - **金币充值（消耗型）**：钱包页 "Top up coins" → Recharge Sheet。套餐卡片**收进 Sheet**，不在首屏平铺，弱化「商店感」。
-  - **会员订阅（VIP，订阅型）**：钱包页金色「VIP Membership」卡片 → Membership Sheet（周/月/年套餐 + 每日赠币）。
+  - **会员订阅（VIP，订阅型）**：钱包页金色「VIP Membership」卡片 / 付费墙主按钮 → Membership Sheet（周/月/年套餐，全场畅读 + 零广告 + 离线整本 + 徽章）。
 - 详见 `docs/design/前端设计PRD.md`、`docs/plan/变现模型.md`。
 
 ## 响应式

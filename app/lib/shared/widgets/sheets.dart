@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:likenovel/app/fonts.dart';
 
@@ -7,13 +5,16 @@ import 'package:likenovel/app/theme.dart';
 import 'package:likenovel/core/models/book.dart';
 import 'package:likenovel/core/mock/mock_data.dart';
 
+/// 章节付费墙：会员全场畅读是主 CTA，金币仅作为非会员按章出口。
 class PaywallSheet extends StatefulWidget {
   final Book book;
   final int chapterId;
   final int coins;
   final VoidCallback onClose;
-  final VoidCallback onUnlock;
+  final VoidCallback onCoinUnlock;
   final VoidCallback onTopUp;
+
+  /// 开通 VIP 会员后全场畅读。
   final VoidCallback onMembership;
 
   const PaywallSheet({
@@ -22,7 +23,7 @@ class PaywallSheet extends StatefulWidget {
     required this.chapterId,
     required this.coins,
     required this.onClose,
-    required this.onUnlock,
+    required this.onCoinUnlock,
     required this.onTopUp,
     required this.onMembership,
   });
@@ -32,22 +33,13 @@ class PaywallSheet extends StatefulWidget {
 }
 
 class _PaywallSheetState extends State<PaywallSheet> {
-  bool _adLoading = false;
+  bool _showOtherWays = false;
 
-  static const int _chapterCost = 38;
+  /// 单章价格随书走（每本书不同）。
+  int get _chapterCost => widget.book.chapterPrice;
 
   bool get _hasEnough => widget.coins >= _chapterCost;
   int get _deficit => _chapterCost - widget.coins;
-
-  void _simulateAd() {
-    setState(() => _adLoading = true);
-    Future.delayed(const Duration(seconds: 2), () {
-      if (mounted) {
-        setState(() => _adLoading = false);
-        widget.onUnlock();
-      }
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -81,35 +73,50 @@ class _PaywallSheetState extends State<PaywallSheet> {
                 ),
               ),
               const SizedBox(height: ElSpacing.s20),
-              _buildCoinOption(),
-              const SizedBox(height: ElSpacing.s12),
-              _buildAdOption(),
-              const SizedBox(height: ElSpacing.s12),
               _buildMembershipOption(),
-              if (!_hasEnough) ...[
-                const SizedBox(height: ElSpacing.s16),
-                GestureDetector(
-                  onTap: widget.onTopUp,
-                  child: Text.rich(
-                    TextSpan(
-                      text: 'Need more coins? ',
-                      style: AppFont.inter(
-                        fontSize: 13,
-                        color: ElTheme.muted,
-                      ),
-                      children: [
-                        TextSpan(
-                          text: 'Top up →',
-                          style: AppFont.inter(
-                            fontSize: 13,
-                            fontWeight: FontWeight.w600,
-                            color: ElTheme.primary,
-                          ),
-                        ),
-                      ],
-                    ),
+              const SizedBox(height: ElSpacing.s12),
+              TextButton(
+                onPressed: () =>
+                    setState(() => _showOtherWays = !_showOtherWays),
+                child: Text(
+                  _showOtherWays
+                      ? 'Hide other ways'
+                      : 'Other ways to continue',
+                  style: AppFont.inter(
+                    fontSize: 13,
+                    fontWeight: FontWeight.w600,
+                    color: ElTheme.muted,
                   ),
                 ),
+              ),
+              if (_showOtherWays) ...[
+                const SizedBox(height: ElSpacing.s8),
+                _buildCoinOption(),
+                if (!_hasEnough) ...[
+                  const SizedBox(height: ElSpacing.s12),
+                  GestureDetector(
+                    onTap: widget.onTopUp,
+                    child: Text.rich(
+                      TextSpan(
+                        text: 'Need more coins? ',
+                        style: AppFont.inter(
+                          fontSize: 13,
+                          color: ElTheme.muted,
+                        ),
+                        children: [
+                          TextSpan(
+                            text: 'Top up →',
+                            style: AppFont.inter(
+                              fontSize: 13,
+                              fontWeight: FontWeight.w600,
+                              color: ElTheme.primary,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
               ],
             ],
           ),
@@ -133,7 +140,7 @@ class _PaywallSheetState extends State<PaywallSheet> {
 
   Widget _buildCoinOption() {
     return _OptionCard(
-      onTap: _hasEnough ? widget.onUnlock : null,
+      onTap: _hasEnough ? widget.onCoinUnlock : widget.onTopUp,
       icon: Container(
         width: 40,
         height: 40,
@@ -144,14 +151,14 @@ class _PaywallSheetState extends State<PaywallSheet> {
         child: const Icon(Icons.monetization_on_rounded,
             color: ElTheme.gold, size: 22),
       ),
-      title: 'Unlock with $_chapterCost coins',
+      title: _hasEnough ? 'Pay $_chapterCost coins' : 'Top up to unlock',
       subtitle: _hasEnough
           ? Row(
               children: [
                 const Icon(Icons.check_circle, color: ElTheme.success, size: 14),
                 const SizedBox(width: 4),
                 Text(
-                  'Balance: ${widget.coins} coins',
+                  'Balance covers this chapter',
                   style: AppFont.inter(
                     fontSize: 12,
                     color: ElTheme.success,
@@ -160,7 +167,7 @@ class _PaywallSheetState extends State<PaywallSheet> {
               ],
             )
           : Text(
-              'Need $_deficit more coins',
+              'Need $_deficit more coins · Balance: ${widget.coins}',
               style: AppFont.inter(
                 fontSize: 12,
                 color: ElTheme.muted,
@@ -169,44 +176,15 @@ class _PaywallSheetState extends State<PaywallSheet> {
     );
   }
 
-  Widget _buildAdOption() {
-    return _OptionCard(
-      onTap: _adLoading ? null : _simulateAd,
-      icon: Container(
-        width: 40,
-        height: 40,
-        decoration: BoxDecoration(
-          color: ElTheme.primarySoft,
-          shape: BoxShape.circle,
-        ),
-        child: _adLoading
-            ? const Padding(
-                padding: EdgeInsets.all(10),
-                child: CircularProgressIndicator(
-                  strokeWidth: 2,
-                  color: ElTheme.primary,
-                ),
-              )
-            : const Icon(Icons.play_circle_filled_rounded,
-                color: ElTheme.primary, size: 22),
-      ),
-      title: 'Watch a short ad',
-      subtitle: Text(
-        _adLoading ? 'Loading ad…' : 'About 30 seconds, free',
-        style: AppFont.inter(fontSize: 12, color: ElTheme.muted),
-      ),
-    );
-  }
-
-  /// 会员购买解锁：开通 VIP 后免费畅读，引导至会员订阅弹窗。
+  /// 会员畅读：开通后全库章节直接放行。
   Widget _buildMembershipOption() {
     return _OptionCard(
       onTap: widget.onMembership,
       icon: Container(
         width: 40,
         height: 40,
-        decoration: BoxDecoration(
-          gradient: const LinearGradient(
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
             colors: [ElTheme.gold, Color(0xFFE0B84A)],
           ),
           shape: BoxShape.circle,
@@ -214,9 +192,9 @@ class _PaywallSheetState extends State<PaywallSheet> {
         child: const Icon(Icons.workspace_premium_rounded,
             color: Colors.white, size: 22),
       ),
-      title: 'Unlock with VIP membership',
+      title: 'Read free with VIP',
       subtitle: Text(
-        'Read all chapters free · from \$2.99',
+        'Read everything. No limits. First month \$5.99',
         style: AppFont.inter(fontSize: 12, color: ElTheme.muted),
       ),
     );
@@ -238,40 +216,44 @@ class _OptionCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        padding: const EdgeInsets.all(ElSpacing.s16),
-        decoration: BoxDecoration(
-          color: ElTheme.surface,
-          borderRadius: ElRadius.cardR,
-          border: Border.all(color: ElTheme.line, width: 0.5),
-        ),
-        child: Row(
-          children: [
-            icon,
-            const SizedBox(width: ElSpacing.s12),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    title,
-                    style: AppFont.inter(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w600,
-                      color: ElTheme.ink,
+    final enabled = onTap != null;
+    return Opacity(
+      opacity: enabled ? 1 : 0.58,
+      child: GestureDetector(
+        onTap: onTap,
+        child: Container(
+          padding: const EdgeInsets.all(ElSpacing.s16),
+          decoration: BoxDecoration(
+            color: enabled ? ElTheme.surface : ElTheme.surface2,
+            borderRadius: ElRadius.cardR,
+            border: Border.all(color: ElTheme.line, width: 0.5),
+          ),
+          child: Row(
+            children: [
+              icon,
+              const SizedBox(width: ElSpacing.s12),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      title,
+                      style: AppFont.inter(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w600,
+                        color: enabled ? ElTheme.ink : ElTheme.muted,
+                      ),
                     ),
-                  ),
-                  const SizedBox(height: 2),
-                  subtitle,
-                ],
+                    const SizedBox(height: 2),
+                    subtitle,
+                  ],
+                ),
               ),
-            ),
-            if (onTap != null)
-              const Icon(Icons.chevron_right_rounded,
-                  color: ElTheme.muted, size: 20),
-          ],
+              if (enabled)
+                const Icon(Icons.chevron_right_rounded,
+                    color: ElTheme.muted, size: 20),
+            ],
+          ),
         ),
       ),
     );
@@ -286,12 +268,14 @@ class RechargeSheet extends StatefulWidget {
   final int coins;
   final VoidCallback onClose;
   final Function(int) onPurchase;
+  final CoinUnlockOffer? unlockOffer;
 
   const RechargeSheet({
     super.key,
     required this.coins,
     required this.onClose,
     required this.onPurchase,
+    this.unlockOffer,
   });
 
   @override
@@ -314,7 +298,7 @@ class _RechargeSheetState extends State<RechargeSheet> {
       ),
       child: SafeArea(
         top: false,
-        child: Padding(
+        child: SingleChildScrollView(
           padding: const EdgeInsets.fromLTRB(
             ElSpacing.s20,
             ElSpacing.s8,
@@ -336,9 +320,15 @@ class _RechargeSheetState extends State<RechargeSheet> {
               ),
               const SizedBox(height: 4),
               Text(
-                'Secure checkout via Google Play',
+                widget.unlockOffer == null
+                    ? 'Secure checkout via Google Play'
+                    : 'Choose a coin pack to continue reading',
                 style: AppFont.inter(fontSize: 13, color: ElTheme.muted),
               ),
+              if (widget.unlockOffer != null) ...[
+                const SizedBox(height: ElSpacing.s16),
+                _buildUnlockSummary(widget.unlockOffer!),
+              ],
               const SizedBox(height: ElSpacing.s16),
               _buildBalancePill(),
               const SizedBox(height: ElSpacing.s20),
@@ -404,6 +394,98 @@ class _RechargeSheetState extends State<RechargeSheet> {
               fontSize: 13,
               fontWeight: FontWeight.w600,
               color: ElTheme.ink,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildUnlockSummary(CoinUnlockOffer offer) {
+    return Container(
+      padding: const EdgeInsets.all(ElSpacing.s16),
+      decoration: BoxDecoration(
+        color: ElTheme.goldSoft,
+        borderRadius: ElRadius.cardR,
+        border: Border.all(color: ElTheme.gold.withValues(alpha: 0.28)),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                width: 38,
+                height: 38,
+                decoration: const BoxDecoration(
+                  color: ElTheme.surface,
+                  shape: BoxShape.circle,
+                ),
+                child: const Icon(
+                  Icons.lock_open_rounded,
+                  color: ElTheme.gold,
+                  size: 20,
+                ),
+              ),
+              const SizedBox(width: ElSpacing.s12),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Unlock Chapter ${offer.chapterId}',
+                      style: AppFont.inter(
+                        fontSize: 15,
+                        fontWeight: FontWeight.w700,
+                        color: ElTheme.ink,
+                      ),
+                    ),
+                    const SizedBox(height: 2),
+                    Text(
+                      '${offer.chapterCost} coins · ${offer.bookTitle}',
+                      style: AppFont.inter(
+                        fontSize: 12,
+                        color: ElTheme.muted,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: ElSpacing.s12),
+          _buildUnlockPerk('One-time chapter unlock'),
+          _buildUnlockPerk('Keep this chapter after purchase'),
+          _buildUnlockPerk('Coins never auto-renew'),
+          const SizedBox(height: ElSpacing.s8),
+          Text(
+            offer.deficit > 0
+                ? 'Need ${offer.deficit} more coins to unlock'
+                : 'Your current balance can cover this chapter',
+            style: AppFont.inter(
+              fontSize: 12,
+              fontWeight: FontWeight.w600,
+              color: ElTheme.primary,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildUnlockPerk(String text) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 6),
+      child: Row(
+        children: [
+          const Icon(Icons.check_circle_rounded,
+              color: ElTheme.success, size: 15),
+          const SizedBox(width: 6),
+          Expanded(
+            child: Text(
+              text,
+              style: AppFont.inter(fontSize: 12, color: ElTheme.ink),
             ),
           ),
         ],
@@ -508,8 +590,27 @@ class _RechargeSheetState extends State<RechargeSheet> {
   }
 }
 
+class CoinUnlockOffer {
+  final String bookTitle;
+  final int chapterId;
+  final int chapterCost;
+  final int currentBalance;
+
+  const CoinUnlockOffer({
+    required this.bookTitle,
+    required this.chapterId,
+    required this.chapterCost,
+    required this.currentBalance,
+  });
+
+  int get deficit {
+    final remaining = chapterCost - currentBalance;
+    return remaining > 0 ? remaining : 0;
+  }
+}
+
 // ---------------------------------------------------------------------------
-// MembershipSheet —— 会员订阅（第二套变现体系）
+// MembershipSheet —— 会员订阅（主付费产品）
 // ---------------------------------------------------------------------------
 
 class MembershipSheet extends StatefulWidget {
@@ -583,7 +684,7 @@ class _MembershipSheetState extends State<MembershipSheet> {
                           ),
                         ),
                         Text(
-                          'Read more, pay less',
+                          'Read everything. No limits.',
                           style: AppFont.inter(
                               fontSize: 13, color: ElTheme.muted),
                         ),
@@ -721,6 +822,14 @@ class _MembershipSheetState extends State<MembershipSheet> {
               plan.period,
               style: AppFont.inter(fontSize: 11, color: ElTheme.muted),
             ),
+            if (plan.perMonthNote != null) ...[
+              const SizedBox(height: 4),
+              Text(
+                plan.perMonthNote!,
+                textAlign: TextAlign.center,
+                style: AppFont.inter(fontSize: 10, color: ElTheme.muted),
+              ),
+            ],
           ],
         ),
       ),
@@ -745,16 +854,17 @@ class _MembershipSheetState extends State<MembershipSheet> {
           ),
         ),
         const SizedBox(height: 6),
-        Center(
-          child: Text(
-            '+${_selected.dailyCoins} bonus coins every day',
-            style: AppFont.inter(
-              fontSize: 12,
-              fontWeight: FontWeight.w500,
-              color: ElTheme.success,
+        if (_selected.introOffer != null)
+          Center(
+            child: Text(
+              _selected.introOffer!,
+              style: AppFont.inter(
+                fontSize: 12,
+                fontWeight: FontWeight.w600,
+                color: ElTheme.success,
+              ),
             ),
           ),
-        ),
       ],
     );
   }

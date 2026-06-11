@@ -1,10 +1,19 @@
 {
-  "_note": "繁體中文。缺失的鍵會自動回退到 en.json。",
+  "_meta": { "code": "zh-TW", "nativeName": "繁體中文", "rtl": false },
   "common": {
     "appName": "likenovel",
     "ok": "確定",
     "cancel": "取消",
+    "confirm": "確認",
+    "save": "儲存",
+    "delete": "刪除",
+    "remove": "移除",
+    "edit": "編輯",
+    "done": "完成",
     "retry": "重試",
+    "selectAll": "全選",
+    "seeMore": "更多",
+    "search": "搜尋",
     "networkError": "網路錯誤",
     "noContent": "暫無內容。",
     "loading": "載入中…"
@@ -17,8 +26,72 @@
     "wallet": "錢包",
     "me": "我的"
   },
+  "onboarding": {
+    "tagline": "讓你徹夜難眠的好故事",
+    "continueWithGoogle": "使用 Google 繼續",
+    "continueWithApple": "使用 Apple 繼續",
+    "continueAsGuest": "以訪客身分繼續",
+    "agreement": "繼續即表示你同意我們的服務條款與隱私權政策"
+  },
+  "guide": {
+    "title": "你喜歡讀什麼？",
+    "subtitle": "選擇幾項，打造你的專屬書單",
+    "continueAction": "繼續"
+  },
   "discover": {
     "header": "發現",
-    "searchHint": "搜尋書名、作者、標籤"
+    "searchHint": "搜尋書名、作者、標籤",
+    "sectionTopCharts": "排行榜",
+    "sectionNewRising": "新書飆升",
+    "sectionForYou": "為你推薦"
+  },
+  "library": {
+    "title": "書架",
+    "tabReading": "在讀",
+    "tabUnlocked": "已解鎖",
+    "tabFinished": "已讀完",
+    "emptyReading": "你還沒有開始閱讀任何書。",
+    "continueReading": "繼續閱讀"
+  },
+  "wallet": {
+    "title": "錢包",
+    "balance": "餘額",
+    "coins": "金幣",
+    "bonus": "贈幣",
+    "recharge": "儲值",
+    "balanceHistory": "金幣明細",
+    "dailyCheckin": "每日簽到"
+  },
+  "reader": {
+    "themePaper": "紙張",
+    "themeSepia": "米黃",
+    "themeDark": "深色",
+    "themeBlack": "純黑",
+    "fontSize": "字級",
+    "nextChapter": "下一章",
+    "autoUnlockNext": "自動解鎖下一章"
+  },
+  "paywall": {
+    "title": "解鎖第 {chapter} 章",
+    "price": "價格",
+    "balance": "餘額",
+    "unlockNow": "立即解鎖",
+    "goToStore": "前往儲值",
+    "unlockSuccess": "解鎖成功，祝你閱讀愉快！",
+    "insufficient": "金幣不足，請儲值後繼續。"
+  },
+  "profile": {
+    "title": "我的",
+    "signIn": "登入",
+    "copyId": "複製",
+    "guestName": "訪客_{id}",
+    "menuOrders": "我的訂單",
+    "menuPurchased": "已購章節",
+    "menuAutoUnlock": "自動解鎖清單",
+    "menuHelp": "幫助中心",
+    "menuAbout": "關於我們",
+    "menuTerms": "服務條款",
+    "menuPrivacy": "隱私權政策",
+    "menuSettings": "設定"
   }
 }

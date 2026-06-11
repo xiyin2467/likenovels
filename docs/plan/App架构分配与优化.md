@@ -23,7 +23,7 @@ lib/
 │  ├─ discover/            # 书城、推荐流、分类、榜单、搜索
 │  ├─ book/                # 书籍详情、章节列表、书评、相似推荐
 │  ├─ reader/              # 阅读器、目录、进度、主题、缓存、书签
-│  ├─ wallet/              # 钱包、充值、流水、奖励、广告解锁
+│  ├─ wallet/              # 钱包、充值、流水、Watch & earn 奖励
 │  ├─ account/             # 登录、个人中心、语言、隐私、注销
 │  ├─ growth/              # 推送、站内信、活动、签到
 │  └─ analytics/           # 事件定义、埋点上报、实验参数
@@ -51,7 +51,7 @@ server/
 ├─ content        # 书、作者、章节、分类、标签、上下架
 ├─ discovery      # 首页运营位、榜单、推荐流、搜索索引
 ├─ reader         # 阅读进度、书架、已读位置、书签
-├─ entitlement    # 免费章、已解锁章、等待解锁、广告解锁资格
+├─ entitlement    # 免费章、VIP 订阅放行、非会员金币已购章、等待解锁资格
 ├─ wallet         # 余额、流水、奖励币、消费账
 ├─ payment        # Google Billing/App Store IAP 回调与验单
 ├─ ads            # 激励广告回调、防作弊、奖励发放
@@ -83,7 +83,7 @@ flowchart TD
 | 开发早期 | Firebase Crashlytics / Analytics | 稳定性和基础事件 |
 | 付费闭环 | Google Play Billing / App Store IAP | 数字内容内购 |
 | 召回闭环 | FCM / APNs | 新章、等待解锁、活动提醒 |
-| 广告闭环 | AppLovin MAX + AdMob/Unity/ironSource | 激励广告解锁与赚币 |
+| 广告闭环 | AppLovin MAX + AdMob/Unity/ironSource | 钱包 Watch & earn 赚币，付费墙不做广告解锁 |
 | 买量前 | AppsFlyer 或 Adjust | 投放归因和 ROI |
 | 欧洲上线前 | CMP / Google UMP | GDPR/广告同意管理 |
 | 增长阶段 | AB 实验/远程配置 | 价格、广告频次、等待时长实验 |

@@ -1,0 +1,1385 @@
+{
+  "source": "d:\\likenovel\\docs\\research\\竞品apk\\iReader_international_v8.7.3.1.apk",
+  "size": 62451712,
+  "intent_filters": [
+    {
+      "component": "com.chaozh.iReader.ui.activity.WelcomeActivity",
+      "type": "activity",
+      "actions": [
+        "android.intent.action.MAIN"
+      ],
+      "categories": [
+        "android.intent.category.LAUNCHER",
+        "android.intent.category.DEFAULT"
+      ],
+      "data": []
+    },
+    {
+      "component": "com.chaozh.iReader.ui.activity.WelcomeActivity",
+      "type": "activity",
+      "actions": [
+        "android.intent.action.VIEW"
+      ],
+      "categories": [
+        "android.intent.category.DEFAULT",
+        "android.intent.category.BROWSABLE"
+      ],
+      "data": [
+        {
+          "scheme": "ireader",
+          "host": "com.chaozh.iReaderFree.scheme"
+        }
+      ]
+    },
+    {
+      "component": "com.chaozh.iReader.ui.activity.WelcomeActivity",
+      "type": "activity",
+      "actions": [
+        "android.intent.action.VIEW",
+        "com.chaozh.iReaderFree.only.SHOW_DETAIL",
+        "com.chaozh.iReaderFree.only.READ_BOOK",
+        "com.chaozh.iReaderFree.only.OPEN_URL",
+        "com.chaozh.iReaderFree.only.CATEGORY",
+        "com.chaozh.iReaderFree.only.SEARCH",
+        "com.chaozh.iReaderFree.only.READSHORTSTORY"
+      ],
+      "categories": [
+        "android.intent.category.DEFAULT",
+        "android.intent.category.BROWSABLE"
+      ],
+      "data": [
+        {
+          "scheme": "ireader",
+          "host": "com.chaozh.iReaderFree.only"
+        }
+      ]
+    },
+    {
+      "component": "com.chaozh.iReader.ui.activity.WelcomeActivity",
+      "type": "activity",
+      "actions": [
+        "com.chaozh.iReaderFree.scheme.SHOW_DETAIL",
+        "com.chaozh.iReaderFree.scheme.READ_BOOK",
+        "com.chaozh.iReaderFree.scheme.DOWNLOAD_BOOK",
+        "com.chaozh.iReaderFree.scheme.OPEN_URL",
+        "com.chaozh.iReaderFree.scheme.SHOW_VIP"
+      ],
+      "categories": [],
+      "data": []
+    },
+    {
+      "component": "com.chaozh.iReader.ui.activity.WelcomeActivity",
+      "type": "activity",
+      "actions": [
+        "android.intent.action.VIEW"
+      ],
+      "categories": [
+        "android.intent.category.DEFAULT",
+        "android.intent.category.BROWSABLE"
+      ],
+      "data": [
+        {
+          "scheme": "ireader",
+          "host": "com.chaozh.iReaderFree"
+        }
+      ]
+    },
+    {
+      "component": "com.chaozh.iReader.ui.activity.WelcomeActivity",
+      "type": "activity",
+      "actions": [
+        "com.chaozh.iReaderFree.SHOW_DETAIL",
+        "com.chaozh.iReaderFree.READ_BOOK",
+        "com.chaozh.iReaderFree.DOWNLOAD_BOOK",
+        "com.chaozh.iReaderFree.OPEN_URL"
+      ],
+      "categories": [],
+      "data": []
+    },
+    {
+      "component": "com.chaozh.iReader.ui.activity.WelcomeActivity",
+      "type": "activity",
+      "actions": [
+        "android.intent.action.VIEW"
+      ],
+      "categories": [
+        "android.intent.category.DEFAULT",
+        "android.intent.category.BROWSABLE"
+      ],
+      "data": [
+        {
+          "scheme": "ireader",
+          "host": "com.chaozh.iReaderFree"
+        }
+      ]
+    },
+    {
+      "component": "com.chaozh.iReader.ui.activity.WelcomeActivity",
+      "type": "activity",
+      "actions": [
+        "com.chaozh.iReaderFree.SHOW_DETAIL",
+        "com.chaozh.iReaderFree.READ_BOOK",
+        "com.chaozh.iReaderFree.DOWNLOAD_BOOK",
+        "com.chaozh.iReaderFree.OPEN_URL"
+      ],
+      "categories": [],
+      "data": []
+    },
+    {
+      "component": "com.chaozh.iReader.ui.activity.WelcomeActivity",
+      "type": "activity",
+      "actions": [
+        "android.intent.action.VIEW"
+      ],
+      "categories": [
+        "android.intent.category.DEFAULT",
+        "android.intent.category.BROWSABLE"
+      ],
+      "data": [
+        {
+          "scheme": "androidzhangyueireader"
+        },
+        {
+          "scheme": "zhangyueireader"
+        }
+      ]
+    },
+    {
+      "component": "com.chaozh.iReader.ui.activity.WelcomeActivity",
+      "type": "activity",
+      "actions": [
+        "android.intent.action.VIEW"
+      ],
+      "categories": [
+        "android.intent.category.DEFAULT",
+        "android.intent.category.BROWSABLE"
+      ],
+      "data": [
+        {
+          "mimeType": "text/*"
+        },
+        {
+          "mimeType": "application/pdf"
+        },
+        {
+          "mimeType": "application/azw3"
+        },
+        {
+          "mimeType": "application/mobi"
+        },
+        {
+          "mimeType": "application/x-mobipocket-ebook"
+        },
+        {
+          "mimeType": "application/x-mobi8-ebook"
+        },
+        {
+          "mimeType": "application/epub+zip"
+        },
+        {
+          "mimeType": "application/pdf"
+        },
+        {
+          "mimeType": "application/x-expandedbook"
+        },
+        {
+          "mimeType": "application/msword"
+        },
+        {
+          "mimeType": "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+        },
+        {
+          "mimeType": "application/vnd.openxmlformats-officedocument.wordprocessingml.template"
+        },
+        {
+          "mimeType": "application/vnd.ms-powerpoint"
+        },
+        {
+          "mimeType": "application/vnd.openxmlformats-officedocument.presentationml.presentation"
+        },
+        {
+          "mimeType": "application/vnd.openxmlformats-officedocument.presentationml.slideshow"
+        },
+        {
+          "mimeType": "application/vnd.openxmlformats-officedocument.presentationml.template"
+        },
+        {
+          "mimeType": "application/vnd.ms-excel"
+        },
+        {
+          "mimeType": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+        },
+        {
+          "mimeType": "application/vnd.openxmlformats-officedocument.spreadsheetml.template"
+        }
+      ]
+    },
+    {
+      "component": "com.chaozh.iReader.ui.activity.WelcomeActivity",
+      "type": "activity",
+      "actions": [
+        "android.intent.action.VIEW"
+      ],
+      "categories": [
+        "android.intent.category.DEFAULT",
+        "android.intent.category.BROWSABLE"
+      ],
+      "data": [
+        {
+          "scheme": "file"
+        },
+        {
+          "host": "*"
+        },
+        {
+          "pathPattern": ".*\\.epub"
+        },
+        {
+          "pathPattern": ".*\\.ebk2"
+        },
+        {
+          "pathPattern": ".*\\.ebk3"
+        },
+        {
+          "pathPattern": ".*\\.chm"
+        },
+        {
+          "pathPattern": ".*\\.mobi"
+        },
+        {
+          "pathPattern": ".*\\.umd"
+        },
+        {
+          "pathPattern": ".*\\.azw3"
+        },
+        {
+          "pathPattern": ".*\\.log"
+        },
+        {
+          "pathPattern": ".*\\.trace"
+        },
+        {
+          "pathPattern": ".*\\.wps"
+        },
+        {
+          "pathPattern": ".*\\.dps"
+        },
+        {
+          "pathPattern": ".*\\.et"
+        }
+      ]
+    },
+    {
+      "component": "com.chaozh.iReader.ui.activity.WelcomeActivity",
+      "type": "activity",
+      "actions": [
+        "android.intent.action.VIEW"
+      ],
+      "categories": [
+        "android.intent.category.DEFAULT",
+        "android.intent.category.BROWSABLE"
+      ],
+      "data": [
+        {
+          "scheme": "file"
+        },
+        {
+          "host": "*"
+        },
+        {
+          "mimeType": "*/*"
+        },
+        {
+          "pathPattern": ".*\\.epub"
+        },
+        {
+          "pathPattern": ".*\\.ebk2"
+        },
+        {
+          "pathPattern": ".*\\.ebk3"
+        },
+        {
+          "pathPattern": ".*\\.chm"
+        },
+        {
+          "pathPattern": ".*\\.mobi"
+        },
+        {
+          "pathPattern": ".*\\.umd"
+        },
+        {
+          "pathPattern": ".*\\.azw3"
+        },
+        {
+          "pathPattern": ".*\\.log"
+        },
+        {
+          "pathPattern": ".*\\.trace"
+        },
+        {
+          "pathPattern": ".*\\.wps"
+        },
+        {
+          "pathPattern": ".*\\.dps"
+        },
+        {
+          "pathPattern": ".*\\.et"
+        }
+      ]
+    },
+    {
+      "component": "com.zhangyue.iReader.online.ui.ActivityOnline",
+      "type": "activity",
+      "actions": [
+        "android.intent.action.VIEW"
+      ],
+      "categories": [
+        "android.intent.category.DEFAULT",
+        "android.intent.category.BROWSABLE"
+      ],
+      "data": [
+        {
+          "scheme": "ireader",
+          "host": "alipay_sign_back"
+        }
+      ]
+    },
+    {
+      "component": "com.zhangyue.iReader.search.ui.SearchActivity",
+      "type": "activity",
+      "actions": [
+        "com.ryg.dynamicload.proxy.fragmentactivity.VIEW"
+      ],
+      "categories": [
+        "android.intent.category.DEFAULT"
+      ],
+      "data": []
+    },
+    {
+      "component": "com.zhangyue.iReader.thirdplatform.qqpay.ui.ActivityQQPayResult",
+      "type": "activity",
+      "actions": [
+        "android.intent.action.VIEW"
+      ],
+      "categories": [
+        "android.intent.category.BROWSABLE",
+        "android.intent.category.DEFAULT"
+      ],
+      "data": [
+        {
+          "scheme": "qwalletpaycom.chaozh.iReaderFree"
+        }
+      ]
+    },
+    {
+      "component": "com.tencent.tauth.AuthActivity",
+      "type": "activity",
+      "actions": [
+        "android.intent.action.VIEW"
+      ],
+      "categories": [
+        "android.intent.category.DEFAULT",
+        "android.intent.category.BROWSABLE"
+      ],
+      "data": [
+        {
+          "scheme": "tencent100467046"
+        }
+      ]
+    },
+    {
+      "component": "com.zhangyue.iReader.thirdplatform.push.easepush.EasePushJumpActivity",
+      "type": "activity",
+      "actions": [
+        "com.zhangyue.iReader.easePushJump"
+      ],
+      "categories": [
+        "android.intent.category.DEFAULT",
+        "android.intent.category.BROWSABLE"
+      ],
+      "data": []
+    },
+    {
+      "component": "com.chaozh.iReaderFree.MipushTestActivity",
+      "type": "activity",
+      "actions": [
+        "android.intent.action.VIEW"
+      ],
+      "categories": [
+        "android.intent.category.DEFAULT",
+        "android.intent.category.BROWSABLE"
+      ],
+      "data": [
+        {
+          "scheme": "agoo",
+          "host": "com.chaozh.iReaderFree",
+          "path": "/thirdpush"
+        }
+      ]
+    },
+    {
+      "component": "com.sina.weibo.sdk.share.ShareTransActivity",
+      "type": "activity",
+      "actions": [
+        "com.sina.weibo.sdk.action.ACTION_SDK_REQ_ACTIVITY"
+      ],
+      "categories": [
+        "android.intent.category.DEFAULT"
+      ],
+      "data": []
+    },
+    {
+      "component": "com.kwad.sdk.api.proxy.app.BaseFragmentActivity$RequestInstallPermissionActivity",
+      "type": "activity",
+      "actions": [
+        "intent.action.requestInstallPermission"
+      ],
+      "categories": [
+        "android.intent.category.DEFAULT"
+      ],
+      "data": []
+    },
+    {
+      "component": "com.huawei.openalliance.ad.activity.PPSLauncherActivity",
+      "type": "activity",
+      "actions": [
+        "android.intent.action.VIEW"
+      ],
+      "categories": [
+        "android.intent.category.DEFAULT",
+        "android.intent.category.BROWSABLE"
+      ],
+      "data": [
+        {
+          "scheme": "hwpps",
+          "host": "com.chaozh.iReaderFree"
+        }
+      ]
+    },
+    {
+      "component": "com.umeng.message.UMessageNotifyActivity",
+      "type": "activity-alias",
+      "actions": [
+        "com.umeng.message.action.notify"
+      ],
+      "categories": [],
+      "data": []
+    },
+    {
+      "component": "com.zhangyue.iReader.account.AccountService",
+      "type": "service",
+      "actions": [
+        "com.zhangyue.iReader.Account"
+      ],
+      "categories": [],
+      "data": []
+    },
+    {
+      "component": "com.zhangyue.iReader.service.SyncIntentService",
+      "type": "service",
+      "actions": [
+        "com.zhangyue.iReader.SyncIntentService"
+      ],
+      "categories": [],
+      "data": []
+    },
+    {
+      "component": "com.zhangyue.iReader.fileDownload.ServiceDownloadNC",
+      "type": "service",
+      "actions": [
+        "com.zhangyue.iReader.Download.NTC"
+      ],
+      "categories": [],
+      "data": []
+    },
+    {
+      "component": "com.taobao.accs.ChannelService",
+      "type": "service",
+      "actions": [
+        "com.taobao.accs.intent.action.START_SERVICE"
+      ],
+      "categories": [],
+      "data": []
+    },
+    {
+      "component": "com.taobao.accs.ChannelService",
+      "type": "service",
+      "actions": [
+        "com.taobao.accs.intent.action.ELECTION"
+      ],
+      "categories": [],
+      "data": []
+    },
+    {
+      "component": "com.taobao.accs.data.MsgDistributeService",
+      "type": "service",
+      "actions": [
+        "com.taobao.accs.intent.action.RECEIVE"
+      ],
+      "categories": [],
+      "data": []
+    },
+    {
+      "component": "org.android.agoo.accs.AgooService",
+      "type": "service",
+      "actions": [
+        "com.taobao.accs.intent.action.RECEIVE"
+      ],
+      "categories": [],
+      "data": []
+    },
+    {
+      "component": "com.umeng.message.UmengMessageCallbackHandlerService",
+      "type": "service",
+      "actions": [
+        "com.umeng.messge.registercallback.action"
+      ],
+      "categories": [],
+      "data": []
+    },
+    {
+      "component": "com.umeng.message.UmengMessageCallbackHandlerService",
+      "type": "service",
+      "actions": [
+        "com.umeng.message.enablecallback.action"
+      ],
+      "categories": [],
+      "data": []
+    },
+    {
+      "component": "com.umeng.message.UmengMessageCallbackHandlerService",
+      "type": "service",
+      "actions": [
+        "com.umeng.message.disablecallback.action"
+      ],
+      "categories": [],
+      "data": []
+    },
+    {
+      "component": "com.umeng.message.UmengMessageCallbackHandlerService",
+      "type": "service",
+      "actions": [
+        "com.umeng.message.message.handler.action"
+      ],
+      "categories": [],
+      "data": []
+    },
+    {
+      "component": "com.umeng.message.UmengMessageCallbackHandlerService",
+      "type": "service",
+      "actions": [
+        "com.umeng.message.message.sendmessage.action"
+      ],
+      "categories": [],
+      "data": []
+    },
+    {
+      "component": "com.zhangyue.iReader.thirdplatform.push.easepush.service.HMSPushService",
+      "type": "service",
+      "actions": [
+        "com.huawei.push.action.MESSAGING_EVENT"
+      ],
+      "categories": [],
+      "data": []
+    },
+    {
+      "component": "com.zhangyue.iReader.bookshelf.BookshelfProviderService",
+      "type": "service",
+      "actions": [
+        "bookshelf.service.action"
+      ],
+      "categories": [],
+      "data": []
+    },
+    {
+      "component": "com.ss.android.socialbase.downloader.downloader.CSJIndependentProcessDownloadService",
+      "type": "service",
+      "actions": [
+        "com.ss.android.socialbase.downloader.remote"
+      ],
+      "categories": [],
+      "data": []
+    },
+    {
+      "component": "com.umeng.message.component.UmengIntentService",
+      "type": "service",
+      "actions": [
+        "org.agoo.android.intent.action.RECEIVE"
+      ],
+      "categories": [],
+      "data": []
+    },
+    {
+      "component": "com.umeng.message.component.UmengMessageReceiverService",
+      "type": "service",
+      "actions": [
+        "org.android.agoo.client.MessageReceiverService"
+      ],
+      "categories": [],
+      "data": []
+    },
+    {
+      "component": "com.umeng.message.component.UmengMessageHandlerService",
+      "type": "service",
+      "actions": [
+        "com.umeng.message.action"
+      ],
+      "categories": [],
+      "data": []
+    },
+    {
+      "component": "org.android.agoo.huawei.HuaweiRcvService",
+      "type": "service",
+      "actions": [
+        "com.huawei.push.action.MESSAGING_EVENT"
+      ],
+      "categories": [],
+      "data": []
+    },
+    {
+      "component": "com.huawei.hms.support.api.push.service.HmsMsgService",
+      "type": "service",
+      "actions": [
+        "com.huawei.push.msg.NOTIFY_MSG",
+        "com.huawei.push.msg.PASSBY_MSG"
+      ],
+      "categories": [],
+      "data": []
+    },
+    {
+      "component": "com.heytap.msp.push.service.CompatibleDataMessageCallbackService",
+      "type": "service",
+      "actions": [
+        "com.coloros.mcs.action.RECEIVE_MCS_MESSAGE"
+      ],
+      "categories": [],
+      "data": []
+    },
+    {
+      "component": "com.heytap.msp.push.service.DataMessageCallbackService",
+      "type": "service",
+      "actions": [
+        "com.heytap.mcs.action.RECEIVE_MCS_MESSAGE",
+        "com.heytap.msp.push.RECEIVE_MCS_MESSAGE"
+      ],
+      "categories": [],
+      "data": []
+    },
+    {
+      "component": "com.getui.gtc.GtcService",
+      "type": "service",
+      "actions": [
+        "com.getui.gtc.sdk.service.action"
+      ],
+      "categories": [],
+      "data": []
+    },
+    {
+      "component": "com.zhangyue.ReadComponent.ReadModule.Tools.MediaButtonReceiver",
+      "type": "receiver",
+      "actions": [
+        "android.intent.action.MEDIA_BUTTON",
+        "android.media.AUDIO_BECOMING_NOISY"
+      ],
+      "categories": [],
+      "data": []
+    },
+    {
+      "component": "com.zhangyue.iReader.widget.ShortCutReceiver",
+      "type": "receiver",
+      "actions": [
+        "com.android.launcher.action.INSTALL_SHORTCUT"
+      ],
+      "categories": [],
+      "data": []
+    },
+    {
+      "component": "com.taobao.accs.ServiceReceiver",
+      "type": "receiver",
+      "actions": [
+        "com.taobao.accs.intent.action.COMMAND"
+      ],
+      "categories": [],
+      "data": []
+    },
+    {
+      "component": "com.taobao.accs.ServiceReceiver",
+      "type": "receiver",
+      "actions": [
+        "com.taobao.accs.intent.action.START_FROM_AGOO"
+      ],
+      "categories": [],
+      "data": []
+    },
+    {
+      "component": "com.chaozh.iReaderFree.wxapi.WxRegisterReceiver",
+      "type": "receiver",
+      "actions": [
+        "com.tencent.mm.plugin.openapi.Intent.ACTION_REFRESH_WXAPP"
+      ],
+      "categories": [],
+      "data": []
+    },
+    {
+      "component": "com.zhangyue.iReader.thirdplatform.push.PushRemoveReceiver",
+      "type": "receiver",
+      "actions": [
+        "com.zhangyue.iReader.push.remove"
+      ],
+      "categories": [],
+      "data": []
+    },
+    {
+      "component": "com.zhangyue.iReader.office.OfficeCloseReceiver",
+      "type": "receiver",
+      "actions": [
+        "cn.wps.moffice.file.close"
+      ],
+      "categories": [
+        "com.chaozh.iReaderFree"
+      ],
+      "data": []
+    },
+    {
+      "component": "com.zhangyue.iReader.thirdplatform.push.easepush.EaseMobReceiver",
+      "type": "receiver",
+      "actions": [
+        "com.hyphenate.notification.intent.RECEIVE_MESSAGE"
+      ],
+      "categories": [
+        "com.chaozh.iReaderFree"
+      ],
+      "data": []
+    },
+    {
+      "component": "com.zhangyue.iReader.thirdplatform.push.easepush.EaseVivoMsgReceiver",
+      "type": "receiver",
+      "actions": [
+        "com.vivo.pushclient.action.RECEIVE"
+      ],
+      "categories": [],
+      "data": []
+    },
+    {
+      "component": "com.zhangyue.iReader.thirdplatform.push.UMMzMessageReceiver",
+      "type": "receiver",
+      "actions": [
+        "com.meizu.flyme.push.intent.MESSAGE",
+        "com.meizu.flyme.push.intent.REGISTER.FEEDBACK",
+        "com.meizu.flyme.push.intent.UNREGISTER.FEEDBACK",
+        "com.meizu.c2dm.intent.REGISTRATION",
+        "com.meizu.c2dm.intent.RECEIVE"
+      ],
+      "categories": [
+        "com.chaozh.iReaderFree"
+      ],
+      "data": []
+    },
+    {
+      "component": "com.maplehaze.adsdk.WebViewActivity$DownloadReceiver",
+      "type": "receiver",
+      "actions": [
+        "android.intent.action.DOWNLOAD_COMPLETE"
+      ],
+      "categories": [],
+      "data": []
+    },
+    {
+      "component": "com.anythink.dlopt.common.NotificationBroadcastReceiver",
+      "type": "receiver",
+      "actions": [
+        "anythink_action_notification_click",
+        "anythink_action_notification_cancel"
+      ],
+      "categories": [],
+      "data": []
+    },
+    {
+      "component": "org.android.agoo.xiaomi.MiPushBroadcastReceiver",
+      "type": "receiver",
+      "actions": [
+        "com.xiaomi.mipush.RECEIVE_MESSAGE"
+      ],
+      "categories": [],
+      "data": []
+    },
+    {
+      "component": "org.android.agoo.xiaomi.MiPushBroadcastReceiver",
+      "type": "receiver",
+      "actions": [
+        "com.xiaomi.mipush.MESSAGE_ARRIVED"
+      ],
+      "categories": [],
+      "data": []
+    },
+    {
+      "component": "org.android.agoo.xiaomi.MiPushBroadcastReceiver",
+      "type": "receiver",
+      "actions": [
+        "com.xiaomi.mipush.ERROR"
+      ],
+      "categories": [],
+      "data": []
+    },
+    {
+      "component": "com.huawei.hms.support.api.push.PushMsgReceiver",
+      "type": "receiver",
+      "actions": [
+        "com.huawei.intent.action.PUSH_DELAY_NOTIFY",
+        "com.huawei.intent.action.PUSH"
+      ],
+      "categories": [],
+      "data": []
+    },
+    {
+      "component": "com.huawei.hms.support.api.push.PushReceiver",
+      "type": "receiver",
+      "actions": [
+        "com.huawei.android.push.intent.REGISTRATION",
+        "com.huawei.android.push.intent.RECEIVE"
+      ],
+      "categories": [],
+      "data": []
+    },
+    {
+      "component": "org.android.agoo.vivo.PushMessageReceiverImpl",
+      "type": "receiver",
+      "actions": [
+        "com.vivo.pushclient.action.RECEIVE"
+      ],
+      "categories": [],
+      "data": []
+    },
+    {
+      "component": "com.meizu.cloud.pushsdk.MzPushSystemReceiver",
+      "type": "receiver",
+      "actions": [
+        "com.meizu.flyme.push.intent.PUSH_SYSTEM"
+      ],
+      "categories": [],
+      "data": []
+    },
+    {
+      "component": "com.xiaomi.push.service.receivers.PingReceiver",
+      "type": "receiver",
+      "actions": [
+        "com.xiaomi.push.PING_TIMER"
+      ],
+      "categories": [],
+      "data": []
+    }
+  ],
+  "meta_data_full": {
+    "android.vivo_nightmode_support": "false",
+    "EASEMOB_APPKEY": "1154220923120243#zhangyue",
+    "com.zhangyue.iReader.account.api.version": "2",
+    "UMENG_APPKEY": "56a5d816e0f55a8a97001610",
+    "UMENG_MESSAGE_SECRET": "84bbb3b6e1a5715196337e8f3841a5a9",
+    "YUNBA_APPKEY": "538e8e409e2514136c57c353",
+    "IS_AUTO_START": "false",
+    "HOTFIX_VERSION": "3",
+    "android.max_aspect": "2.100000",
+    "android.notch_support": "true",
+    "android.vendor.full_screen": "true",
+    "schemeVersion": "220",
+    "com.qq.e.comm.DownloadService": "com.zhangyue.iReader.plugin.service.GdtServiceProxy",
+    "com.bytedance.sdk.openadsdk.service.TTDownloadService": "com.zhangyue.iReader.plugin.service.BytedanceServiceProxy",
+    "notch.config": "portrait|landscape",
+    "com.bytedance.sdk.openadsdk.service.TTDownloadHandlerService": "com.zhangyue.iReader.plugin.service.BytedanceServiceProxy2",
+    "com.huawei.hms.client.appid": "appid=1032840",
+    "com.vivo.push.api_key": "9d758904-befd-4349-9adc-f5db23ba9f18",
+    "com.vivo.push.app_id": "19028",
+    "ZEUS_PLUGIN_PANGLE": "{                 apiVersionCode:7010,                 packageName:com.byted.pangle,                 minPluginVersion:7010,                 internalPath:'',                 internalVersionCode:7010             }",
+    "ZEUS_PLUGIN_com.byted.csj.ext": "{apiVersionCode:999,packageName:com.byted.csj.ext,minPluginVersion:1000,maxPluginVersion:999999999,internalPath:'',internalVersionCode:-1, appKey:'',appSecretKey:''}",
+    "ZEUS_PLUGIN_LIVE": "{                 apiVersionCode:2114,                 packageName:com.byted.live.lite,                 minPluginVersion:211400,                 maxPluginVersion:999999,                 isSupportLibIsolate:true             }",
+    "LIVE_API_VERSION_CODE": "2114",
+    "com.huawei.hms.client.service.name:ads-banner": "ads-banner:13.4.33.300",
+    "com.huawei.hms.client.service.name:ads-base": "ads-base:13.4.33.300",
+    "com.huawei.hms.client.service.name:ads-interstitial": "ads-interstitial:13.4.33.300",
+    "com.huawei.hms.client.service.name:ads-native": "ads-native:13.4.33.300",
+    "com.huawei.hms.client.service.name:ads-reward": "ads-reward:13.4.33.300",
+    "com.huawei.hms.client.service.name:ads-lang": "ads-lang:13.4.33.300",
+    "com.huawei.hms.client.service.name:ads-splash": "ads-splash:13.4.33.300",
+    "com.huawei.hms.client.service.name:ads-identifier": "ads-identifier:3.4.62.300",
+    "com.huawei.hms.client.service.name:push": "push:6.7.0.300",
+    "com.huawei.hms.min_api_level:push:push": "1",
+    "MIPUSH_SDK_VERSION_CODE": "50012",
+    "MIPUSH_SDK_VERSION_NAME": "5_1_2-C",
+    "sdkVersion": "3100",
+    "sdk_version_vivo": "480",
+    "com.sensorsdata.analytics.android.MainProcessName": "com.chaozh.iReaderFree",
+    "com.sensorsdata.analytics.android.version": "1.0.0",
+    "hume_convert.AppConvert.sdk.version": "2.0.0.2",
+    "GETUI_APPID": "J5xeqB23Yz6yKucF2EGb8A",
+    "GT_INSTALL_CHANNEL": "",
+    "com.huawei.hms.client.service.name:opendevice": "opendevice:6.7.0.300",
+    "com.huawei.hms.min_api_level:opendevice:push": "1",
+    "com.huawei.hms.client.service.name:base": "base:6.6.0.300",
+    "com.huawei.hms.min_api_level:base:hmscore": "1",
+    "availableLoaded": "yes"
+  },
+  "sdks": [
+    "AdMob / Google Mobile Ads",
+    "Adjust",
+    "Alibaba ACCS/Agoo",
+    "Alipay SDK",
+    "Aliyun SLS Log",
+    "AnyThink / TopOn",
+    "AppsFlyer",
+    "Baidu Mobads",
+    "Bytedance APM",
+    "Easemob IM",
+    "GDT / Tencent Ads",
+    "Glide",
+    "Huawei Ads",
+    "Huawei HMS",
+    "Huawei HMS Push",
+    "Kwai Ads",
+    "Lottie",
+    "MMKV",
+    "Meizu Push",
+    "OPPO/Heytap Push",
+    "OkHttp",
+    "Pangle / ByteDance Ads",
+    "Retrofit",
+    "Sentry",
+    "Sigmob",
+    "Tencent Open SDK",
+    "Umeng",
+    "Vivo Push",
+    "WeChat Pay",
+    "Xiaomi MiPush"
+  ],
+  "assets_list": [
+    "assets/AISDK_ASSET.txt",
+    "assets/FZXSSJW.TTF",
+    "assets/FZYouH.ttf",
+    "assets/Noto Serif.ttf",
+    "assets/Number.ttf",
+    "assets/Number_special.ttf",
+    "assets/anim_coolcontent_chapterheader.svga",
+    "assets/anim_read_guide1.svga",
+    "assets/anim_read_guide2.svga",
+    "assets/baozha.svga",
+    "assets/bdxadsdk.jar",
+    "assets/bg1.png",
+    "assets/bg2.png",
+    "assets/bg3.png",
+    "assets/bg5.png",
+    "assets/bgfine.png",
+    "assets/bookstore_literature.txt",
+    "assets/bookstore_literature_free.txt",
+    "assets/bookstore_prvip.txt",
+    "assets/bookstore_publish.txt",
+    "assets/bookstore_publish_free.txt",
+    "assets/channel.txt",
+    "assets/channel_cartoon.txt",
+    "assets/channel_female.txt",
+    "assets/channel_male.txt",
+    "assets/channel_publish.txt",
+    "assets/channel_voice.txt",
+    "assets/color.skin",
+    "assets/com.chaozh.iReaderFree.cert.pem",
+    "assets/com.chaozh.iReaderFree15.cert.pem",
+    "assets/com.chaozh.iReaderFree15.store.cert.pem",
+    "assets/com.chaozh.xincao.likan.cert.pem",
+    "assets/com.tencent.open.config.json",
+    "assets/cover1.webp",
+    "assets/cover2.webp",
+    "assets/cover3.webp",
+    "assets/cover4.webp",
+    "assets/cover5.webp",
+    "assets/cover6.webp",
+    "assets/cover7.webp",
+    "assets/cover8.webp",
+    "assets/cover_default.png",
+    "assets/discover.cfg",
+    "assets/dmdata-iciba.xml",
+    "assets/experience_icon.png",
+    "assets/gdt_plugin/gdtadv2.jar",
+    "assets/grs_sdk_global_route_config_opendevicesdk.json",
+    "assets/grs_sdk_global_route_config_opensdkService.json",
+    "assets/grs_sdk_server_config.json",
+    "assets/grs_sp.bks",
+    "assets/guide_club_end",
+    "assets/guide_list_end",
+    "assets/guide_need_fee",
+    "assets/h5_qr_back.png",
+    "assets/hmsincas.bks",
+    "assets/hmsrootcas.bks",
+    "assets/icon.png",
+    "assets/icon_ai_chat_loading.svga",
+    "assets/icon_ai_logo.svga",
+    "assets/icon_ai_logo_night.svga",
+    "assets/icon_serial_book_bottom_left.png",
+    "assets/icon_serial_book_left.png",
+    "assets/icon_serial_book_right.png",
+    "assets/icon_sound_anim.svga",
+    "assets/inner_monitor_config.txt",
+    "assets/ksad_common_encrypt_image.png",
+    "assets/ksad_idc.json",
+    "assets/lbs_icon.png",
+    "assets/libinno",
+    "assets/libsec",
+    "assets/libwbsafeedit",
+    "assets/libwbsafeedit_64",
+    "assets/libwbsafeedit_x86",
+    "assets/libwbsafeedit_x86_64",
+    "assets/loading.json",
+    "assets/logo_top.png",
+    "assets/logo_top_sun.png",
+    "assets/lottie_json/shake_phone.json",
+    "assets/lottie_json/swipe_right.json",
+    "assets/lottie_json/twist_multi_angle.json",
+    "assets/na.czl",
+    "assets/newreward_gdt_close.png",
+    "assets/output.json",
+    "assets/paper.jpg",
+    "assets/pluginweb_bookbrowser.apk",
+    "assets/pluginweb_search.apk",
+    "assets/pluginwebdiff_ad.apk",
+    "assets/pluginwebdiff_bookdetail.apk",
+    "assets/pluginwebdiff_bookshelf.apk",
+    "assets/pluginwebdiff_bookshelfcard.apk",
+    "assets/pluginwebdiff_bookstore.apk",
+    "assets/pluginwebdiff_bookstore2.apk",
+    "assets/pluginwebdiff_bookstore3.apk",
+    "assets/pluginwebdiff_bookstore4.apk",
+    "assets/pluginwebdiff_bookstore5.apk",
+    "assets/pluginwebdiff_common.apk",
+    "assets/pluginwebdiff_config.apk",
+    "assets/pluginwebdiff_group.apk",
+    "assets/pluginwebdiff_mine.apk",
+    "assets/pluginwebdiff_personal.apk",
+    "assets/pluginwebdiff_social.apk",
+    "assets/pluginwebdiff_video.apk",
+    "assets/prefix_audio.mp3",
+    "assets/premessable.txt",
+    "assets/qumeng",
+    "assets/sa_mcc_mnc_mini.json",
+    "assets/share.cfg",
+    "assets/slide_config.xml",
+    "assets/supplierconfig.json",
+    "assets/teenagers.txt",
+    "assets/theme_bg1.xml",
+    "assets/theme_bg2.xml",
+    "assets/theme_bg3.xml",
+    "assets/theme_bg4.xml",
+    "assets/theme_bg5.xml",
+    "assets/theme_bg_huyan.xml",
+    "assets/theme_bg_yejian.xml",
+    "assets/theme_bg_yejian1.xml",
+    "assets/theme_bg_yejian2.xml",
+    "assets/theme_bg_yejian3.xml",
+    "assets/theme_bg_yejian4.xml",
+    "assets/theme_bg_yejian5.xml",
+    "assets/theme_bg_yejian6.xml",
+    "assets/theme_bg_yejian7.xml",
+    "assets/theme_bg_yejian8.xml",
+    "assets/theme_bg_yejian9.xml",
+    "assets/theme_bgfine.xml",
+    "assets/theme_layout_manhua.xml",
+    "assets/theme_layout_pad100.xml",
+    "assets/theme_layout_pad100_chuban.xml",
+    "assets/theme_layout_pad100_qingsuan.xml",
+    "assets/theme_layout_pad100_wangwen_new.xml",
+    "assets/theme_layout_pad70.xml",
+    "assets/theme_layout_pad70_chuban.xml",
+    "assets/theme_layout_pad70_qingsuan.xml",
+    "assets/theme_layout_pad70_wangwen_new.xml",
+    "assets/theme_layout_phone35.xml",
+    "assets/theme_layout_phone35_chuban.xml",
+    "assets/theme_layout_phone35_qingsuan.xml",
+    "assets/theme_layout_phone35_wangwen_new.xml",
+    "assets/theme_pager.xml",
+    "assets/theme_user.xml",
+    "assets/voice_guide",
+    "assets/webkit/android-weberror.png",
+    "assets/webview_monitor_js_file/hybrid-rangers-site-sdk.js",
+    "assets/webview_monitor_js_file/slardar_bridge.js",
+    "assets/wifi/css/stylewf.css",
+    "assets/wifi/download.html",
+    "assets/wifi/i/bg.jpg",
+    "assets/wifi/i/logo.png",
+    "assets/wifi/i/wifi_btn.png",
+    "assets/wifi/i/wifi_btn11.png",
+    "assets/wifi/i/wifi_d_bg.png",
+    "assets/wifi/i/wifi_img.png",
+    "assets/wifi/i/wifi_left.png",
+    "assets/wifi/i/wifi_logo.png",
+    "assets/wifi/i/wifi_right.png",
+    "assets/wifi/i/wifi_tz-on.png",
+    "assets/wifi/i/wifi_tz.png",
+    "assets/wifi/i/wifi_tz0.png",
+    "assets/wifi/index.html",
+    "assets/wifi/js/common.js",
+    "assets/wifi/js/html5_fun.js",
+    "assets/wifi/js/jquery-1.4.2.min.js",
+    "assets/wifi/js/swf_fun.js",
+    "assets/wifi/js/swfupload.js",
+    "assets/wifi/js/swfupload.swf"
+  ],
+  "assets_categories": {
+    "config_data": [
+      "assets/AISDK_ASSET.txt",
+      "assets/bookstore_literature.txt",
+      "assets/bookstore_literature_free.txt",
+      "assets/bookstore_prvip.txt",
+      "assets/bookstore_publish.txt",
+      "assets/bookstore_publish_free.txt",
+      "assets/channel.txt",
+      "assets/channel_cartoon.txt",
+      "assets/channel_female.txt",
+      "assets/channel_male.txt",
+      "assets/channel_publish.txt",
+      "assets/channel_voice.txt",
+      "assets/com.tencent.open.config.json",
+      "assets/discover.cfg",
+      "assets/dmdata-iciba.xml",
+      "assets/grs_sdk_global_route_config_opendevicesdk.json",
+      "assets/grs_sdk_global_route_config_opensdkService.json",
+      "assets/grs_sdk_server_config.json",
+      "assets/inner_monitor_config.txt",
+      "assets/ksad_idc.json",
+      "assets/loading.json",
+      "assets/lottie_json/shake_phone.json",
+      "assets/lottie_json/swipe_right.json",
+      "assets/lottie_json/twist_multi_angle.json",
+      "assets/output.json",
+      "assets/premessable.txt",
+      "assets/sa_mcc_mnc_mini.json",
+      "assets/share.cfg",
+      "assets/slide_config.xml",
+      "assets/supplierconfig.json",
+      "assets/teenagers.txt",
+      "assets/theme_bg1.xml",
+      "assets/theme_bg2.xml",
+      "assets/theme_bg3.xml",
+      "assets/theme_bg4.xml",
+      "assets/theme_bg5.xml",
+      "assets/theme_bg_huyan.xml",
+      "assets/theme_bg_yejian.xml",
+      "assets/theme_bg_yejian1.xml",
+      "assets/theme_bg_yejian2.xml",
+      "assets/theme_bg_yejian3.xml",
+      "assets/theme_bg_yejian4.xml",
+      "assets/theme_bg_yejian5.xml",
+      "assets/theme_bg_yejian6.xml",
+      "assets/theme_bg_yejian7.xml",
+      "assets/theme_bg_yejian8.xml",
+      "assets/theme_bg_yejian9.xml",
+      "assets/theme_bgfine.xml",
+      "assets/theme_layout_manhua.xml",
+      "assets/theme_layout_pad100.xml",
+      "assets/theme_layout_pad100_chuban.xml",
+      "assets/theme_layout_pad100_qingsuan.xml",
+      "assets/theme_layout_pad100_wangwen_new.xml",
+      "assets/theme_layout_pad70.xml",
+      "assets/theme_layout_pad70_chuban.xml",
+      "assets/theme_layout_pad70_qingsuan.xml",
+      "assets/theme_layout_pad70_wangwen_new.xml",
+      "assets/theme_layout_phone35.xml",
+      "assets/theme_layout_phone35_chuban.xml",
+      "assets/theme_layout_phone35_qingsuan.xml",
+      "assets/theme_layout_phone35_wangwen_new.xml",
+      "assets/theme_pager.xml",
+      "assets/theme_user.xml"
+    ],
+    "fonts": [
+      "assets/FZXSSJW.TTF",
+      "assets/FZYouH.ttf",
+      "assets/Noto Serif.ttf",
+      "assets/Number.ttf",
+      "assets/Number_special.ttf"
+    ],
+    "images_anim": [
+      "assets/anim_coolcontent_chapterheader.svga",
+      "assets/anim_read_guide1.svga",
+      "assets/anim_read_guide2.svga",
+      "assets/baozha.svga",
+      "assets/bg1.png",
+      "assets/bg2.png",
+      "assets/bg3.png",
+      "assets/bg5.png",
+      "assets/bgfine.png",
+      "assets/cover1.webp",
+      "assets/cover2.webp",
+      "assets/cover3.webp",
+      "assets/cover4.webp",
+      "assets/cover5.webp",
+      "assets/cover6.webp",
+      "assets/cover7.webp",
+      "assets/cover8.webp",
+      "assets/cover_default.png",
+      "assets/experience_icon.png",
+      "assets/h5_qr_back.png",
+      "assets/icon.png",
+      "assets/icon_ai_chat_loading.svga",
+      "assets/icon_ai_logo.svga",
+      "assets/icon_ai_logo_night.svga",
+      "assets/icon_serial_book_bottom_left.png",
+      "assets/icon_serial_book_left.png",
+      "assets/icon_serial_book_right.png",
+      "assets/icon_sound_anim.svga",
+      "assets/ksad_common_encrypt_image.png",
+      "assets/lbs_icon.png",
+      "assets/logo_top.png",
+      "assets/logo_top_sun.png",
+      "assets/newreward_gdt_close.png",
+      "assets/paper.jpg",
+      "assets/webkit/android-weberror.png",
+      "assets/wifi/i/bg.jpg",
+      "assets/wifi/i/logo.png",
+      "assets/wifi/i/wifi_btn.png",
+      "assets/wifi/i/wifi_btn11.png",
+      "assets/wifi/i/wifi_d_bg.png",
+      "assets/wifi/i/wifi_img.png",
+      "assets/wifi/i/wifi_left.png",
+      "assets/wifi/i/wifi_logo.png",
+      "assets/wifi/i/wifi_right.png",
+      "assets/wifi/i/wifi_tz-on.png",
+      "assets/wifi/i/wifi_tz.png",
+      "assets/wifi/i/wifi_tz0.png"
+    ],
+    "plugins_jars": [
+      "assets/bdxadsdk.jar",
+      "assets/gdt_plugin/gdtadv2.jar",
+      "assets/pluginweb_bookbrowser.apk",
+      "assets/pluginweb_search.apk",
+      "assets/pluginwebdiff_ad.apk",
+      "assets/pluginwebdiff_bookdetail.apk",
+      "assets/pluginwebdiff_bookshelf.apk",
+      "assets/pluginwebdiff_bookshelfcard.apk",
+      "assets/pluginwebdiff_bookstore.apk",
+      "assets/pluginwebdiff_bookstore2.apk",
+      "assets/pluginwebdiff_bookstore3.apk",
+      "assets/pluginwebdiff_bookstore4.apk",
+      "assets/pluginwebdiff_bookstore5.apk",
+      "assets/pluginwebdiff_common.apk",
+      "assets/pluginwebdiff_config.apk",
+      "assets/pluginwebdiff_group.apk",
+      "assets/pluginwebdiff_mine.apk",
+      "assets/pluginwebdiff_personal.apk",
+      "assets/pluginwebdiff_social.apk",
+      "assets/pluginwebdiff_video.apk"
+    ],
+    "themes_skins": [
+      "assets/color.skin",
+      "assets/na.czl"
+    ],
+    "certificates": [
+      "assets/com.chaozh.iReaderFree.cert.pem",
+      "assets/com.chaozh.iReaderFree15.cert.pem",
+      "assets/com.chaozh.iReaderFree15.store.cert.pem",
+      "assets/com.chaozh.xincao.likan.cert.pem",
+      "assets/grs_sp.bks",
+      "assets/hmsincas.bks",
+      "assets/hmsrootcas.bks"
+    ],
+    "other": [
+      "assets/guide_club_end",
+      "assets/guide_list_end",
+      "assets/guide_need_fee",
+      "assets/libinno",
+      "assets/libsec",
+      "assets/libwbsafeedit",
+      "assets/libwbsafeedit_64",
+      "assets/libwbsafeedit_x86",
+      "assets/libwbsafeedit_x86_64",
+      "assets/qumeng",
+      "assets/voice_guide",
+      "assets/wifi/js/swfupload.swf"
+    ],
+    "media": [
+      "assets/prefix_audio.mp3"
+    ],
+    "h5_web": [
+      "assets/webview_monitor_js_file/hybrid-rangers-site-sdk.js",
+      "assets/webview_monitor_js_file/slardar_bridge.js",
+      "assets/wifi/css/stylewf.css",
+      "assets/wifi/download.html",
+      "assets/wifi/index.html",
+      "assets/wifi/js/common.js",
+      "assets/wifi/js/html5_fun.js",
+      "assets/wifi/js/jquery-1.4.2.min.js",
+      "assets/wifi/js/swf_fun.js",
+      "assets/wifi/js/swfupload.js"
+    ]
+  },
+  "libs_list": [
+    "lib/arm64-v8a/libEncryptorP.so",
+    "lib/arm64-v8a/libInno.so",
+    "lib/arm64-v8a/libInnoSecure.so",
+    "lib/arm64-v8a/libJNI_ImageBlur.so",
+    "lib/arm64-v8a/libPglbizssdk_ml.so",
+    "lib/arm64-v8a/libUiControl.so",
+    "lib/arm64-v8a/libZYAccDecoder.so",
+    "lib/arm64-v8a/libalicomphonenumberauthsdk_core.so",
+    "lib/arm64-v8a/libapminsighta.so",
+    "lib/arm64-v8a/libapminsightb.so",
+    "lib/arm64-v8a/libavmdl_lite.so",
+    "lib/arm64-v8a/libdevInfo.so",
+    "lib/arm64-v8a/libhyphenate.so",
+    "lib/arm64-v8a/liblogan.so",
+    "lib/arm64-v8a/libmaparmor.so",
+    "lib/arm64-v8a/libmmkv.so",
+    "lib/arm64-v8a/libmobi.so",
+    "lib/arm64-v8a/libmsaoaidauth.so",
+    "lib/arm64-v8a/libmsaoaidsec.so",
+    "lib/arm64-v8a/libn.so",
+    "lib/arm64-v8a/libnbp.so",
+    "lib/arm64-v8a/libpanglearmor.so",
+    "lib/arm64-v8a/libpangleflipped.so",
+    "lib/arm64-v8a/libpatchMerge.so",
+    "lib/arm64-v8a/libpl_droidsonroids_gif.so",
+    "lib/arm64-v8a/libplt-base.so",
+    "lib/arm64-v8a/libpns-2.13.4-NologOnlineStandardCuumRelease_alijtca_plus.so",
+    "lib/arm64-v8a/libqmcheat.so",
+    "lib/arm64-v8a/libsentry-android.so",
+    "lib/arm64-v8a/libsentry.so",
+    "lib/arm64-v8a/libsgcore.so",
+    "lib/arm64-v8a/libsls_producer.so",
+    "lib/arm64-v8a/libsmsdk.so",
+    "lib/arm64-v8a/libti-monitor.so",
+    "lib/arm64-v8a/libtingReader.so",
+    "lib/arm64-v8a/libtnet-3.1.14.so",
+    "lib/arm64-v8a/libtobEmbedEncrypt.so",
+    "lib/arm64-v8a/libtt_ugen_layout.so",
+    "lib/arm64-v8a/libttmplayer_lite.so",
+    "lib/arm64-v8a/libumeng-spy.so",
+    "lib/arm64-v8a/libvolc_log.so",
+    "lib/arm64-v8a/libweibosdkcore.so",
+    "lib/arm64-v8a/libxcrash.so",
+    "lib/arm64-v8a/libxcrash_dumper.so",
+    "lib/arm64-v8a/libzhangyue_security.so",
+    "lib/arm64-v8a/libzymobi.so",
+    "lib/armeabi/libEncryptorP.so",
+    "lib/armeabi/libInno.so",
+    "lib/armeabi/libInnoSecure.so",
+    "lib/armeabi/libJNI_ImageBlur.so",
+    "lib/armeabi/libUiControl.so",
+    "lib/armeabi/libZYAccDecoder.so",
+    "lib/armeabi/libapminsighta.so",
+    "lib/armeabi/libapminsightb.so",
+    "lib/armeabi/liblogan.so",
+    "lib/armeabi/libmmkv.so",
+    "lib/armeabi/libmobi.so",
+    "lib/armeabi/libn.so",
+    "lib/armeabi/libnbp.so",
+    "lib/armeabi/libpatchMerge.so",
+    "lib/armeabi/libpl_droidsonroids_gif.so",
+    "lib/armeabi/libqmcheat.so",
+    "lib/armeabi/libsgcore.so",
+    "lib/armeabi/libsmsdk.so",
+    "lib/armeabi/libtingReader.so",
+    "lib/armeabi/libtnet-3.1.14.so",
+    "lib/armeabi/libumc-auth.so",
+    "lib/armeabi/libumeng-spy.so",
+    "lib/armeabi/libweibosdkcore.so",
+    "lib/armeabi/libxcrash.so",
+    "lib/armeabi/libxcrash_dumper.so",
+    "lib/armeabi/libzhangyue_security.so",
+    "lib/armeabi/libzymobi.so"
+  ],
+  "note": "加固 APK，流式解析；strings.xml 不可从 arsc 提取"
+}

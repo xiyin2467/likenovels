@@ -1,0 +1,97 @@
+{
+  "_meta": { "code": "tr", "nativeName": "Türkçe", "rtl": false },
+  "common": {
+    "appName": "likenovel",
+    "ok": "Tamam",
+    "cancel": "İptal",
+    "confirm": "Onayla",
+    "save": "Kaydet",
+    "delete": "Sil",
+    "remove": "Kaldır",
+    "edit": "Düzenle",
+    "done": "Bitti",
+    "retry": "Tekrar dene",
+    "selectAll": "Tümünü seç",
+    "seeMore": "Daha fazla",
+    "search": "Ara",
+    "networkError": "Ağ hatası",
+    "noContent": "İçerik bulunamadı.",
+    "loading": "Yükleniyor…"
+  },
+  "nav": {
+    "home": "Ana sayfa",
+    "discover": "Keşfet",
+    "category": "Kategoriler",
+    "library": "Kitaplık",
+    "wallet": "Cüzdan",
+    "me": "Ben"
+  },
+  "onboarding": {
+    "tagline": "Sizi bütün gece uyutmayan hikâyeler",
+    "continueWithGoogle": "Google ile devam et",
+    "continueWithApple": "Apple ile devam et",
+    "continueAsGuest": "Misafir olarak devam et",
+    "agreement": "Devam ederek Koşullarımızı ve Gizlilik Politikamızı kabul etmiş olursunuz"
+  },
+  "guide": {
+    "title": "Ne okumayı seversiniz?",
+    "subtitle": "Akışınızı kişiselleştirmek için birkaç tane seçin",
+    "continueAction": "Devam"
+  },
+  "discover": {
+    "header": "Keşfet",
+    "searchHint": "Kitap, yazar, tema arayın",
+    "sectionTopCharts": "En çok okunanlar",
+    "sectionNewRising": "Yeni ve yükselen",
+    "sectionForYou": "Sizin için"
+  },
+  "library": {
+    "title": "Kitaplık",
+    "tabReading": "Okunuyor",
+    "tabUnlocked": "Kilidi açılanlar",
+    "tabFinished": "Bitenler",
+    "emptyReading": "Henüz bir kitaba başlamadınız.",
+    "continueReading": "Okumaya devam et"
+  },
+  "wallet": {
+    "title": "Cüzdan",
+    "balance": "Bakiye",
+    "coins": "Jeton",
+    "bonus": "Bonus",
+    "recharge": "Yükle",
+    "balanceHistory": "Bakiye geçmişi",
+    "dailyCheckin": "Günlük giriş"
+  },
+  "reader": {
+    "themePaper": "Kâğıt",
+    "themeSepia": "Sepya",
+    "themeDark": "Koyu",
+    "themeBlack": "Siyah",
+    "fontSize": "Yazı boyutu",
+    "nextChapter": "Sonraki bölüm",
+    "autoUnlockNext": "Sonraki bölümün kilidini otomatik aç"
+  },
+  "paywall": {
+    "title": "{chapter}. bölümün kilidini aç",
+    "price": "Fiyat",
+    "balance": "Bakiye",
+    "unlockNow": "Şimdi aç",
+    "goToStore": "Mağazaya git",
+    "unlockSuccess": "Kilit açıldı! İyi okumalar.",
+    "insufficient": "Yetersiz jeton. Devam etmek için yükleme yapın."
+  },
+  "profile": {
+    "title": "Ben",
+    "signIn": "Giriş yap",
+    "copyId": "Kopyala",
+    "guestName": "Misafir_{id}",
+    "menuOrders": "Siparişlerim",
+    "menuPurchased": "Satın alınan bölümler",
+    "menuAutoUnlock": "Otomatik kilit açma listesi",
+    "menuHelp": "Yardım merkezi",
+    "menuAbout": "Hakkımızda",
+    "menuTerms": "Hizmet koşulları",
+    "menuPrivacy": "Gizlilik politikası",
+    "menuSettings": "Ayarlar"
+  }
+}

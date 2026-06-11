@@ -1,0 +1,97 @@
+{
+  "_meta": { "code": "ru", "nativeName": "Русский", "rtl": false },
+  "common": {
+    "appName": "likenovel",
+    "ok": "ОК",
+    "cancel": "Отмена",
+    "confirm": "Подтвердить",
+    "save": "Сохранить",
+    "delete": "Удалить",
+    "remove": "Убрать",
+    "edit": "Изменить",
+    "done": "Готово",
+    "retry": "Повторить",
+    "selectAll": "Выбрать всё",
+    "seeMore": "Ещё",
+    "search": "Поиск",
+    "networkError": "Ошибка сети",
+    "noContent": "Контент недоступен.",
+    "loading": "Загрузка…"
+  },
+  "nav": {
+    "home": "Главная",
+    "discover": "Обзор",
+    "category": "Категории",
+    "library": "Библиотека",
+    "wallet": "Кошелёк",
+    "me": "Я"
+  },
+  "onboarding": {
+    "tagline": "Истории, от которых не уснуть всю ночь",
+    "continueWithGoogle": "Продолжить с Google",
+    "continueWithApple": "Продолжить с Apple",
+    "continueAsGuest": "Продолжить как гость",
+    "agreement": "Продолжая, вы соглашаетесь с Условиями и Политикой конфиденциальности"
+  },
+  "guide": {
+    "title": "Что вы любите читать?",
+    "subtitle": "Выберите несколько, чтобы настроить ленту",
+    "continueAction": "Продолжить"
+  },
+  "discover": {
+    "header": "Обзор",
+    "searchHint": "Ищите книги, авторов, сюжеты",
+    "sectionTopCharts": "Топ чартов",
+    "sectionNewRising": "Новое и популярное",
+    "sectionForYou": "Для вас"
+  },
+  "library": {
+    "title": "Библиотека",
+    "tabReading": "Читаю",
+    "tabUnlocked": "Разблокировано",
+    "tabFinished": "Прочитано",
+    "emptyReading": "Вы ещё не начали ни одной книги.",
+    "continueReading": "Продолжить чтение"
+  },
+  "wallet": {
+    "title": "Кошелёк",
+    "balance": "Баланс",
+    "coins": "Монеты",
+    "bonus": "Бонус",
+    "recharge": "Пополнить",
+    "balanceHistory": "История баланса",
+    "dailyCheckin": "Ежедневная отметка"
+  },
+  "reader": {
+    "themePaper": "Бумага",
+    "themeSepia": "Сепия",
+    "themeDark": "Тёмная",
+    "themeBlack": "Чёрная",
+    "fontSize": "Размер шрифта",
+    "nextChapter": "Следующая глава",
+    "autoUnlockNext": "Автоматически открывать следующую главу"
+  },
+  "paywall": {
+    "title": "Открыть главу {chapter}",
+    "price": "Цена",
+    "balance": "Баланс",
+    "unlockNow": "Открыть сейчас",
+    "goToStore": "В магазин",
+    "unlockSuccess": "Открыто! Приятного чтения.",
+    "insufficient": "Недостаточно монет. Пополните, чтобы продолжить."
+  },
+  "profile": {
+    "title": "Я",
+    "signIn": "Войти",
+    "copyId": "Копировать",
+    "guestName": "Гость_{id}",
+    "menuOrders": "Мои заказы",
+    "menuPurchased": "Купленные главы",
+    "menuAutoUnlock": "Список автооткрытия",
+    "menuHelp": "Центр помощи",
+    "menuAbout": "О нас",
+    "menuTerms": "Условия использования",
+    "menuPrivacy": "Политика конфиденциальности",
+    "menuSettings": "Настройки"
+  }
+}

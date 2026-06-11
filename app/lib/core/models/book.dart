@@ -17,6 +17,9 @@ class Book {
   final String? badge;
   final int? rank;
 
+  /// 非会员单章金币价格（会员全场畅读，不看章价）。
+  final int chapterPrice;
+
   const Book({
     required this.id,
     required this.title,
@@ -31,6 +34,7 @@ class Book {
     required this.blurb,
     this.badge,
     this.rank,
+    this.chapterPrice = 38,
   });
 
   Book copyWith({
@@ -47,6 +51,7 @@ class Book {
     String? blurb,
     String? badge,
     int? rank,
+    int? chapterPrice,
   }) {
     return Book(
       id: id ?? this.id,
@@ -62,6 +67,7 @@ class Book {
       blurb: blurb ?? this.blurb,
       badge: badge ?? this.badge,
       rank: rank ?? this.rank,
+      chapterPrice: chapterPrice ?? this.chapterPrice,
     );
   }
 }
@@ -100,7 +106,7 @@ class RechargePackage {
   });
 }
 
-/// 会员订阅套餐（与金币充值并行的第二套变现体系）。
+/// 会员订阅套餐：订阅是主付费产品，金币仅作为非会员按章出口。
 class MembershipPlan {
   final String id;
   final String name;
@@ -109,7 +115,7 @@ class MembershipPlan {
   final String? originalPrice;
   final String? perMonthNote;
   final String? tag;
-  final int dailyCoins;
+  final String? introOffer;
 
   const MembershipPlan({
     required this.id,
@@ -119,6 +125,6 @@ class MembershipPlan {
     this.originalPrice,
     this.perMonthNote,
     this.tag,
-    required this.dailyCoins,
+    this.introOffer,
   });
 }

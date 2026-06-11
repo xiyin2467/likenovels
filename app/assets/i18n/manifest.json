@@ -1,10 +1,27 @@
 {
+  "version": "1.0.0",
   "fallbackLocale": "en",
   "defaultLocale": "en",
+  "_about": "对齐公司短剧 App（likereels）的语言矩阵，去掉简体中文（中文仅保留繁体）。缺译的 key 自动回退到 en.json，各 locale 可只维护增量键。新增语言：放入 <code>.json 并在 locales 与 AppLocales 中登记。",
   "locales": [
-    { "code": "en", "name": "English", "nativeName": "English", "rtl": false, "complete": true },
-    { "code": "zh-CN", "name": "Chinese (Simplified)", "nativeName": "简体中文", "rtl": false, "complete": false },
-    { "code": "zh-TW", "name": "Chinese (Traditional)", "nativeName": "繁體中文", "rtl": false, "complete": false }
-  ],
-  "_roadmap": "对标公司短剧 App，后续可扩展至：ar, de, es, fil, fr, hi, id, it, ja, ko, ms, nl, pt, ru, th, tr, vi, zh-TW。新增语言：放入 <code>.json 并在 locales 中登记即可，缺失键自动回退到 fallbackLocale。"
+    { "code": "en", "name": "English", "nativeName": "English", "rtl": false },
+    { "code": "zh-TW", "name": "Traditional Chinese", "nativeName": "繁體中文", "rtl": false },
+    { "code": "es", "name": "Spanish", "nativeName": "Español", "rtl": false },
+    { "code": "pt", "name": "Portuguese", "nativeName": "Português", "rtl": false },
+    { "code": "fr", "name": "French", "nativeName": "Français", "rtl": false },
+    { "code": "de", "name": "German", "nativeName": "Deutsch", "rtl": false },
+    { "code": "it", "name": "Italian", "nativeName": "Italiano", "rtl": false },
+    { "code": "nl", "name": "Dutch", "nativeName": "Nederlands", "rtl": false },
+    { "code": "ru", "name": "Russian", "nativeName": "Русский", "rtl": false },
+    { "code": "tr", "name": "Turkish", "nativeName": "Türkçe", "rtl": false },
+    { "code": "ar", "name": "Arabic", "nativeName": "العربية", "rtl": true },
+    { "code": "hi", "name": "Hindi", "nativeName": "हिंदी", "rtl": false },
+    { "code": "id", "name": "Indonesian", "nativeName": "Bahasa Indonesia", "rtl": false },
+    { "code": "ms", "name": "Malay", "nativeName": "Bahasa Melayu", "rtl": false },
+    { "code": "fil", "name": "Filipino", "nativeName": "Filipino", "rtl": false },
+    { "code": "th", "name": "Thai", "nativeName": "ไทย", "rtl": false },
+    { "code": "vi", "name": "Vietnamese", "nativeName": "Tiếng Việt", "rtl": false },
+    { "code": "ja", "name": "Japanese", "nativeName": "日本語", "rtl": false },
+    { "code": "ko", "name": "Korean", "nativeName": "한국어", "rtl": false }
+  ]
 }

@@ -1,0 +1,97 @@
+{
+  "_meta": { "code": "fr", "nativeName": "Français", "rtl": false },
+  "common": {
+    "appName": "likenovel",
+    "ok": "OK",
+    "cancel": "Annuler",
+    "confirm": "Confirmer",
+    "save": "Enregistrer",
+    "delete": "Supprimer",
+    "remove": "Retirer",
+    "edit": "Modifier",
+    "done": "Terminé",
+    "retry": "Réessayer",
+    "selectAll": "Tout sélectionner",
+    "seeMore": "Plus",
+    "search": "Rechercher",
+    "networkError": "Erreur réseau",
+    "noContent": "Aucun contenu disponible.",
+    "loading": "Chargement…"
+  },
+  "nav": {
+    "home": "Accueil",
+    "discover": "Découvrir",
+    "category": "Catégories",
+    "library": "Bibliothèque",
+    "wallet": "Portefeuille",
+    "me": "Moi"
+  },
+  "onboarding": {
+    "tagline": "Des histoires qui vous tiennent éveillée toute la nuit",
+    "continueWithGoogle": "Continuer avec Google",
+    "continueWithApple": "Continuer avec Apple",
+    "continueAsGuest": "Continuer en tant qu'invité",
+    "agreement": "En continuant, vous acceptez nos Conditions et notre Politique de confidentialité"
+  },
+  "guide": {
+    "title": "Qu'aimez-vous lire ?",
+    "subtitle": "Choisissez-en quelques-uns pour personnaliser votre fil",
+    "continueAction": "Continuer"
+  },
+  "discover": {
+    "header": "Découvrir",
+    "searchHint": "Recherchez titres, auteurs, thèmes",
+    "sectionTopCharts": "Top des lectures",
+    "sectionNewRising": "Nouveautés en vogue",
+    "sectionForYou": "Pour vous"
+  },
+  "library": {
+    "title": "Bibliothèque",
+    "tabReading": "En cours",
+    "tabUnlocked": "Débloqués",
+    "tabFinished": "Terminés",
+    "emptyReading": "Vous n'avez encore commencé aucun livre.",
+    "continueReading": "Continuer la lecture"
+  },
+  "wallet": {
+    "title": "Portefeuille",
+    "balance": "Solde",
+    "coins": "Pièces",
+    "bonus": "Bonus",
+    "recharge": "Recharger",
+    "balanceHistory": "Historique du solde",
+    "dailyCheckin": "Connexion quotidienne"
+  },
+  "reader": {
+    "themePaper": "Papier",
+    "themeSepia": "Sépia",
+    "themeDark": "Sombre",
+    "themeBlack": "Noir",
+    "fontSize": "Taille du texte",
+    "nextChapter": "Chapitre suivant",
+    "autoUnlockNext": "Déblocage automatique du chapitre suivant"
+  },
+  "paywall": {
+    "title": "Débloquer le chapitre {chapter}",
+    "price": "Prix",
+    "balance": "Solde",
+    "unlockNow": "Débloquer maintenant",
+    "goToStore": "Aller à la boutique",
+    "unlockSuccess": "Débloqué ! Bonne lecture.",
+    "insufficient": "Pièces insuffisantes. Rechargez pour continuer."
+  },
+  "profile": {
+    "title": "Moi",
+    "signIn": "Se connecter",
+    "copyId": "Copier",
+    "guestName": "Invité_{id}",
+    "menuOrders": "Mes commandes",
+    "menuPurchased": "Chapitres achetés",
+    "menuAutoUnlock": "Liste de déblocage automatique",
+    "menuHelp": "Centre d'aide",
+    "menuAbout": "À propos",
+    "menuTerms": "Conditions d'utilisation",
+    "menuPrivacy": "Politique de confidentialité",
+    "menuSettings": "Paramètres"
+  }
+}

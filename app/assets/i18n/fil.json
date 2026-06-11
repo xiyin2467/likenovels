@@ -1,0 +1,97 @@
+{
+  "_meta": { "code": "fil", "nativeName": "Filipino", "rtl": false },
+  "common": {
+    "appName": "likenovel",
+    "ok": "OK",
+    "cancel": "Kanselahin",
+    "confirm": "Kumpirmahin",
+    "save": "I-save",
+    "delete": "Tanggalin",
+    "remove": "Alisin",
+    "edit": "I-edit",
+    "done": "Tapos na",
+    "retry": "Subukan muli",
+    "selectAll": "Piliin lahat",
+    "seeMore": "Higit pa",
+    "search": "Maghanap",
+    "networkError": "Error sa network",
+    "noContent": "Walang available na nilalaman.",
+    "loading": "Naglo-load…"
+  },
+  "nav": {
+    "home": "Home",
+    "discover": "Tuklasin",
+    "category": "Mga kategorya",
+    "library": "Aklatan",
+    "wallet": "Wallet",
+    "me": "Ako"
+  },
+  "onboarding": {
+    "tagline": "Mga kuwentong magpapapuyat sa'yo buong gabi",
+    "continueWithGoogle": "Magpatuloy gamit ang Google",
+    "continueWithApple": "Magpatuloy gamit ang Apple",
+    "continueAsGuest": "Magpatuloy bilang bisita",
+    "agreement": "Sa pagpapatuloy, sumasang-ayon ka sa aming Mga Tuntunin at Patakaran sa Privacy"
+  },
+  "guide": {
+    "title": "Ano ang gusto mong basahin?",
+    "subtitle": "Pumili ng ilan para i-personalize ang iyong feed",
+    "continueAction": "Magpatuloy"
+  },
+  "discover": {
+    "header": "Tuklasin",
+    "searchHint": "Maghanap ng titulo, awtor, tema",
+    "sectionTopCharts": "Top charts",
+    "sectionNewRising": "Bago at sumisikat",
+    "sectionForYou": "Para sa'yo"
+  },
+  "library": {
+    "title": "Aklatan",
+    "tabReading": "Binabasa",
+    "tabUnlocked": "Na-unlock",
+    "tabFinished": "Tapos na",
+    "emptyReading": "Wala ka pang sinimulang libro.",
+    "continueReading": "Ipagpatuloy ang pagbabasa"
+  },
+  "wallet": {
+    "title": "Wallet",
+    "balance": "Balanse",
+    "coins": "Coins",
+    "bonus": "Bonus",
+    "recharge": "Mag-top up",
+    "balanceHistory": "Kasaysayan ng balanse",
+    "dailyCheckin": "Araw-araw na check-in"
+  },
+  "reader": {
+    "themePaper": "Papel",
+    "themeSepia": "Sepia",
+    "themeDark": "Madilim",
+    "themeBlack": "Itim",
+    "fontSize": "Laki ng font",
+    "nextChapter": "Susunod na kabanata",
+    "autoUnlockNext": "Awtomatikong i-unlock ang susunod"
+  },
+  "paywall": {
+    "title": "I-unlock ang Kabanata {chapter}",
+    "price": "Presyo",
+    "balance": "Balanse",
+    "unlockNow": "I-unlock ngayon",
+    "goToStore": "Pumunta sa store",
+    "unlockSuccess": "Na-unlock! Maligayang pagbabasa.",
+    "insufficient": "Kulang ang coins. Mag-top up para magpatuloy."
+  },
+  "profile": {
+    "title": "Ako",
+    "signIn": "Mag-sign in",
+    "copyId": "Kopyahin",
+    "guestName": "Bisita_{id}",
+    "menuOrders": "Aking mga order",
+    "menuPurchased": "Mga nabiling kabanata",
+    "menuAutoUnlock": "Listahan ng auto-unlock",
+    "menuHelp": "Help center",
+    "menuAbout": "Tungkol sa amin",
+    "menuTerms": "Mga tuntunin ng serbisyo",
+    "menuPrivacy": "Patakaran sa privacy",
+    "menuSettings": "Mga setting"
+  }
+}

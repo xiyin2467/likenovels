@@ -1,5 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:likenovel/core/models/app_user.dart';
+import 'package:likenovel/features/reader/reader_screen.dart'
+    show PageTurnMode;
 
 final coinsProvider = NotifierProvider<CoinsNotifier, int>(CoinsNotifier.new);
 
@@ -37,6 +39,29 @@ class FavoritesNotifier extends Notifier<Set<String>> {
 }
 
 // ---------------------------------------------------------------------------
+// 章节解锁账本：bookId → 已解锁章节号集合（消费解锁后写入，跨页面共享）
+// ---------------------------------------------------------------------------
+final unlockedChaptersProvider =
+    NotifierProvider<UnlockedChaptersNotifier, Map<String, Set<int>>>(
+        UnlockedChaptersNotifier.new);
+
+class UnlockedChaptersNotifier extends Notifier<Map<String, Set<int>>> {
+  @override
+  Map<String, Set<int>> build() => {};
+
+  void unlock(String bookId, int chapterId) {
+    final next = {
+      for (final e in state.entries) e.key: {...e.value},
+    };
+    (next[bookId] ??= <int>{}).add(chapterId);
+    state = next;
+  }
+
+  bool isUnlocked(String bookId, int chapterId) =>
+      state[bookId]?.contains(chapterId) ?? false;
+}
+
+// ---------------------------------------------------------------------------
 // 阅读偏好：用户在引导页选择的题材/标签，用于个性化排序
 // ---------------------------------------------------------------------------
 final preferencesProvider =
@@ -47,6 +72,20 @@ class PreferencesNotifier extends Notifier<Set<String>> {
   Set<String> build() => <String>{};
 
   void setAll(Set<String> tags) => state = {...tags};
+}
+
+// ---------------------------------------------------------------------------
+// 翻页模式：用户选择一次后全局记住，之后进入阅读器默认沿用
+// ---------------------------------------------------------------------------
+final pageTurnModeProvider =
+    NotifierProvider<PageTurnModeNotifier, PageTurnMode>(
+        PageTurnModeNotifier.new);
+
+class PageTurnModeNotifier extends Notifier<PageTurnMode> {
+  @override
+  PageTurnMode build() => PageTurnMode.scroll;
+
+  void set(PageTurnMode mode) => state = mode;
 }
 
 // ---------------------------------------------------------------------------

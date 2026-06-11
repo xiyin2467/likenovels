@@ -11,6 +11,7 @@ import { GENRE_LABELS, STATUS_LABELS } from '../constants.js';
 const emptyForm = {
   title: '', author: '', genre: 'werewolf', status: 'ongoing',
   rating: 4.5, reads: '0', chapters: 0, tropes: '', blurb: '', badge: '', rank: '',
+  coinPrice: 38, freeChapters: 5,
 };
 
 export default function Books() {
@@ -45,13 +46,23 @@ export default function Books() {
     setModal({
       mode: 'edit',
       id: book.id,
-      form: { ...book, tropes: (book.tropes || []).join(', '), badge: book.badge || '', rank: book.rank ?? '' },
+      form: {
+        ...book,
+        tropes: (book.tropes || []).join(', '),
+        badge: book.badge || '',
+        rank: book.rank ?? '',
+        coinPrice: book.coinPrice ?? 38,
+        freeChapters: book.freeChapters ?? 5,
+      },
     });
   }
 
   async function save() {
     const f = modal.form;
     if (!f.title || !f.author) return toast.error('标题和作者必填');
+    if (!(Number(f.coinPrice) > 0)) {
+      return toast.error('单章解锁金币必须大于 0');
+    }
     setSaving(true);
     try {
       const payload = {
@@ -61,6 +72,8 @@ export default function Books() {
         rank: f.rank === '' ? null : Number(f.rank),
         badge: f.badge || null,
         tropes: f.tropes.split(',').map((s) => s.trim()).filter(Boolean),
+        coinPrice: Number(f.coinPrice),
+        freeChapters: Math.max(0, Number(f.freeChapters) || 0),
       };
       if (modal.mode === 'create') {
         await api.createBook(payload);
@@ -138,6 +151,7 @@ export default function Books() {
                 <th className="px-5 py-3 font-semibold">书名 / 作者</th>
                 <th className="px-5 py-3 font-semibold">题材</th>
                 <th className="px-5 py-3 font-semibold">状态</th>
+                <th className="px-5 py-3 font-semibold">付费方式</th>
                 <th className="px-5 py-3 font-semibold">章节</th>
                 <th className="px-5 py-3 font-semibold">评分</th>
                 <th className="px-5 py-3 font-semibold">阅读量</th>
@@ -159,6 +173,12 @@ export default function Books() {
                     <Badge tone={b.status === 'complete' ? 'primary' : 'neutral'}>
                       {STATUS_LABELS[b.status]}
                     </Badge>
+                  </td>
+                  <td className="px-5 py-3">
+                    <Badge tone="primary">VIP 全书解锁 / 非会员 {b.coinPrice} 币·章</Badge>
+                    <div className="mt-1 text-xs text-faint">
+                      免费前 {b.freeChapters ?? 0} 章 · 前台按钮 Pay {b.coinPrice} coins
+                    </div>
                   </td>
                   <td className="px-5 py-3 text-muted">{b.chapters}</td>
                   <td className="px-5 py-3 font-semibold text-ink">★ {b.rating}</td>
@@ -230,6 +250,20 @@ export default function Books() {
               onChange={(e) => setModal({ ...modal, form: { ...modal.form, badge: e.target.value } })} />
             <Input label="标签 tropes (逗号分隔)" value={modal.form.tropes}
               onChange={(e) => setModal({ ...modal, form: { ...modal.form, tropes: e.target.value } })} />
+            {/* 付费配置：会员全场畅读，金币仅用于非会员按章购买。 */}
+            <div className="col-span-2 rounded-[13px] border border-line bg-surface-2/60 p-4">
+              <div className="mb-3 text-xs font-semibold uppercase tracking-wide text-faint">付费配置</div>
+              <div className="grid grid-cols-2 gap-4">
+                <Input label="单章解锁金币" type="number" min="1" value={modal.form.coinPrice}
+                  onChange={(e) => setModal({ ...modal, form: { ...modal.form, coinPrice: e.target.value } })} />
+                <Input label="免费章节数" type="number" min="0" value={modal.form.freeChapters}
+                  onChange={(e) => setModal({ ...modal, form: { ...modal.form, freeChapters: e.target.value } })} />
+              </div>
+              <p className="mt-2 text-xs text-muted">
+                前台规则：VIP 用户触发解锁时提示 "You're already VIP. Full book unlocked."，后续章节直接阅读并显示 VIP 小标。
+                非会员余额足够时显示 "Pay {modal.form.coinPrice} coins"，余额不足时显示 "Top up to unlock" 并进入充值页。
+              </p>
+            </div>
             <div className="col-span-2">
               <Textarea label="简介" rows={3} value={modal.form.blurb}
                 onChange={(e) => setModal({ ...modal, form: { ...modal.form, blurb: e.target.value } })} />

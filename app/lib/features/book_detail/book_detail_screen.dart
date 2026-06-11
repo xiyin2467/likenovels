@@ -178,6 +178,14 @@ class _BookDetailScreenState extends ConsumerState<BookDetailScreen> {
         _StatPill(label: '${book.reads} reads'),
         _StatPill(label: '${book.chapters} ch'),
         _StatusPill(status: book.status),
+        _UnlockPill(
+          icon: Icons.workspace_premium_rounded,
+          label: 'VIP unlimited',
+        ),
+        _UnlockPill(
+          icon: Icons.monetization_on_rounded,
+          label: '${book.chapterPrice}/ch',
+        ),
       ],
     );
   }
@@ -442,11 +450,48 @@ class _StatusPill extends StatelessWidget {
   }
 }
 
+/// 付费方式徽标：会员全场畅读或非会员单章价。
+class _UnlockPill extends StatelessWidget {
+  final IconData icon;
+  final String label;
+
+  const _UnlockPill({required this.icon, required this.label});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+      decoration: BoxDecoration(
+        color: ElTheme.goldSoft,
+        borderRadius: BorderRadius.circular(99),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(icon, size: 14, color: ElTheme.gold),
+          const SizedBox(width: 4),
+          Text(
+            label,
+            style: AppFont.inter(
+              fontSize: 12,
+              fontWeight: FontWeight.w600,
+              color: ElTheme.gold,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
 class _ChapterRow extends StatelessWidget {
   final Chapter chapter;
   final VoidCallback onTap;
 
-  const _ChapterRow({required this.chapter, required this.onTap});
+  const _ChapterRow({
+    required this.chapter,
+    required this.onTap,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -501,7 +546,7 @@ class _ChapterRow extends StatelessWidget {
               Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Icon(
+                  const Icon(
                     Icons.monetization_on_rounded,
                     size: 14,
                     color: ElTheme.gold,

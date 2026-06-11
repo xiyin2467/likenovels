@@ -1,0 +1,97 @@
+{
+  "_meta": { "code": "ko", "nativeName": "한국어", "rtl": false },
+  "common": {
+    "appName": "likenovel",
+    "ok": "확인",
+    "cancel": "취소",
+    "confirm": "확인",
+    "save": "저장",
+    "delete": "삭제",
+    "remove": "제거",
+    "edit": "편집",
+    "done": "완료",
+    "retry": "다시 시도",
+    "selectAll": "전체 선택",
+    "seeMore": "더 보기",
+    "search": "검색",
+    "networkError": "네트워크 오류",
+    "noContent": "콘텐츠가 없습니다.",
+    "loading": "로딩 중…"
+  },
+  "nav": {
+    "home": "홈",
+    "discover": "발견",
+    "category": "카테고리",
+    "library": "서재",
+    "wallet": "지갑",
+    "me": "나"
+  },
+  "onboarding": {
+    "tagline": "밤새 읽게 되는 이야기들",
+    "continueWithGoogle": "Google로 계속하기",
+    "continueWithApple": "Apple로 계속하기",
+    "continueAsGuest": "게스트로 계속하기",
+    "agreement": "계속하면 이용약관 및 개인정보 처리방침에 동의하는 것으로 간주됩니다"
+  },
+  "guide": {
+    "title": "어떤 이야기를 좋아하세요?",
+    "subtitle": "몇 가지를 선택해 피드를 맞춤 설정하세요",
+    "continueAction": "계속"
+  },
+  "discover": {
+    "header": "발견",
+    "searchHint": "제목, 작가, 테마 검색",
+    "sectionTopCharts": "인기 차트",
+    "sectionNewRising": "신작 & 급상승",
+    "sectionForYou": "맞춤 추천"
+  },
+  "library": {
+    "title": "서재",
+    "tabReading": "읽는 중",
+    "tabUnlocked": "잠금 해제됨",
+    "tabFinished": "완독",
+    "emptyReading": "아직 시작한 책이 없습니다.",
+    "continueReading": "이어서 읽기"
+  },
+  "wallet": {
+    "title": "지갑",
+    "balance": "잔액",
+    "coins": "코인",
+    "bonus": "보너스",
+    "recharge": "충전",
+    "balanceHistory": "잔액 내역",
+    "dailyCheckin": "매일 출석 체크"
+  },
+  "reader": {
+    "themePaper": "페이퍼",
+    "themeSepia": "세피아",
+    "themeDark": "다크",
+    "themeBlack": "블랙",
+    "fontSize": "글자 크기",
+    "nextChapter": "다음 화",
+    "autoUnlockNext": "다음 화 자동 잠금 해제"
+  },
+  "paywall": {
+    "title": "{chapter}화 잠금 해제",
+    "price": "가격",
+    "balance": "잔액",
+    "unlockNow": "지금 잠금 해제",
+    "goToStore": "스토어로 이동",
+    "unlockSuccess": "잠금 해제 완료! 즐거운 독서 되세요.",
+    "insufficient": "코인이 부족합니다. 충전 후 계속하세요."
+  },
+  "profile": {
+    "title": "나",
+    "signIn": "로그인",
+    "copyId": "복사",
+    "guestName": "게스트_{id}",
+    "menuOrders": "내 주문",
+    "menuPurchased": "구매한 화",
+    "menuAutoUnlock": "자동 잠금 해제 목록",
+    "menuHelp": "고객 센터",
+    "menuAbout": "회사 소개",
+    "menuTerms": "서비스 약관",
+    "menuPrivacy": "개인정보 처리방침",
+    "menuSettings": "설정"
+  }
+}

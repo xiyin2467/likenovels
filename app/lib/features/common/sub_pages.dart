@@ -3,9 +3,13 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:likenovel/app/fonts.dart';
 
 import 'package:likenovel/app/theme.dart';
+import 'package:likenovel/app/providers.dart';
+import 'package:likenovel/core/i18n/app_localizations.dart';
 import 'package:likenovel/core/i18n/locale_controller.dart';
+import 'package:likenovel/shared/widgets/toast_overlay.dart';
 import 'package:likenovel/core/models/book.dart';
 import 'package:likenovel/core/mock/mock_data.dart';
+import 'package:likenovel/features/common/account_pages.dart';
 import 'package:likenovel/shared/widgets/book_cover.dart';
 
 // ---------------------------------------------------------------------------
@@ -192,6 +196,9 @@ class SubPage extends StatelessWidget {
   final VoidCallback onBack;
   final void Function(Book book)? onBook;
   final VoidCallback? onTopUp;
+
+  /// 跳转到其他子页面（如设置 → 通知）。
+  final void Function(String key)? onNav;
   final int coins;
 
   const SubPage({
@@ -200,6 +207,7 @@ class SubPage extends StatelessWidget {
     required this.onBack,
     this.onBook,
     this.onTopUp,
+    this.onNav,
     this.coins = 1240,
   });
 
@@ -207,11 +215,11 @@ class SubPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return switch (pageKey) {
       'transactions' => TransactionsPage(onBack: onBack),
-      'checkin' => DailyCheckinPage(onBack: onBack),
+      'checkin' || 'daily-checkin' => DailyCheckinPage(onBack: onBack),
       'messages' => MessagesPage(onBack: onBack),
       'settings' => SettingsPage(
           onBack: onBack,
-          onNav: (key) {},
+          onNav: (key) => onNav?.call(key),
         ),
       'notifications' => NotificationsPage(onBack: onBack),
       'language' => LanguagePage(onBack: onBack),
@@ -220,8 +228,16 @@ class SubPage extends StatelessWidget {
       'top-charts' => TopChartsPage(onBack: onBack, onBook: onBook),
       'new-rising' => TopChartsPage(onBack: onBack, onBook: onBook, reversed: true),
       'for-you' => TopChartsPage(onBack: onBack, onBook: onBook),
-      'push' || 'privacy' || 'purchase_history' =>
-        GenericListPage(onBack: onBack, pageKey: pageKey),
+      'edit_profile' => EditProfilePage(onBack: onBack),
+      'push' => PushManagementPage(onBack: onBack),
+      'privacy' => PrivacyPage(
+          onBack: onBack,
+          onDeleteAccount: () => onNav?.call('delete_account'),
+        ),
+      'purchase_history' => PurchaseHistoryPage(onBack: onBack),
+      'reading_history' => ReadingHistoryPage(onBack: onBack, onBook: onBook),
+      'help' => HelpCenterPage(onBack: onBack),
+      'about' => AboutPage(onBack: onBack),
       _ => GenericListPage(onBack: onBack, pageKey: pageKey),
     };
   }
@@ -418,16 +434,16 @@ class TransactionsPage extends StatelessWidget {
 // DailyCheckinPage
 // ---------------------------------------------------------------------------
 
-class DailyCheckinPage extends StatefulWidget {
+class DailyCheckinPage extends ConsumerStatefulWidget {
   final VoidCallback onBack;
 
   const DailyCheckinPage({super.key, required this.onBack});
 
   @override
-  State<DailyCheckinPage> createState() => _DailyCheckinPageState();
+  ConsumerState<DailyCheckinPage> createState() => _DailyCheckinPageState();
 }
 
-class _DailyCheckinPageState extends State<DailyCheckinPage> {
+class _DailyCheckinPageState extends ConsumerState<DailyCheckinPage> {
   int _checked = 3;
 
   static const _days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
@@ -435,7 +451,11 @@ class _DailyCheckinPageState extends State<DailyCheckinPage> {
 
   void _checkin() {
     if (_checked < 7) {
+      final reward = _rewards[_checked];
       setState(() => _checked++);
+      // 签到奖励入账（数据闭环：签到 → 金币余额）
+      ref.read(coinsProvider.notifier).add(reward);
+      ToastOverlay.show(context, '+$reward coins added to your wallet');
     }
   }
 
@@ -910,13 +930,6 @@ class LanguagePage extends ConsumerWidget {
 
   const LanguagePage({super.key, required this.onBack});
 
-  /// (label, locale)。locale 为 null 表示跟随系统。
-  static const _languages = <(String, Locale)>[
-    ('English', Locale('en')),
-    ('简体中文', Locale('zh', 'CN')),
-    ('繁體中文', Locale('zh', 'TW')),
-  ];
-
   bool _matches(Locale? current, Locale target) {
     if (current == null) return false;
     return current.languageCode == target.languageCode &&
@@ -926,13 +939,17 @@ class LanguagePage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final current = ref.watch(localeProvider);
+    // 语言清单由 AppLocales 统一驱动，与 assets/i18n/manifest.json 保持一致
+    final languages = AppLocales.all;
 
     return SubShell(
       eyebrow: 'Settings',
       title: 'Language',
       onBack: onBack,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: ElSpacing.s20),
+      child: SingleChildScrollView(
+        padding: const EdgeInsets.fromLTRB(
+          ElSpacing.s20, 0, ElSpacing.s20, ElSpacing.s24,
+        ),
         child: Container(
           decoration: BoxDecoration(
             color: ElTheme.surface,
@@ -942,13 +959,14 @@ class LanguagePage extends ConsumerWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              for (int i = 0; i < _languages.length; i++) ...[
+              for (int i = 0; i < languages.length; i++) ...[
                 Builder(builder: (context) {
-                  final selected = _matches(current, _languages[i].$2);
+                  final info = languages[i];
+                  final selected = _matches(current, info.locale);
                   return GestureDetector(
                     onTap: () => ref
                         .read(localeProvider.notifier)
-                        .setLocale(_languages[i].$2),
+                        .setLocale(info.locale),
                     behavior: HitTestBehavior.opaque,
                     child: Padding(
                       padding: const EdgeInsets.symmetric(
@@ -959,7 +977,7 @@ class LanguagePage extends ConsumerWidget {
                         children: [
                           Expanded(
                             child: Text(
-                              _languages[i].$1,
+                              info.nativeName,
                               style: AppFont.inter(
                                 fontSize: 14,
                                 fontWeight: selected
@@ -993,7 +1011,7 @@ class LanguagePage extends ConsumerWidget {
                     ),
                   );
                 }),
-                if (i < _languages.length - 1)
+                if (i < languages.length - 1)
                   Divider(
                     height: 0.5,
                     thickness: 0.5,

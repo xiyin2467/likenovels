@@ -1,0 +1,97 @@
+{
+  "_meta": { "code": "id", "nativeName": "Bahasa Indonesia", "rtl": false },
+  "common": {
+    "appName": "likenovel",
+    "ok": "OK",
+    "cancel": "Batal",
+    "confirm": "Konfirmasi",
+    "save": "Simpan",
+    "delete": "Hapus",
+    "remove": "Buang",
+    "edit": "Edit",
+    "done": "Selesai",
+    "retry": "Coba lagi",
+    "selectAll": "Pilih semua",
+    "seeMore": "Lainnya",
+    "search": "Cari",
+    "networkError": "Kesalahan jaringan",
+    "noContent": "Tidak ada konten tersedia.",
+    "loading": "Memuat…"
+  },
+  "nav": {
+    "home": "Beranda",
+    "discover": "Jelajahi",
+    "category": "Kategori",
+    "library": "Perpustakaan",
+    "wallet": "Dompet",
+    "me": "Saya"
+  },
+  "onboarding": {
+    "tagline": "Cerita yang membuatmu terjaga semalaman",
+    "continueWithGoogle": "Lanjutkan dengan Google",
+    "continueWithApple": "Lanjutkan dengan Apple",
+    "continueAsGuest": "Lanjutkan sebagai tamu",
+    "agreement": "Dengan melanjutkan, kamu menyetujui Ketentuan dan Kebijakan Privasi kami"
+  },
+  "guide": {
+    "title": "Apa yang kamu suka baca?",
+    "subtitle": "Pilih beberapa untuk mempersonalisasi feed-mu",
+    "continueAction": "Lanjutkan"
+  },
+  "discover": {
+    "header": "Jelajahi",
+    "searchHint": "Cari judul, penulis, tema",
+    "sectionTopCharts": "Tangga teratas",
+    "sectionNewRising": "Baru & naik daun",
+    "sectionForYou": "Untukmu"
+  },
+  "library": {
+    "title": "Perpustakaan",
+    "tabReading": "Sedang dibaca",
+    "tabUnlocked": "Terbuka",
+    "tabFinished": "Selesai",
+    "emptyReading": "Kamu belum memulai buku apa pun.",
+    "continueReading": "Lanjutkan membaca"
+  },
+  "wallet": {
+    "title": "Dompet",
+    "balance": "Saldo",
+    "coins": "Koin",
+    "bonus": "Bonus",
+    "recharge": "Isi ulang",
+    "balanceHistory": "Riwayat saldo",
+    "dailyCheckin": "Check-in harian"
+  },
+  "reader": {
+    "themePaper": "Kertas",
+    "themeSepia": "Sepia",
+    "themeDark": "Gelap",
+    "themeBlack": "Hitam",
+    "fontSize": "Ukuran huruf",
+    "nextChapter": "Bab berikutnya",
+    "autoUnlockNext": "Buka bab berikutnya otomatis"
+  },
+  "paywall": {
+    "title": "Buka Bab {chapter}",
+    "price": "Harga",
+    "balance": "Saldo",
+    "unlockNow": "Buka sekarang",
+    "goToStore": "Ke toko",
+    "unlockSuccess": "Terbuka! Selamat membaca.",
+    "insufficient": "Koin tidak cukup. Isi ulang untuk melanjutkan."
+  },
+  "profile": {
+    "title": "Saya",
+    "signIn": "Masuk",
+    "copyId": "Salin",
+    "guestName": "Tamu_{id}",
+    "menuOrders": "Pesanan saya",
+    "menuPurchased": "Bab yang dibeli",
+    "menuAutoUnlock": "Daftar buka otomatis",
+    "menuHelp": "Pusat bantuan",
+    "menuAbout": "Tentang kami",
+    "menuTerms": "Ketentuan layanan",
+    "menuPrivacy": "Kebijakan privasi",
+    "menuSettings": "Pengaturan"
+  }
+}

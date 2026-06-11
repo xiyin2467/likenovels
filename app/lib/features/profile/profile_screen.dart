@@ -7,6 +7,7 @@ import 'package:likenovel/app/providers.dart';
 class ProfileScreen extends StatelessWidget {
   final int coins;
   final MembershipState? membership;
+  final String languageName;
   final Function(String key) onNav;
   final VoidCallback onSettings;
 
@@ -14,6 +15,7 @@ class ProfileScreen extends StatelessWidget {
     super.key,
     required this.coins,
     required this.membership,
+    this.languageName = 'English',
     required this.onNav,
     required this.onSettings,
   });
@@ -372,74 +374,135 @@ class ProfileScreen extends StatelessWidget {
   }
 
   Widget _buildMenuList() {
-    final items = <_MenuItem>[
-      _MenuItem(
-        icon: Icons.account_balance_wallet_outlined,
-        label: 'Wallet & purchases',
-        value: '1,240',
-        key: 'wallet',
+    final sections = <(String, List<_MenuItem>)>[
+      (
+        'Wallet & orders',
+        [
+          _MenuItem(
+            icon: Icons.account_balance_wallet_outlined,
+            label: 'Wallet',
+            value: '$coins coins',
+            key: 'wallet',
+          ),
+          const _MenuItem(
+            icon: Icons.receipt_long_outlined,
+            label: 'Transactions',
+            key: 'transactions',
+          ),
+          const _MenuItem(
+            icon: Icons.shopping_bag_outlined,
+            label: 'Purchase history',
+            key: 'purchase_history',
+          ),
+        ],
       ),
-      _MenuItem(
-        icon: Icons.lock_outline_rounded,
-        label: 'Transactions',
-        key: 'transactions',
+      (
+        'Reading',
+        [
+          const _MenuItem(
+            icon: Icons.history_rounded,
+            label: 'Reading history',
+            key: 'reading_history',
+          ),
+          const _MenuItem(
+            icon: Icons.notifications_outlined,
+            label: 'Messages',
+            badge: '3',
+            key: 'messages',
+          ),
+        ],
       ),
-      _MenuItem(
-        icon: Icons.notifications_outlined,
-        label: 'Messages',
-        badge: '3',
-        key: 'messages',
+      (
+        'Preferences',
+        [
+          const _MenuItem(
+            icon: Icons.tune_rounded,
+            label: 'Notifications',
+            value: 'On',
+            key: 'notifications',
+          ),
+          _MenuItem(
+            icon: Icons.language_rounded,
+            label: 'Language',
+            value: languageName,
+            key: 'language',
+          ),
+          const _MenuItem(
+            icon: Icons.shield_outlined,
+            label: 'Push management',
+            key: 'push',
+          ),
+        ],
       ),
-      _MenuItem(
-        icon: Icons.tune_rounded,
-        label: 'Notifications',
-        value: 'On',
-        key: 'notifications',
-      ),
-      _MenuItem(
-        icon: Icons.language_rounded,
-        label: 'Language',
-        value: 'English',
-        key: 'language',
-      ),
-      _MenuItem(
-        icon: Icons.shield_outlined,
-        label: 'Push management',
-        key: 'push',
-      ),
-      _MenuItem(
-        icon: Icons.lock_outline_rounded,
-        label: 'Privacy & data',
-        key: 'privacy',
-      ),
-      _MenuItem(
-        icon: Icons.delete_outline_rounded,
-        label: 'Delete account',
-        key: 'delete_account',
-        isDanger: true,
+      (
+        'Support',
+        [
+          const _MenuItem(
+            icon: Icons.help_outline_rounded,
+            label: 'Help center',
+            key: 'help',
+          ),
+          const _MenuItem(
+            icon: Icons.lock_outline_rounded,
+            label: 'Privacy & data',
+            key: 'privacy',
+          ),
+          const _MenuItem(
+            icon: Icons.info_outline_rounded,
+            label: 'About',
+            value: 'v0.1.0',
+            key: 'about',
+          ),
+          const _MenuItem(
+            icon: Icons.delete_outline_rounded,
+            label: 'Delete account',
+            key: 'delete_account',
+            isDanger: true,
+          ),
+        ],
       ),
     ];
 
-    return Container(
-      decoration: BoxDecoration(
-        color: ElTheme.surface,
-        borderRadius: ElRadius.cardR,
-        border: Border.all(color: ElTheme.line, width: 0.5),
-      ),
-      child: Column(
-        children: [
-          for (int i = 0; i < items.length; i++) ...[
-            _buildMenuRow(items[i]),
-            if (i < items.length - 1)
-              Divider(
-                height: 0.5,
-                thickness: 0.5,
-                color: ElTheme.line,
-                indent: 56,
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        for (final (label, items) in sections) ...[
+          Padding(
+            padding: const EdgeInsets.fromLTRB(4, 0, 0, ElSpacing.s8),
+            child: Text(
+              label.toUpperCase(),
+              style: AppFont.inter(
+                fontSize: 11,
+                fontWeight: FontWeight.w700,
+                letterSpacing: 0.8,
+                color: ElTheme.faint,
               ),
-          ],
+            ),
+          ),
+          Container(
+            decoration: BoxDecoration(
+              color: ElTheme.surface,
+              borderRadius: ElRadius.cardR,
+              border: Border.all(color: ElTheme.line, width: 0.5),
+            ),
+            child: Column(
+              children: [
+                for (int i = 0; i < items.length; i++) ...[
+                  _buildMenuRow(items[i]),
+                  if (i < items.length - 1)
+                    const Divider(
+                      height: 0.5,
+                      thickness: 0.5,
+                      color: ElTheme.line,
+                      indent: 56,
+                    ),
+                ],
+              ],
+            ),
+          ),
+          const SizedBox(height: ElSpacing.s16),
         ],
-      ),
+      ],
     );
   }
 

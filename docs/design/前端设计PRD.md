@@ -40,7 +40,7 @@
 │   └── 收藏确认
 ├── Reader（阅读器）
 │   ├── 阅读设置 Sheet
-│   └── 付费墙 Sheet（金币解锁 / 看广告 / 等待）
+│   └── 付费墙 Sheet（会员主 CTA / 金币折叠入口）
 ├── Library（书架，Tab3）
 │   ├── 正在读 / 已解锁 / 已读完
 │   └── 同步状态
@@ -212,12 +212,13 @@
 
 **标题**："Unlock Chapter 12" + 副标题
 
-**3 个选项卡片**：
-1. **金币解锁**（主推，高亮边）：coin 图标 + "Unlock with 38 coins" + 余额提示
-2. **看广告**：play 图标 + "Watch a short ad" + "About 30 seconds, free"
-3. **等待解锁**：clock 图标 + "Wait to unlock" + 倒计时 "Free in 03:58:21"
+**选项结构**：
+1. **会员主 CTA**（金色卡片）：crown 图标 + "Read free with VIP" + "Read everything. No limits. First month $5.99"
+2. **Other ways to continue**（弱文字入口）：点击展开后才显示金币入口；余额足够时显示 "Pay X coins" 并直接支付解锁，余额不足时显示 "Top up to unlock"
 
-**底部**：文字链接 "Need more coins? Top up" → 唤起充值 Sheet
+**余额不足流程**：点击 "Top up to unlock" 后先给出英文提示 "Not enough coins"，再唤起带章节上下文的 Recharge Sheet。
+
+**VIP 已订阅状态**：如果用户已是 VIP，触发解锁时不进入支付墙，展示英文提示 "You're already VIP. Full book unlocked."；后续章节按免费章节一样直接翻页，下一章按钮中显示小型 "VIP" 标识。
 
 ---
 
@@ -237,7 +238,7 @@
 
 ### 3.8 Wallet（钱包，从「我的」push 进入）
 
-> 自 v0.3 起钱包不在底部 Tab，由「我的」进入，顶部带返回按钮。页面承载**两套并行的变现体系**：金币充值（消耗型）与会员订阅（订阅型）。
+> 自 v0.3 起钱包不在底部 Tab，由「我的」进入，顶部带返回按钮。页面承载**订阅优先的变现体系**：会员订阅（订阅型）为主，金币充值（消耗型）为非会员按章出口。
 
 **顶栏**：返回按钮 + eyebrow "Wallet" + 标题 "Coins & rewards"
 
@@ -248,8 +249,8 @@
 - CTA 按钮 "Top up coins" → 唤起 **Recharge Sheet**（金币充值包不再平铺在钱包页，收进 Sheet，更隐蔽）
 
 **VIP Membership 卡片**（第二套变现，置于显眼位置）：
-- 金色高光卡片：标题 "VIP Membership" + 权益摘要（Unlimited stories · Ad-free · Daily coins）
-- CTA "View plans · from $2.99" → 唤起 **Membership Sheet**
+- 金色高光卡片：标题 "VIP Membership" + 权益摘要（Unlimited stories · Ad-free · Offline books · Badge）
+- CTA "View plans · from $4.99" → 唤起 **Membership Sheet**
 
 **奖励入口网格**（2 格）：
 1. Daily check-in → +20 coins
@@ -287,45 +288,49 @@
 
 **标题**："Top up coins" + "Secure checkout via Google Play"
 
+**从付费墙进入时的章节上下文**：
+- 标题区副文案改为 "Choose a coin pack to continue reading"
+- 信息卡展示 "Unlock Chapter N"、本章金币价格、书名与当前差额
+- 权益说明：One-time chapter unlock / Keep this chapter after purchase / Coins never auto-renew
+
 **套餐列表**：
 
 | 金币 | 赠送 | 价格 | 标签 |
 |------|------|------|------|
-| 300 coins | First-time price | $0.99 | Starter |
-| 600 coins | +60 bonus | $4.99 | — |
-| 1,400 coins | +240 bonus | $9.99 | Best value（高亮） |
-| 3,200 coins | +720 bonus | $19.99 | — |
+| 100 coins | 100 bonus | $0.99 | Double coins |
+| 500 coins | +25 bonus | $4.99 | — |
+| 1,000 coins | +80 bonus | $9.99 | Membership alternative |
+| 2,000 coins | +240 bonus | $19.99 | — |
 
 **操作**：选中套餐 → Pay with Google Play 按钮  
 **底部小字**：Prices localized by region. Bonus coins are non-refundable.
 
-> 入口：金币 pill / 钱包页 "Top up coins" / Paywall 底部 "Need more coins?"。金币是**消耗型**内购（Google Play 一次性商品）。
+> 入口：金币 pill / 钱包页 "Top up coins" / Paywall 折叠后的金币解锁入口或 "Need more coins?"。金币是**消耗型**内购（Google Play 一次性商品）。
 
 ---
 
 ### 3.10b Membership Sheet（会员订阅弹窗，全局可唤起）
 
-**标题**：奖杯图标 + "Become a VIP member" + "Read more, pay less"
+**标题**：奖杯图标 + "Become a VIP member" + "Read everything. No limits."
 
 **权益清单**（check 列表）：
-- Unlock VIP-tagged stories for free
+- Read everything. No limits.
 - Ad-free reading experience
-- Daily bonus coins, auto-credited
-- Early access to new chapters
+- Download full books offline
 - Exclusive member badge
 
 **套餐选择**（3 列卡片）：
 
-| 套餐 | 价格 | 标签 | 每日赠币 |
-|------|------|------|----------|
-| Weekly | $2.99 / week | — | +30 |
-| Monthly | $9.99 / month | Most popular（高亮） | +50 |
-| Yearly | $79.99 / year | Best value | +80 |
+| 套餐 | 价格 | 标签 | 说明 |
+|------|------|------|------|
+| Weekly | $4.99 / week | — | 试用型入口 |
+| Monthly | $9.99 / month | Most popular（高亮） | First month $5.99 |
+| Yearly | $79.99 / year | Best value | Just $6.67 / month |
 
-**操作**：选中套餐 → "Subscribe · $X/period" 按钮 + "+N bonus coins every day" 提示  
+**操作**：选中套餐 → "Subscribe · $X/period" 按钮 + 首期优惠提示（如有）  
 **底部小字**：Subscription auto-renews until cancelled. Manage in Google Play.
 
-> 会员是**订阅型**内购（Google Play 订阅商品，自动续订）。与金币充值互补：金币偏「单本即时解锁」，会员偏「重度读者长期权益」。
+> 会员是**订阅型**内购（Google Play 订阅商品，自动续订），是主推付费产品；金币仅作为非会员按章购买出口。
 
 ---
 
@@ -481,10 +486,9 @@
 - 顶底栏显示/隐藏
 
 ### 付费墙
-- 余额充足（直接解锁）
-- 余额不足（提示充值）
-- 广告加载中
-- 等待解锁倒计时
+- 会员主按钮（默认最醒目）
+- 金币折叠入口（展开后才显示）
+- 等待解锁倒计时（后续版本）
 
 ### 书架
 - 有书 / 空状态
@@ -592,9 +596,10 @@ Discover → 点击封面 → Book Detail → Read chapter 1 free → Reader
 ### 流程 C：触达付费墙并解锁
 ```
 Reader（读到付费墙）→ Paywall Sheet → 选择解锁方式：
-  ├── 金币解锁 → Toast 成功 → 继续阅读
-  ├── 看广告 → 广告播放 → 继续阅读
-  └── 等待解锁 → 提示倒计时 → 返回书架
+  ├── Read free with VIP → Membership Sheet → 订阅 → 全场畅读
+  └── Other ways to continue → 金币入口：
+      ├── 余额足够 → Pay X coins → Toast 成功 → 继续阅读
+      └── 余额不足 → Not enough coins → Recharge Sheet（价格 + 权益）→ Pay → Toast 成功 → 继续阅读
 ```
 
 ### 流程 D：充值金币（消耗型）
@@ -604,7 +609,7 @@ Reader（读到付费墙）→ Paywall Sheet → 选择解锁方式：
 
 ### 流程 D2：开通会员（订阅型）
 ```
-Me → Wallet → VIP Membership 卡片 → Membership Sheet → 选套餐（周/月/年）→ Subscribe → 自动续订 → 每日赠币
+Me → Wallet → VIP Membership 卡片 / Paywall 主按钮 → Membership Sheet → 选套餐（周/月/年）→ Subscribe → 自动续订 → 全场畅读
 ```
 
 ### 流程 E：查看交易记录

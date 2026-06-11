@@ -38,10 +38,10 @@ export default function Monetization() {
   }
   // ── 会员套餐表单 ──
   function newPlan() {
-    setModal({ kind: 'plan', mode: 'create', form: { name: '', period: '/month', price: '$9.99', originalPrice: '', tag: '', dailyCoins: 50, active: true } });
+    setModal({ kind: 'plan', mode: 'create', form: { name: '', period: '/month', price: '$9.99', originalPrice: '', introOffer: '', tag: '', active: true } });
   }
   function editPlan(p) {
-    setModal({ kind: 'plan', mode: 'edit', id: p.id, form: { ...p, tag: p.tag || '', originalPrice: p.originalPrice || '' } });
+    setModal({ kind: 'plan', mode: 'edit', id: p.id, form: { ...p, tag: p.tag || '', originalPrice: p.originalPrice || '', introOffer: p.introOffer || '' } });
   }
 
   async function save() {
@@ -60,9 +60,9 @@ export default function Monetization() {
       } else {
         const payload = {
           ...form,
-          dailyCoins: Number(form.dailyCoins),
           tag: form.tag || null,
           originalPrice: form.originalPrice || null,
+          introOffer: form.introOffer || null,
         };
         mode === 'create' ? await api.createPlan(payload) : await api.updatePlan(id, payload);
       }
@@ -105,7 +105,7 @@ export default function Monetization() {
     <>
       <PageHeader
         title="变现配置"
-        subtitle="管理金币充值套餐与会员订阅方案（同步前台付费墙）"
+        subtitle="管理金币充值套餐与会员订阅方案（前台订阅优先，金币为非会员按章出口）"
         actions={
           tab === 'packages'
             ? <Button onClick={newPackage}>＋ 新建充值套餐</Button>
@@ -128,57 +128,75 @@ export default function Monetization() {
       </div>
 
       {tab === 'packages' ? (
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {packages.map((p) => (
-            <Card key={p.id} className={`p-5 ${!p.active ? 'opacity-60' : ''}`}>
-              <div className="flex items-start justify-between">
-                <div>
-                  <div className="font-serif text-2xl font-bold text-ink">{p.coins.toLocaleString()}</div>
-                  <div className="text-xs text-muted">金币 {p.bonus > 0 && `+ ${p.bonus} 赠送`}</div>
+        <>
+          <Card className="mb-4 p-4">
+            <div className="text-sm font-semibold text-ink">前台金币解锁规则</div>
+            <p className="mt-1 text-xs leading-5 text-muted">
+              非会员余额足够时，付费墙折叠入口显示 "Pay X coins" 并直接解锁章节；
+              余额不足时显示 "Top up to unlock"，先提示 "Not enough coins"，再打开带章节价格和权益说明的 Recharge Sheet。
+            </p>
+          </Card>
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {packages.map((p) => (
+              <Card key={p.id} className={`p-5 ${!p.active ? 'opacity-60' : ''}`}>
+                <div className="flex items-start justify-between">
+                  <div>
+                    <div className="font-serif text-2xl font-bold text-ink">{p.coins.toLocaleString()}</div>
+                    <div className="text-xs text-muted">金币 {p.bonus > 0 && `+ ${p.bonus} 赠送`}</div>
+                  </div>
+                  {p.tag && <Badge tone="gold">{p.tag}</Badge>}
                 </div>
-                {p.tag && <Badge tone="gold">{p.tag}</Badge>}
-              </div>
-              <div className="mt-4 flex items-end justify-between">
-                <span className="font-serif text-xl font-bold text-primary">{p.price}</span>
-                <Switch checked={p.active} onChange={() => toggleActive('package', p)} />
-              </div>
-              <div className="mt-4 flex gap-1 border-t border-line pt-3">
-                <Button variant="ghost" size="sm" onClick={() => editPackage(p)}>编辑</Button>
-                <Button variant="danger-ghost" size="sm" onClick={() => setConfirmDel({ kind: 'package', item: p })}>
-                  删除
-                </Button>
-              </div>
-            </Card>
-          ))}
-        </div>
-      ) : (
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
-          {plans.map((p) => (
-            <Card key={p.id} className={`p-5 ${!p.active ? 'opacity-60' : ''}`}>
-              <div className="flex items-start justify-between">
-                <div className="font-serif text-lg font-bold text-ink">{p.name}</div>
-                {p.tag && <Badge tone="gold">{p.tag}</Badge>}
-              </div>
-              <div className="mt-3 flex items-baseline gap-2">
-                <span className="font-serif text-2xl font-bold text-primary">{p.price}</span>
-                <span className="text-xs text-muted">{p.period}</span>
-              </div>
-              {p.originalPrice && (
-                <div className="text-xs text-faint line-through">{p.originalPrice}</div>
-              )}
-              <div className="mt-2 text-sm text-success">每日 +{p.dailyCoins} 金币</div>
-              <div className="mt-4 flex items-center justify-between border-t border-line pt-3">
-                <div className="flex gap-1">
-                  <Button variant="ghost" size="sm" onClick={() => editPlan(p)}>编辑</Button>
-                  <Button variant="danger-ghost" size="sm" onClick={() => setConfirmDel({ kind: 'plan', item: p })}>
+                <div className="mt-4 flex items-end justify-between">
+                  <span className="font-serif text-xl font-bold text-primary">{p.price}</span>
+                  <Switch checked={p.active} onChange={() => toggleActive('package', p)} />
+                </div>
+                <div className="mt-4 flex gap-1 border-t border-line pt-3">
+                  <Button variant="ghost" size="sm" onClick={() => editPackage(p)}>编辑</Button>
+                  <Button variant="danger-ghost" size="sm" onClick={() => setConfirmDel({ kind: 'package', item: p })}>
                     删除
                   </Button>
                 </div>
-                <Switch checked={p.active} onChange={() => toggleActive('plan', p)} />
-              </div>
-            </Card>
-          ))}
-        </div>
+              </Card>
+            ))}
+          </div>
+        </>
+      ) : (
+        <>
+          <Card className="mb-4 p-4">
+            <div className="text-sm font-semibold text-ink">前台 VIP 解锁规则</div>
+            <p className="mt-1 text-xs leading-5 text-muted">
+              VIP 用户触发锁章时不进入支付墙，前台提示 "You're already VIP. Full book unlocked."；
+              后续下一章按免费章节直接阅读，并在下一章按钮中显示 "VIP" 小标识。
+            </p>
+          </Card>
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+            {plans.map((p) => (
+              <Card key={p.id} className={`p-5 ${!p.active ? 'opacity-60' : ''}`}>
+                <div className="flex items-start justify-between">
+                  <div className="font-serif text-lg font-bold text-ink">{p.name}</div>
+                  {p.tag && <Badge tone="gold">{p.tag}</Badge>}
+                </div>
+                <div className="mt-3 flex items-baseline gap-2">
+                  <span className="font-serif text-2xl font-bold text-primary">{p.price}</span>
+                  <span className="text-xs text-muted">{p.period}</span>
+                </div>
+                {p.originalPrice && (
+                  <div className="text-xs text-faint line-through">{p.originalPrice}</div>
+                )}
+                <div className="mt-2 text-sm text-success">{p.introOffer || '全场畅读 · 零广告'}</div>
+                <div className="mt-4 flex items-center justify-between border-t border-line pt-3">
+                  <div className="flex gap-1">
+                    <Button variant="ghost" size="sm" onClick={() => editPlan(p)}>编辑</Button>
+                    <Button variant="danger-ghost" size="sm" onClick={() => setConfirmDel({ kind: 'plan', item: p })}>
+                      删除
+                    </Button>
+                  </div>
+                  <Switch checked={p.active} onChange={() => toggleActive('plan', p)} />
+                </div>
+              </Card>
+            ))}
+          </div>
+        </>
       )}
 
       {/* 编辑弹窗 */}
@@ -228,8 +246,8 @@ export default function Monetization() {
               onChange={(e) => setModal({ ...modal, form: { ...modal.form, price: e.target.value } })} />
             <Input label="原价 (可空)" value={modal.form.originalPrice}
               onChange={(e) => setModal({ ...modal, form: { ...modal.form, originalPrice: e.target.value } })} />
-            <Input label="每日赠币" type="number" value={modal.form.dailyCoins}
-              onChange={(e) => setModal({ ...modal, form: { ...modal.form, dailyCoins: e.target.value } })} />
+            <Input label="首期优惠 (可空)" value={modal.form.introOffer}
+              onChange={(e) => setModal({ ...modal, form: { ...modal.form, introOffer: e.target.value } })} />
             <Input label="角标 (可空)" value={modal.form.tag}
               onChange={(e) => setModal({ ...modal, form: { ...modal.form, tag: e.target.value } })} />
             <div className="col-span-2 flex items-center justify-between rounded-[13px] bg-surface-2 px-4 py-3">

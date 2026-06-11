@@ -6,6 +6,7 @@ import 'package:likenovel/app/fonts.dart';
 import 'package:likenovel/app/theme.dart';
 import 'package:likenovel/app/providers.dart';
 import 'package:likenovel/core/i18n/app_localizations.dart';
+import 'package:likenovel/core/i18n/locale_controller.dart';
 import 'package:likenovel/core/models/book.dart';
 import 'package:likenovel/core/mock/mock_data.dart';
 import 'package:likenovel/features/onboarding/onboarding_screen.dart';
@@ -19,6 +20,7 @@ import 'package:likenovel/features/wallet/wallet_screen.dart';
 import 'package:likenovel/features/profile/profile_screen.dart';
 import 'package:likenovel/features/common/sub_pages.dart';
 import 'package:likenovel/shared/widgets/sheets.dart';
+import 'package:likenovel/shared/widgets/toast_overlay.dart';
 
 final appRouter = GoRouter(
   initialLocation: '/onboarding',
@@ -90,11 +92,14 @@ final appRouter = GoRouter(
         child: Consumer(
           builder: (context, ref, _) => WalletScreen(
             coins: ref.watch(coinsProvider),
+            membership: ref.watch(membershipProvider),
             onTopUp: () =>
                 _showRecharge(context, ProviderScope.containerOf(context)),
             onMembership: () =>
                 _showMembership(context, ProviderScope.containerOf(context)),
             onCheckin: () => context.push('/subpage/daily-checkin'),
+            onWatchAd: () => _simulateRewardAd(
+                context, ProviderScope.containerOf(context)),
             onBack: () => context.pop(),
           ),
         ),
@@ -138,8 +143,18 @@ final appRouter = GoRouter(
               book: book,
               chapterId: chapterId,
               onBack: () => context.pop(),
-              onPaywall: (b) => _showPaywall(context, ref, b, chapterId + 1),
+              onPaywall: (b, ch) => _showPaywall(context, ref, b, ch),
               coins: ref.watch(coinsProvider),
+              isMember: ref.watch(membershipProvider)?.isActive ?? false,
+              unlockedChapters:
+                  ref.watch(unlockedChaptersProvider)[book.id] ?? const {},
+              isFavorite: ref.watch(favoritesProvider).contains(book.id),
+              onToggleFavorite: () =>
+                  ref.read(favoritesProvider.notifier).toggle(book.id),
+              // 翻页模式全局记忆：进入时读取，切换时写回
+              initialPageMode: ref.read(pageTurnModeProvider),
+              onPageModeChanged: (m) =>
+                  ref.read(pageTurnModeProvider.notifier).set(m),
             ),
           ),
           transitionsBuilder: _slideRightTransition,
@@ -157,6 +172,7 @@ final appRouter = GoRouter(
             onBack: () => context.pop(),
             onBook: (b) => context.push('/book/${b.id}'),
             onTopUp: () => _showRecharge(context, ProviderScope.containerOf(context)),
+            onNav: (k) => context.push('/subpage/$k'),
           ),
           transitionsBuilder: _slideRightTransition,
           transitionDuration: const Duration(milliseconds: 220),
@@ -168,6 +184,12 @@ final appRouter = GoRouter(
 
 void _showPaywall(
     BuildContext context, WidgetRef ref, Book book, int chapterId) {
+  if (ref.read(membershipProvider)?.isActive ?? false) {
+    ToastOverlay.show(context, "You're already VIP. Full book unlocked.");
+    return;
+  }
+
+  // 订阅优先：每次触墙都主推会员全场畅读，金币仅作为非会员按章出口。
   showModalBottomSheet(
     context: context,
     isScrollControlled: true,
@@ -177,32 +199,65 @@ void _showPaywall(
       chapterId: chapterId,
       coins: ref.read(coinsProvider),
       onClose: () => Navigator.pop(context),
-      onUnlock: () {
-        ref.read(coinsProvider.notifier).spend(38);
+      onCoinUnlock: () {
+        ref.read(coinsProvider.notifier).spend(book.chapterPrice);
+        ref.read(unlockedChaptersProvider.notifier).unlock(book.id, chapterId);
         Navigator.pop(context);
+        ToastOverlay.show(context, 'Chapter $chapterId unlocked');
       },
       onTopUp: () {
         Navigator.pop(context);
-        _showRecharge(context, ProviderScope.containerOf(context));
+        ToastOverlay.show(context, 'Not enough coins');
+        _showRecharge(
+          context,
+          ProviderScope.containerOf(context),
+          unlockOffer: CoinUnlockOffer(
+            bookTitle: book.title,
+            chapterId: chapterId,
+            chapterCost: book.chapterPrice,
+            currentBalance: ref.read(coinsProvider),
+          ),
+          onChapterUnlock: () {
+            ref.read(coinsProvider.notifier).spend(book.chapterPrice);
+            ref
+                .read(unlockedChaptersProvider.notifier)
+                .unlock(book.id, chapterId);
+            ToastOverlay.show(context, 'Chapter $chapterId unlocked');
+          },
+        );
       },
       onMembership: () {
         Navigator.pop(context);
-        _showMembership(context, ProviderScope.containerOf(context));
+        final container = ProviderScope.containerOf(context);
+        if (container.read(membershipProvider)?.isActive ?? false) {
+          ToastOverlay.show(context, "You're already VIP. Full book unlocked.");
+        } else {
+          _showMembership(context, container);
+        }
       },
     ),
   );
 }
 
-void _showRecharge(BuildContext context, ProviderContainer container) {
+void _showRecharge(
+  BuildContext context,
+  ProviderContainer container, {
+  CoinUnlockOffer? unlockOffer,
+  VoidCallback? onChapterUnlock,
+}) {
   showModalBottomSheet(
     context: context,
     isScrollControlled: true,
     backgroundColor: Colors.transparent,
     builder: (_) => RechargeSheet(
       coins: container.read(coinsProvider),
+      unlockOffer: unlockOffer,
       onClose: () => Navigator.pop(context),
       onPurchase: (added) {
         container.read(coinsProvider.notifier).add(added);
+        if (unlockOffer != null && onChapterUnlock != null) {
+          onChapterUnlock();
+        }
         Navigator.pop(context);
       },
     ),
@@ -217,8 +272,7 @@ void _showMembership(BuildContext context, ProviderContainer container) {
     builder: (_) => MembershipSheet(
       onClose: () => Navigator.pop(context),
       onSubscribe: (plan) {
-        // MVP：订阅成功后写入会员状态（含到期日）并按权益发放每日金币
-        container.read(coinsProvider.notifier).add(plan.dailyCoins);
+        // MVP：订阅成功后写入会员状态（含到期日）。会员不再参与金币经济。
         container.read(membershipProvider.notifier).subscribe(
               plan.id,
               plan.name,
@@ -228,6 +282,17 @@ void _showMembership(BuildContext context, ProviderContainer container) {
       },
     ),
   );
+}
+
+/// 模拟激励视频：播放约 2 秒后发放奖励（数据闭环：广告 → 金币余额）。
+void _simulateRewardAd(BuildContext context, ProviderContainer container) {
+  ToastOverlay.show(context, 'Playing ad…');
+  Future.delayed(const Duration(seconds: 2), () {
+    container.read(coinsProvider.notifier).add(12);
+    if (context.mounted) {
+      ToastOverlay.show(context, '+12 coins earned');
+    }
+  });
 }
 
 /// 套餐 ID → 时长。用于设置会员到期日。
@@ -397,9 +462,18 @@ class _ProfileWrapper extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final locale = ref.watch(localeProvider);
+    final langName = AppLocales.all
+            .where((i) =>
+                i.locale.languageCode == (locale?.languageCode ?? 'en') &&
+                ((i.locale.countryCode ?? '') == (locale?.countryCode ?? '')))
+            .map((i) => i.nativeName)
+            .firstOrNull ??
+        'English';
     return ProfileScreen(
       coins: ref.watch(coinsProvider),
       membership: ref.watch(membershipProvider),
+      languageName: langName,
       onNav: (key) {
         // 钱包入口指向独立钱包页；会员入口弹出订阅；其余走通用子页
         if (key == 'wallet') {

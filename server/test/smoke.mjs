@@ -59,7 +59,13 @@ try {
 
   r = await api('/api/books', {
     method: 'POST',
-    body: JSON.stringify({ title: 'Test Book', author: 'QA', genre: 'modern' }),
+    body: JSON.stringify({
+      title: 'Test Book',
+      author: 'QA',
+      genre: 'modern',
+      coinPrice: 25,
+      freeChapters: 5,
+    }),
   });
   assert(r.status === 201 && r.body.id, '新建书籍成功');
   const bookId = r.body.id;
@@ -107,5 +113,6 @@ try {
   failures++;
 } finally {
   proc.kill();
-  process.exit(failures === 0 ? 0 : 1);
+  await new Promise((resolve) => proc.once('exit', resolve));
+  process.exitCode = failures === 0 ? 0 : 1;
 }

@@ -1,0 +1,97 @@
+{
+  "_meta": { "code": "pt", "nativeName": "Português", "rtl": false },
+  "common": {
+    "appName": "likenovel",
+    "ok": "OK",
+    "cancel": "Cancelar",
+    "confirm": "Confirmar",
+    "save": "Salvar",
+    "delete": "Excluir",
+    "remove": "Remover",
+    "edit": "Editar",
+    "done": "Concluído",
+    "retry": "Tentar novamente",
+    "selectAll": "Selecionar tudo",
+    "seeMore": "Mais",
+    "search": "Pesquisar",
+    "networkError": "Erro de rede",
+    "noContent": "Nenhum conteúdo disponível.",
+    "loading": "Carregando…"
+  },
+  "nav": {
+    "home": "Início",
+    "discover": "Descobrir",
+    "category": "Categorias",
+    "library": "Biblioteca",
+    "wallet": "Carteira",
+    "me": "Eu"
+  },
+  "onboarding": {
+    "tagline": "Histórias que te mantêm acordada a noite toda",
+    "continueWithGoogle": "Continuar com Google",
+    "continueWithApple": "Continuar com Apple",
+    "continueAsGuest": "Continuar como convidado",
+    "agreement": "Ao continuar, você concorda com nossos Termos e a Política de Privacidade"
+  },
+  "guide": {
+    "title": "O que você ama ler?",
+    "subtitle": "Escolha alguns para personalizar seu feed",
+    "continueAction": "Continuar"
+  },
+  "discover": {
+    "header": "Descobrir",
+    "searchHint": "Pesquise títulos, autores, temas",
+    "sectionTopCharts": "Mais lidos",
+    "sectionNewRising": "Novos e em alta",
+    "sectionForYou": "Para você"
+  },
+  "library": {
+    "title": "Biblioteca",
+    "tabReading": "Lendo",
+    "tabUnlocked": "Desbloqueados",
+    "tabFinished": "Concluídos",
+    "emptyReading": "Você ainda não começou nenhum livro.",
+    "continueReading": "Continuar lendo"
+  },
+  "wallet": {
+    "title": "Carteira",
+    "balance": "Saldo",
+    "coins": "Moedas",
+    "bonus": "Bônus",
+    "recharge": "Recarregar",
+    "balanceHistory": "Histórico de saldo",
+    "dailyCheckin": "Check-in diário"
+  },
+  "reader": {
+    "themePaper": "Papel",
+    "themeSepia": "Sépia",
+    "themeDark": "Escuro",
+    "themeBlack": "Preto",
+    "fontSize": "Tamanho da fonte",
+    "nextChapter": "Próximo capítulo",
+    "autoUnlockNext": "Desbloquear o próximo automaticamente"
+  },
+  "paywall": {
+    "title": "Desbloquear capítulo {chapter}",
+    "price": "Preço",
+    "balance": "Saldo",
+    "unlockNow": "Desbloquear agora",
+    "goToStore": "Ir à loja",
+    "unlockSuccess": "Desbloqueado! Boa leitura.",
+    "insufficient": "Moedas insuficientes. Recarregue para continuar."
+  },
+  "profile": {
+    "title": "Eu",
+    "signIn": "Entrar",
+    "copyId": "Copiar",
+    "guestName": "Convidado_{id}",
+    "menuOrders": "Meus pedidos",
+    "menuPurchased": "Capítulos comprados",
+    "menuAutoUnlock": "Lista de desbloqueio automático",
+    "menuHelp": "Central de ajuda",
+    "menuAbout": "Sobre nós",
+    "menuTerms": "Termos de serviço",
+    "menuPrivacy": "Política de privacidade",
+    "menuSettings": "Configurações"
+  }
+}

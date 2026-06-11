@@ -1,0 +1,97 @@
+{
+  "_meta": { "code": "de", "nativeName": "Deutsch", "rtl": false },
+  "common": {
+    "appName": "likenovel",
+    "ok": "OK",
+    "cancel": "Abbrechen",
+    "confirm": "Bestätigen",
+    "save": "Speichern",
+    "delete": "Löschen",
+    "remove": "Entfernen",
+    "edit": "Bearbeiten",
+    "done": "Fertig",
+    "retry": "Erneut versuchen",
+    "selectAll": "Alle auswählen",
+    "seeMore": "Mehr",
+    "search": "Suchen",
+    "networkError": "Netzwerkfehler",
+    "noContent": "Kein Inhalt verfügbar.",
+    "loading": "Wird geladen…"
+  },
+  "nav": {
+    "home": "Start",
+    "discover": "Entdecken",
+    "category": "Kategorien",
+    "library": "Bibliothek",
+    "wallet": "Wallet",
+    "me": "Ich"
+  },
+  "onboarding": {
+    "tagline": "Geschichten, die dich die ganze Nacht wachhalten",
+    "continueWithGoogle": "Mit Google fortfahren",
+    "continueWithApple": "Mit Apple fortfahren",
+    "continueAsGuest": "Als Gast fortfahren",
+    "agreement": "Mit dem Fortfahren stimmst du unseren Nutzungsbedingungen und der Datenschutzerklärung zu"
+  },
+  "guide": {
+    "title": "Was liest du am liebsten?",
+    "subtitle": "Wähle ein paar aus, um deinen Feed zu personalisieren",
+    "continueAction": "Weiter"
+  },
+  "discover": {
+    "header": "Entdecken",
+    "searchHint": "Titel, Autoren, Themen suchen",
+    "sectionTopCharts": "Top-Charts",
+    "sectionNewRising": "Neu & aufstrebend",
+    "sectionForYou": "Für dich"
+  },
+  "library": {
+    "title": "Bibliothek",
+    "tabReading": "Am Lesen",
+    "tabUnlocked": "Freigeschaltet",
+    "tabFinished": "Beendet",
+    "emptyReading": "Du hast noch kein Buch begonnen.",
+    "continueReading": "Weiterlesen"
+  },
+  "wallet": {
+    "title": "Wallet",
+    "balance": "Guthaben",
+    "coins": "Münzen",
+    "bonus": "Bonus",
+    "recharge": "Aufladen",
+    "balanceHistory": "Guthabenverlauf",
+    "dailyCheckin": "Täglicher Check-in"
+  },
+  "reader": {
+    "themePaper": "Papier",
+    "themeSepia": "Sepia",
+    "themeDark": "Dunkel",
+    "themeBlack": "Schwarz",
+    "fontSize": "Schriftgröße",
+    "nextChapter": "Nächstes Kapitel",
+    "autoUnlockNext": "Nächstes Kapitel automatisch freischalten"
+  },
+  "paywall": {
+    "title": "Kapitel {chapter} freischalten",
+    "price": "Preis",
+    "balance": "Guthaben",
+    "unlockNow": "Jetzt freischalten",
+    "goToStore": "Zum Shop",
+    "unlockSuccess": "Freigeschaltet! Viel Spaß beim Lesen.",
+    "insufficient": "Nicht genug Münzen. Lade auf, um fortzufahren."
+  },
+  "profile": {
+    "title": "Ich",
+    "signIn": "Anmelden",
+    "copyId": "Kopieren",
+    "guestName": "Gast_{id}",
+    "menuOrders": "Meine Bestellungen",
+    "menuPurchased": "Gekaufte Kapitel",
+    "menuAutoUnlock": "Auto-Freischaltliste",
+    "menuHelp": "Hilfecenter",
+    "menuAbout": "Über uns",
+    "menuTerms": "Nutzungsbedingungen",
+    "menuPrivacy": "Datenschutzerklärung",
+    "menuSettings": "Einstellungen"
+  }
+}

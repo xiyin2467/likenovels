@@ -1,0 +1,97 @@
+{
+  "_meta": { "code": "ar", "nativeName": "العربية", "rtl": true },
+  "common": {
+    "appName": "likenovel",
+    "ok": "حسناً",
+    "cancel": "إلغاء",
+    "confirm": "تأكيد",
+    "save": "حفظ",
+    "delete": "حذف",
+    "remove": "إزالة",
+    "edit": "تعديل",
+    "done": "تم",
+    "retry": "إعادة المحاولة",
+    "selectAll": "تحديد الكل",
+    "seeMore": "المزيد",
+    "search": "بحث",
+    "networkError": "خطأ في الشبكة",
+    "noContent": "لا يوجد محتوى متاح.",
+    "loading": "جارٍ التحميل…"
+  },
+  "nav": {
+    "home": "الرئيسية",
+    "discover": "اكتشف",
+    "category": "التصنيفات",
+    "library": "المكتبة",
+    "wallet": "المحفظة",
+    "me": "أنا"
+  },
+  "onboarding": {
+    "tagline": "قصص تبقيك مستيقظة طوال الليل",
+    "continueWithGoogle": "المتابعة عبر Google",
+    "continueWithApple": "المتابعة عبر Apple",
+    "continueAsGuest": "المتابعة كضيف",
+    "agreement": "بالمتابعة فإنك توافق على الشروط وسياسة الخصوصية"
+  },
+  "guide": {
+    "title": "ماذا تحب أن تقرأ؟",
+    "subtitle": "اختر بعض التصنيفات لتخصيص اقتراحاتك",
+    "continueAction": "متابعة"
+  },
+  "discover": {
+    "header": "اكتشف",
+    "searchHint": "ابحث عن عناوين وكتّاب وموضوعات",
+    "sectionTopCharts": "الأكثر قراءة",
+    "sectionNewRising": "جديد وصاعد",
+    "sectionForYou": "من أجلك"
+  },
+  "library": {
+    "title": "المكتبة",
+    "tabReading": "أقرأ الآن",
+    "tabUnlocked": "مفتوحة",
+    "tabFinished": "منتهية",
+    "emptyReading": "لم تبدأ أي كتاب بعد.",
+    "continueReading": "متابعة القراءة"
+  },
+  "wallet": {
+    "title": "المحفظة",
+    "balance": "الرصيد",
+    "coins": "العملات",
+    "bonus": "مكافأة",
+    "recharge": "شحن",
+    "balanceHistory": "سجل الرصيد",
+    "dailyCheckin": "تسجيل الحضور اليومي"
+  },
+  "reader": {
+    "themePaper": "ورقي",
+    "themeSepia": "بُني فاتح",
+    "themeDark": "داكن",
+    "themeBlack": "أسود",
+    "fontSize": "حجم الخط",
+    "nextChapter": "الفصل التالي",
+    "autoUnlockNext": "فتح الفصل التالي تلقائياً"
+  },
+  "paywall": {
+    "title": "فتح الفصل {chapter}",
+    "price": "السعر",
+    "balance": "الرصيد",
+    "unlockNow": "افتح الآن",
+    "goToStore": "الذهاب إلى المتجر",
+    "unlockSuccess": "تم الفتح! قراءة ممتعة.",
+    "insufficient": "العملات غير كافية. اشحن للمتابعة."
+  },
+  "profile": {
+    "title": "أنا",
+    "signIn": "تسجيل الدخول",
+    "copyId": "نسخ",
+    "guestName": "ضيف_{id}",
+    "menuOrders": "طلباتي",
+    "menuPurchased": "الفصول المشتراة",
+    "menuAutoUnlock": "قائمة الفتح التلقائي",
+    "menuHelp": "مركز المساعدة",
+    "menuAbout": "من نحن",
+    "menuTerms": "شروط الخدمة",
+    "menuPrivacy": "سياسة الخصوصية",
+    "menuSettings": "الإعدادات"
+  }
+}

@@ -1,0 +1,97 @@
+{
+  "_meta": { "code": "th", "nativeName": "ไทย", "rtl": false },
+  "common": {
+    "appName": "likenovel",
+    "ok": "ตกลง",
+    "cancel": "ยกเลิก",
+    "confirm": "ยืนยัน",
+    "save": "บันทึก",
+    "delete": "ลบ",
+    "remove": "นำออก",
+    "edit": "แก้ไข",
+    "done": "เสร็จสิ้น",
+    "retry": "ลองอีกครั้ง",
+    "selectAll": "เลือกทั้งหมด",
+    "seeMore": "เพิ่มเติม",
+    "search": "ค้นหา",
+    "networkError": "เครือข่ายขัดข้อง",
+    "noContent": "ไม่มีเนื้อหา",
+    "loading": "กำลังโหลด…"
+  },
+  "nav": {
+    "home": "หน้าแรก",
+    "discover": "ค้นพบ",
+    "category": "หมวดหมู่",
+    "library": "ชั้นหนังสือ",
+    "wallet": "กระเป๋าเงิน",
+    "me": "ฉัน"
+  },
+  "onboarding": {
+    "tagline": "เรื่องราวที่ทำให้คุณอ่านเพลินทั้งคืน",
+    "continueWithGoogle": "ดำเนินการต่อด้วย Google",
+    "continueWithApple": "ดำเนินการต่อด้วย Apple",
+    "continueAsGuest": "ดำเนินการต่อในฐานะผู้เยี่ยมชม",
+    "agreement": "การดำเนินการต่อถือว่าคุณยอมรับข้อกำหนดและนโยบายความเป็นส่วนตัวของเรา"
+  },
+  "guide": {
+    "title": "คุณชอบอ่านอะไร?",
+    "subtitle": "เลือกสักสองสามอย่างเพื่อปรับฟีดให้เหมาะกับคุณ",
+    "continueAction": "ดำเนินการต่อ"
+  },
+  "discover": {
+    "header": "ค้นพบ",
+    "searchHint": "ค้นหาชื่อเรื่อง นักเขียน ธีม",
+    "sectionTopCharts": "อันดับยอดนิยม",
+    "sectionNewRising": "ใหม่และมาแรง",
+    "sectionForYou": "สำหรับคุณ"
+  },
+  "library": {
+    "title": "ชั้นหนังสือ",
+    "tabReading": "กำลังอ่าน",
+    "tabUnlocked": "ปลดล็อกแล้ว",
+    "tabFinished": "อ่านจบแล้ว",
+    "emptyReading": "คุณยังไม่ได้เริ่มอ่านหนังสือเลย",
+    "continueReading": "อ่านต่อ"
+  },
+  "wallet": {
+    "title": "กระเป๋าเงิน",
+    "balance": "ยอดคงเหลือ",
+    "coins": "เหรียญ",
+    "bonus": "โบนัส",
+    "recharge": "เติมเงิน",
+    "balanceHistory": "ประวัติยอดคงเหลือ",
+    "dailyCheckin": "เช็คอินรายวัน"
+  },
+  "reader": {
+    "themePaper": "กระดาษ",
+    "themeSepia": "ซีเปีย",
+    "themeDark": "มืด",
+    "themeBlack": "ดำ",
+    "fontSize": "ขนาดตัวอักษร",
+    "nextChapter": "ตอนถัดไป",
+    "autoUnlockNext": "ปลดล็อกตอนถัดไปอัตโนมัติ"
+  },
+  "paywall": {
+    "title": "ปลดล็อกตอนที่ {chapter}",
+    "price": "ราคา",
+    "balance": "ยอดคงเหลือ",
+    "unlockNow": "ปลดล็อกตอนนี้",
+    "goToStore": "ไปที่ร้านค้า",
+    "unlockSuccess": "ปลดล็อกแล้ว! ขอให้สนุกกับการอ่าน",
+    "insufficient": "เหรียญไม่พอ เติมเงินเพื่ออ่านต่อ"
+  },
+  "profile": {
+    "title": "ฉัน",
+    "signIn": "เข้าสู่ระบบ",
+    "copyId": "คัดลอก",
+    "guestName": "ผู้เยี่ยมชม_{id}",
+    "menuOrders": "คำสั่งซื้อของฉัน",
+    "menuPurchased": "ตอนที่ซื้อแล้ว",
+    "menuAutoUnlock": "รายการปลดล็อกอัตโนมัติ",
+    "menuHelp": "ศูนย์ช่วยเหลือ",
+    "menuAbout": "เกี่ยวกับเรา",
+    "menuTerms": "ข้อกำหนดการให้บริการ",
+    "menuPrivacy": "นโยบายความเป็นส่วนตัว",
+    "menuSettings": "การตั้งค่า"
+  }
+}

@@ -33,7 +33,8 @@ export default function BookDetail() {
   }, [id]);
 
   function openCreate() {
-    setModal({ mode: 'create', form: { title: '', free: false, coins: 38, wordCount: 2200, published: true } });
+    // 免费/VIP/金币由书籍付费配置自动派生，章节级无需填写
+    setModal({ mode: 'create', form: { title: '', wordCount: 2200, published: true } });
   }
   function openEdit(ch) {
     setModal({ mode: 'edit', cid: ch.id, form: { ...ch } });
@@ -83,7 +84,7 @@ export default function BookDetail() {
         actions={<Button onClick={openCreate}>＋ 新增章节</Button>}
       />
 
-      <div className="mb-4 grid grid-cols-2 gap-4 sm:grid-cols-4">
+      <div className="mb-4 grid grid-cols-2 gap-4 sm:grid-cols-5">
         <Card className="p-4">
           <div className="text-xs text-faint">章节总数</div>
           <div className="mt-1 font-serif text-2xl font-bold text-ink">{book.chapters}</div>
@@ -93,10 +94,15 @@ export default function BookDetail() {
           <div className="mt-1 font-serif text-2xl font-bold text-ink">{chapters.length}</div>
         </Card>
         <Card className="p-4">
-          <div className="text-xs text-faint">免费章节</div>
+          <div className="text-xs text-faint">付费方式</div>
           <div className="mt-1 font-serif text-2xl font-bold text-ink">
-            {chapters.filter((c) => c.free).length}
+            VIP / {book.coinPrice} 币
           </div>
+          <div className="mt-1 text-xs text-faint">Pay {book.coinPrice} coins</div>
+        </Card>
+        <Card className="p-4">
+          <div className="text-xs text-faint">免费章节</div>
+          <div className="mt-1 font-serif text-2xl font-bold text-ink">前 {book.freeChapters ?? 0} 章</div>
         </Card>
         <Card className="p-4">
           <div className="text-xs text-faint">评分</div>
@@ -114,7 +120,7 @@ export default function BookDetail() {
                 <th className="px-5 py-3 font-semibold">#</th>
                 <th className="px-5 py-3 font-semibold">标题</th>
                 <th className="px-5 py-3 font-semibold">访问</th>
-                <th className="px-5 py-3 font-semibold">解锁金币</th>
+                <th className="px-5 py-3 font-semibold">解锁条件</th>
                 <th className="px-5 py-3 font-semibold">字数</th>
                 <th className="px-5 py-3 font-semibold">发布</th>
                 <th className="px-5 py-3 text-right font-semibold">操作</th>
@@ -126,9 +132,11 @@ export default function BookDetail() {
                   <td className="px-5 py-3 font-mono text-xs text-muted">{c.id}</td>
                   <td className="px-5 py-3 font-medium text-ink">{c.title}</td>
                   <td className="px-5 py-3">
-                    {c.free ? <Badge tone="success">免费</Badge> : <Badge tone="primary">付费</Badge>}
+                    {c.free ? <Badge tone="success">免费</Badge> : <Badge tone="primary">VIP/金币</Badge>}
                   </td>
-                  <td className="px-5 py-3 text-muted">{c.free ? '—' : c.coins}</td>
+                  <td className="px-5 py-3 text-muted">
+                    {c.free ? '—' : `VIP 全书解锁；非会员 Pay ${c.coins} coins`}
+                  </td>
                   <td className="px-5 py-3 text-muted">{c.wordCount}</td>
                   <td className="px-5 py-3">
                     {c.published ? <Badge tone="neutral">已发布</Badge> : <Badge tone="warn">草稿</Badge>}
@@ -161,17 +169,13 @@ export default function BookDetail() {
           <div className="space-y-4">
             <Input label="章节标题" value={modal.form.title}
               onChange={(e) => setModal({ ...modal, form: { ...modal.form, title: e.target.value } })} />
-            <div className="grid grid-cols-2 gap-4">
-              <Input label="解锁金币" type="number" min="0" value={modal.form.coins}
-                onChange={(e) => setModal({ ...modal, form: { ...modal.form, coins: Number(e.target.value) } })} />
-              <Input label="字数" type="number" min="0" value={modal.form.wordCount}
-                onChange={(e) => setModal({ ...modal, form: { ...modal.form, wordCount: Number(e.target.value) } })} />
-            </div>
-            <div className="flex items-center justify-between rounded-[13px] bg-surface-2 px-4 py-3">
-              <span className="text-sm text-ink">免费章节</span>
-              <Switch checked={modal.form.free}
-                onChange={(v) => setModal({ ...modal, form: { ...modal.form, free: v } })} />
-            </div>
+            <Input label="字数" type="number" min="0" value={modal.form.wordCount}
+              onChange={(e) => setModal({ ...modal, form: { ...modal.form, wordCount: Number(e.target.value) } })} />
+            <p className="rounded-[13px] bg-surface-2 px-4 py-3 text-xs text-muted">
+              VIP 用户全书已解锁；非会员余额足够时前台显示 "Pay {book.coinPrice} coins"，
+              余额不足时显示 "Top up to unlock" 并进入充值页。免费前 {book.freeChapters ?? 0} 章。
+              章节的免费/付费状态由书籍付费配置自动派生，如需调整请编辑书籍。
+            </p>
             <div className="flex items-center justify-between rounded-[13px] bg-surface-2 px-4 py-3">
               <span className="text-sm text-ink">立即发布</span>
               <Switch checked={modal.form.published}

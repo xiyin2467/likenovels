@@ -1,0 +1,396 @@
+{
+  "source": "d:\\likenovel\\docs\\research\\竞品apk\\GoodNovel_v2.5.8.1168.apk",
+  "intent_filters": [
+    {
+      "component": "com.read.goodnovel.ui.splash.SplashActivity",
+      "type": "activity",
+      "actions": [
+        "android.intent.action.MAIN"
+      ],
+      "categories": [
+        "android.intent.category.LAUNCHER"
+      ],
+      "data": []
+    },
+    {
+      "component": "com.read.goodnovel.ui.splash.SplashActivity",
+      "type": "activity",
+      "actions": [
+        "android.intent.action.VIEW"
+      ],
+      "categories": [
+        "android.intent.category.DEFAULT",
+        "android.intent.category.BROWSABLE"
+      ],
+      "data": [
+        {
+          "scheme": "@7F12040F"
+        }
+      ]
+    },
+    {
+      "component": "com.read.goodnovel.ui.splash.SplashActivity",
+      "type": "activity",
+      "actions": [
+        "android.intent.action.VIEW"
+      ],
+      "categories": [
+        "android.intent.category.BROWSABLE",
+        "android.intent.category.DEFAULT"
+      ],
+      "data": [
+        {
+          "scheme": "sac091120e"
+        }
+      ]
+    },
+    {
+      "component": "com.read.goodnovel.ui.splash.SplashActivity",
+      "type": "activity",
+      "actions": [
+        "android.intent.action.VIEW"
+      ],
+      "categories": [
+        "android.intent.category.DEFAULT",
+        "android.intent.category.BROWSABLE"
+      ],
+      "data": [
+        {
+          "scheme": "https",
+          "host": "ul3.goodnovel.com"
+        }
+      ]
+    },
+    {
+      "component": "com.facebook.CustomTabActivity",
+      "type": "activity",
+      "actions": [
+        "android.intent.action.VIEW"
+      ],
+      "categories": [
+        "android.intent.category.DEFAULT",
+        "android.intent.category.BROWSABLE"
+      ],
+      "data": [
+        {
+          "scheme": "@7F120107"
+        }
+      ]
+    },
+    {
+      "component": "com.facebook.CustomTabActivity",
+      "type": "activity",
+      "actions": [
+        "android.intent.action.VIEW"
+      ],
+      "categories": [
+        "android.intent.category.DEFAULT",
+        "android.intent.category.BROWSABLE"
+      ],
+      "data": [
+        {
+          "scheme": "fbconnect",
+          "host": "cct.com.read.goodnovel"
+        }
+      ]
+    },
+    {
+      "component": "com.lib.abroad.LoginDispatchActivity",
+      "type": "activity",
+      "actions": [
+        "android.intent.action.login"
+      ],
+      "categories": [
+        "android.intent.category.DEFAULT"
+      ],
+      "data": []
+    },
+    {
+      "component": "com.read.goodnovel.push.FCMService",
+      "type": "service",
+      "actions": [
+        "com.google.firebase.MESSAGING_EVENT"
+      ],
+      "categories": [],
+      "data": []
+    },
+    {
+      "component": "com.lib.player.service.AudioPlayerService",
+      "type": "service",
+      "actions": [
+        "android.media.browse.MediaBrowserService"
+      ],
+      "categories": [],
+      "data": []
+    },
+    {
+      "component": "com.google.firebase.messaging.FirebaseMessagingService",
+      "type": "service",
+      "actions": [
+        "com.google.firebase.MESSAGING_EVENT"
+      ],
+      "categories": [],
+      "data": []
+    },
+    {
+      "component": "com.adjust.sdk.AdjustReferrerReceiver",
+      "type": "receiver",
+      "actions": [
+        "com.android.vending.INSTALL_REFERRER"
+      ],
+      "categories": [],
+      "data": []
+    },
+    {
+      "component": "com.lib.player.receiver.MediaButtonIntentReceiver",
+      "type": "receiver",
+      "actions": [
+        "android.media.AUDIO_BECOMING_NOISY",
+        "android.intent.action.MEDIA_BUTTON"
+      ],
+      "categories": [],
+      "data": []
+    },
+    {
+      "component": "com.google.firebase.iid.FirebaseInstanceIdReceiver",
+      "type": "receiver",
+      "actions": [
+        "com.google.android.c2dm.intent.RECEIVE"
+      ],
+      "categories": [],
+      "data": []
+    },
+    {
+      "component": "com.facebook.CurrentAccessTokenExpirationBroadcastReceiver",
+      "type": "receiver",
+      "actions": [
+        "com.facebook.sdk.ACTION_CURRENT_ACCESS_TOKEN_CHANGED"
+      ],
+      "categories": [],
+      "data": []
+    },
+    {
+      "component": "com.facebook.AuthenticationTokenManager$CurrentAuthenticationTokenChangedBroadcastReceiver",
+      "type": "receiver",
+      "actions": [
+        "com.facebook.sdk.ACTION_CURRENT_AUTHENTICATION_TOKEN_CHANGED"
+      ],
+      "categories": [],
+      "data": []
+    },
+    {
+      "component": "androidx.work.impl.background.systemalarm.ConstraintProxy$BatteryChargingProxy",
+      "type": "receiver",
+      "actions": [
+        "android.intent.action.ACTION_POWER_CONNECTED",
+        "android.intent.action.ACTION_POWER_DISCONNECTED"
+      ],
+      "categories": [],
+      "data": []
+    },
+    {
+      "component": "androidx.work.impl.background.systemalarm.ConstraintProxy$BatteryNotLowProxy",
+      "type": "receiver",
+      "actions": [
+        "android.intent.action.BATTERY_OKAY",
+        "android.intent.action.BATTERY_LOW"
+      ],
+      "categories": [],
+      "data": []
+    },
+    {
+      "component": "androidx.work.impl.background.systemalarm.ConstraintProxy$StorageNotLowProxy",
+      "type": "receiver",
+      "actions": [
+        "android.intent.action.DEVICE_STORAGE_LOW",
+        "android.intent.action.DEVICE_STORAGE_OK"
+      ],
+      "categories": [],
+      "data": []
+    },
+    {
+      "component": "androidx.work.impl.background.systemalarm.ConstraintProxy$NetworkStateProxy",
+      "type": "receiver",
+      "actions": [
+        "android.net.conn.CONNECTIVITY_CHANGE"
+      ],
+      "categories": [],
+      "data": []
+    },
+    {
+      "component": "androidx.work.impl.background.systemalarm.RescheduleReceiver",
+      "type": "receiver",
+      "actions": [
+        "android.intent.action.BOOT_COMPLETED",
+        "android.intent.action.TIME_SET",
+        "android.intent.action.TIMEZONE_CHANGED"
+      ],
+      "categories": [],
+      "data": []
+    },
+    {
+      "component": "androidx.work.impl.background.systemalarm.ConstraintProxyUpdateReceiver",
+      "type": "receiver",
+      "actions": [
+        "androidx.work.impl.background.systemalarm.UpdateProxies"
+      ],
+      "categories": [],
+      "data": []
+    },
+    {
+      "component": "androidx.work.impl.diagnostics.DiagnosticsReceiver",
+      "type": "receiver",
+      "actions": [
+        "androidx.work.diagnostics.REQUEST_DIAGNOSTICS"
+      ],
+      "categories": [],
+      "data": []
+    }
+  ],
+  "meta_data_full": {
+    "android.webkit.WebView.EnableSafeBrowsing": "true",
+    "channelCode": "GNA000001",
+    "git_code": "b01572881",
+    "git_tag": "1168",
+    "android.max_aspect": "2.400000",
+    "android.notch_support": "true",
+    "notch.config": "portrait|landscape",
+    "firebase_performance_logcat_enabled": "true",
+    "com.google.android.gms.ads.APPLICATION_ID": "ca-app-pub-5272206719705341~2493321262",
+    "com.read.goodnovel.OkHttpLibraryGlideModule": "AppGlideModule",
+    "com.facebook.sdk.ApplicationId": "@7F120102",
+    "com.google.android.gms.vision.DEPENDENCIES": "face",
+    "com.facebook.sdk.AutoLogAppEventsEnabled": "true",
+    "com.facebook.sdk.ClientToken": "@7F120103",
+    "com.bumptech.glide.integration.okhttp3.OkHttpGlideModule": "GlideModule",
+    "applovin.sdk.key": "aVMrwTAasWqrMuIr5Fo5-3XnKxkznH1lvDBU4Ze4a13u6QQytiKOKiIx4cxmLX9cuhKg6STa1d45LWCW-eUFG5",
+    "com.sensorsdata.analytics.android.MainProcessName": "com.read.goodnovel",
+    "com.sensorsdata.analytics.android.version": "4.4.9",
+    "com.google.android.gms.version": "@7F0B000D",
+    "com.google.android.play.billingclient.version": "5.0.0"
+  },
+  "string_count": 0,
+  "functional_strings": {},
+  "sdks": [
+    "AdMob / Google Mobile Ads",
+    "Adjust",
+    "AppLovin MAX",
+    "AppLovin SDK",
+    "AppsFlyer",
+    "ExoPlayer",
+    "Facebook Audience Network",
+    "Facebook Login",
+    "Facebook SDK",
+    "Firebase (general)",
+    "Firebase A/B Testing",
+    "Firebase Analytics",
+    "Firebase Crashlytics",
+    "Firebase Messaging (FCM)",
+    "Firebase Performance",
+    "Firebase Remote Config",
+    "Fyber / Inneractive",
+    "Glide",
+    "Google Play Billing",
+    "Google Play In-App Review",
+    "Google Play In-App Update",
+    "Google Play Services",
+    "Google Sign-In",
+    "Lottie",
+    "Mintegral (Mbridge)",
+    "OkHttp",
+    "Retrofit",
+    "Sensors Analytics",
+    "Sobot Chat",
+    "Twitter SDK",
+    "Unity Ads",
+    "Vungle",
+    "ironSource"
+  ],
+  "assets_list": [
+    "assets/Merriweather-Regular.ttf",
+    "assets/RobotoSlab-Regular.ttf",
+    "assets/audience_network.dex",
+    "assets/build_time.txt",
+    "assets/comic_guide.json",
+    "assets/config_app/app_build_time",
+    "assets/config_app/channel",
+    "assets/contest_tab.json",
+    "assets/contest_tab_white.json",
+    "assets/count_down_lot.json",
+    "assets/features_config.json",
+    "assets/fyb_iframe_endcard_tmpl.html",
+    "assets/fyb_static_endcard_tmpl.html",
+    "assets/gn_gesture.json",
+    "assets/gn_start.json",
+    "assets/ia_js_load_monitor.txt",
+    "assets/ia_mraid_bridge.txt",
+    "assets/images/img_0.png",
+    "assets/life.txt",
+    "assets/more_loading.json",
+    "assets/newreccommendbook_loading.json",
+    "assets/player_playing.json",
+    "assets/pull_to_refresh_lot.json",
+    "assets/pull_to_refresh_lot1.json",
+    "assets/pull_to_refresh_lot2.json",
+    "assets/push_book_heart.json",
+    "assets/recharge_countdown.json",
+    "assets/recharge_style2_time.json",
+    "assets/rv_binddatas.xml",
+    "assets/sa_mcc_mnc_mini.json",
+    "assets/vpaid_html_template.html",
+    "assets/writing_release_waiting.json"
+  ],
+  "assets_categories": {
+    "fonts": [
+      "assets/Merriweather-Regular.ttf",
+      "assets/RobotoSlab-Regular.ttf"
+    ],
+    "plugins_jars": [
+      "assets/audience_network.dex"
+    ],
+    "config_data": [
+      "assets/build_time.txt",
+      "assets/comic_guide.json",
+      "assets/contest_tab.json",
+      "assets/contest_tab_white.json",
+      "assets/count_down_lot.json",
+      "assets/features_config.json",
+      "assets/gn_gesture.json",
+      "assets/gn_start.json",
+      "assets/ia_js_load_monitor.txt",
+      "assets/ia_mraid_bridge.txt",
+      "assets/life.txt",
+      "assets/more_loading.json",
+      "assets/newreccommendbook_loading.json",
+      "assets/player_playing.json",
+      "assets/pull_to_refresh_lot.json",
+      "assets/pull_to_refresh_lot1.json",
+      "assets/pull_to_refresh_lot2.json",
+      "assets/push_book_heart.json",
+      "assets/recharge_countdown.json",
+      "assets/recharge_style2_time.json",
+      "assets/rv_binddatas.xml",
+      "assets/sa_mcc_mnc_mini.json",
+      "assets/writing_release_waiting.json"
+    ],
+    "other": [
+      "assets/config_app/app_build_time",
+      "assets/config_app/channel"
+    ],
+    "h5_web": [
+      "assets/fyb_iframe_endcard_tmpl.html",
+      "assets/fyb_static_endcard_tmpl.html",
+      "assets/vpaid_html_template.html"
+    ],
+    "images_anim": [
+      "assets/images/img_0.png"
+    ]
+  },
+  "libs_list": [
+    "lib/arm64-v8a/libsobot.so",
+    "lib/armeabi-v7a/libsobot.so",
+    "lib/armeabi/libsobot.so",
+    "lib/x86/libsobot.so",
+    "lib/x86_64/libsobot.so"
+  ]
+}

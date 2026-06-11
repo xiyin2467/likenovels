@@ -5,7 +5,7 @@
 // ---------------------------------------------------------------------------
 
 import http from 'node:http';
-import { db, nextId, GENRES, BOOK_STATUS } from './db.js';
+import { db, nextId, GENRES, BOOK_STATUS, syncChaptersPaywall } from './db.js';
 
 const PORT = process.env.PORT || 4000;
 const ADMIN_USER = process.env.ADMIN_USER || 'admin';
@@ -172,6 +172,10 @@ route('POST', '/api/books', async (req, res) => {
   if (!authed(req)) return send(res, 401, { error: 'unauthorized' });
   const body = await readBody(req);
   if (!body.title || !body.author) return send(res, 400, { error: '标题和作者必填' });
+  const coinPrice = Number(body.coinPrice) || 0;
+  if (coinPrice <= 0) {
+    return send(res, 400, { error: '单章解锁金币必须大于 0' });
+  }
   const id = nextId('b');
   const book = {
     id,
@@ -186,6 +190,8 @@ route('POST', '/api/books', async (req, res) => {
     blurb: body.blurb || '',
     badge: body.badge || null,
     rank: body.rank ?? null,
+    coinPrice,
+    freeChapters: Math.max(0, Number(body.freeChapters) || 5),
   };
   db.books.push(book);
   db.chapters[id] = [];
@@ -204,6 +210,20 @@ route('PUT', '/api/books/:id', async (req, res, params) => {
       else book[f] = body[f];
     }
   }
+  // 付费配置：会员全场畅读；金币价格仅用于非会员按章购买。
+  let paywallChanged = false;
+  if (body.coinPrice !== undefined) {
+    book.coinPrice = Number(body.coinPrice) || 0;
+    paywallChanged = true;
+  }
+  if (body.freeChapters !== undefined) {
+    book.freeChapters = Math.max(0, Number(body.freeChapters) || 0);
+    paywallChanged = true;
+  }
+  if (!(book.coinPrice > 0)) {
+    return send(res, 400, { error: '单章解锁金币必须大于 0' });
+  }
+  if (paywallChanged) syncChaptersPaywall(book, db.chapters[book.id]);
   return send(res, 200, book);
 });
 
@@ -231,12 +251,13 @@ route('POST', '/api/books/:id/chapters', async (req, res, params) => {
   const body = await readBody(req);
   const list = db.chapters[params.id] || (db.chapters[params.id] = []);
   const nextNum = list.length ? Math.max(...list.map((c) => c.id)) + 1 : 1;
+  // 免费/金币由书籍付费配置派生，章节不单独配置
   const chapter = {
     id: nextNum,
     bookId: params.id,
     title: body.title || `Chapter ${nextNum}`,
-    free: !!body.free,
-    coins: Number(body.coins) || 38,
+    free: list.length < (book.freeChapters ?? 0),
+    coins: book.coinPrice ?? 0,
     wordCount: Number(body.wordCount) || 2200,
     published: body.published !== false,
   };
@@ -251,9 +272,10 @@ route('PUT', '/api/books/:id/chapters/:cid', async (req, res, params) => {
   const ch = list.find((c) => String(c.id) === params.cid);
   if (!ch) return send(res, 404, { error: 'not found' });
   const body = await readBody(req);
-  for (const f of ['title', 'free', 'coins', 'wordCount', 'published']) {
+  // free/coins 由书籍付费配置统一管理，章节级仅可改标题/字数/发布状态
+  for (const f of ['title', 'wordCount', 'published']) {
     if (body[f] !== undefined) {
-      if (f === 'coins' || f === 'wordCount') ch[f] = Number(body[f]);
+      if (f === 'wordCount') ch[f] = Number(body[f]);
       else ch[f] = body[f];
     }
   }
@@ -396,8 +418,8 @@ route('POST', '/api/plans', async (req, res) => {
     period: body.period || '/month',
     price: body.price || '$0.00',
     originalPrice: body.originalPrice || null,
+    introOffer: body.introOffer || null,
     tag: body.tag || null,
-    dailyCoins: Number(body.dailyCoins) || 0,
     active: body.active !== false,
   };
   db.plans.push(plan);
@@ -409,8 +431,8 @@ route('PUT', '/api/plans/:id', async (req, res, params) => {
   const plan = db.plans.find((p) => p.id === params.id);
   if (!plan) return send(res, 404, { error: 'not found' });
   const body = await readBody(req);
-  for (const f of ['name', 'period', 'price', 'originalPrice', 'tag', 'dailyCoins', 'active']) {
-    if (body[f] !== undefined) plan[f] = f === 'dailyCoins' ? Number(body[f]) : body[f];
+  for (const f of ['name', 'period', 'price', 'originalPrice', 'introOffer', 'tag', 'active']) {
+    if (body[f] !== undefined) plan[f] = body[f];
   }
   return send(res, 200, plan);
 });

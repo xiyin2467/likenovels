@@ -1,0 +1,97 @@
+{
+  "_meta": { "code": "ms", "nativeName": "Bahasa Melayu", "rtl": false },
+  "common": {
+    "appName": "likenovel",
+    "ok": "OK",
+    "cancel": "Batal",
+    "confirm": "Sahkan",
+    "save": "Simpan",
+    "delete": "Padam",
+    "remove": "Alih keluar",
+    "edit": "Sunting",
+    "done": "Selesai",
+    "retry": "Cuba lagi",
+    "selectAll": "Pilih semua",
+    "seeMore": "Lagi",
+    "search": "Cari",
+    "networkError": "Ralat rangkaian",
+    "noContent": "Tiada kandungan tersedia.",
+    "loading": "Memuatkan…"
+  },
+  "nav": {
+    "home": "Laman utama",
+    "discover": "Teroka",
+    "category": "Kategori",
+    "library": "Perpustakaan",
+    "wallet": "Dompet",
+    "me": "Saya"
+  },
+  "onboarding": {
+    "tagline": "Cerita yang membuatkan anda berjaga sepanjang malam",
+    "continueWithGoogle": "Teruskan dengan Google",
+    "continueWithApple": "Teruskan dengan Apple",
+    "continueAsGuest": "Teruskan sebagai tetamu",
+    "agreement": "Dengan meneruskan, anda bersetuju dengan Terma dan Dasar Privasi kami"
+  },
+  "guide": {
+    "title": "Apa yang anda suka baca?",
+    "subtitle": "Pilih beberapa untuk memperibadikan suapan anda",
+    "continueAction": "Teruskan"
+  },
+  "discover": {
+    "header": "Teroka",
+    "searchHint": "Cari tajuk, penulis, tema",
+    "sectionTopCharts": "Carta teratas",
+    "sectionNewRising": "Baharu & meningkat",
+    "sectionForYou": "Untuk anda"
+  },
+  "library": {
+    "title": "Perpustakaan",
+    "tabReading": "Sedang dibaca",
+    "tabUnlocked": "Dibuka",
+    "tabFinished": "Selesai",
+    "emptyReading": "Anda belum memulakan sebarang buku.",
+    "continueReading": "Teruskan membaca"
+  },
+  "wallet": {
+    "title": "Dompet",
+    "balance": "Baki",
+    "coins": "Syiling",
+    "bonus": "Bonus",
+    "recharge": "Tambah nilai",
+    "balanceHistory": "Sejarah baki",
+    "dailyCheckin": "Daftar masuk harian"
+  },
+  "reader": {
+    "themePaper": "Kertas",
+    "themeSepia": "Sepia",
+    "themeDark": "Gelap",
+    "themeBlack": "Hitam",
+    "fontSize": "Saiz fon",
+    "nextChapter": "Bab seterusnya",
+    "autoUnlockNext": "Buka bab seterusnya secara automatik"
+  },
+  "paywall": {
+    "title": "Buka Bab {chapter}",
+    "price": "Harga",
+    "balance": "Baki",
+    "unlockNow": "Buka sekarang",
+    "goToStore": "Pergi ke kedai",
+    "unlockSuccess": "Dibuka! Selamat membaca.",
+    "insufficient": "Syiling tidak mencukupi. Tambah nilai untuk meneruskan."
+  },
+  "profile": {
+    "title": "Saya",
+    "signIn": "Log masuk",
+    "copyId": "Salin",
+    "guestName": "Tetamu_{id}",
+    "menuOrders": "Pesanan saya",
+    "menuPurchased": "Bab yang dibeli",
+    "menuAutoUnlock": "Senarai buka automatik",
+    "menuHelp": "Pusat bantuan",
+    "menuAbout": "Tentang kami",
+    "menuTerms": "Terma perkhidmatan",
+    "menuPrivacy": "Dasar privasi",
+    "menuSettings": "Tetapan"
+  }
+}

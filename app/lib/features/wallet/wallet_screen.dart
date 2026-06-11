@@ -2,22 +2,29 @@ import 'package:flutter/material.dart';
 import 'package:likenovel/app/fonts.dart';
 
 import 'package:likenovel/app/theme.dart';
+import 'package:likenovel/app/providers.dart';
 
 class WalletScreen extends StatelessWidget {
   final int coins;
+  final MembershipState? membership;
   final VoidCallback onTopUp;
   final VoidCallback onMembership;
   final VoidCallback onCheckin;
+  final VoidCallback? onWatchAd;
   final VoidCallback? onBack;
 
   const WalletScreen({
     super.key,
     required this.coins,
+    this.membership,
     required this.onTopUp,
     required this.onMembership,
     required this.onCheckin,
+    this.onWatchAd,
     this.onBack,
   });
+
+  bool get _isMember => membership != null && membership!.isActive;
 
   int get _chaptersEstimate => (coins / 38).floor();
 
@@ -36,9 +43,10 @@ class WalletScreen extends StatelessWidget {
             children: [
               _buildHeader(),
               const SizedBox(height: ElSpacing.s20),
-              _buildBalanceCard(),
-              const SizedBox(height: ElSpacing.s24),
+              // 会员置顶（订阅 LTV 更高，优先曝光），金币余额在下
               _buildMembershipCard(),
+              const SizedBox(height: ElSpacing.s24),
+              _buildBalanceCard(),
               const SizedBox(height: ElSpacing.s24),
               _buildDailyRewards(),
             ],
@@ -245,7 +253,7 @@ class WalletScreen extends StatelessWidget {
                 iconBg: ElTheme.goldSoft,
                 title: 'Watch & earn',
                 subtitle: '+12 coins',
-                onTap: () {},
+                onTap: onWatchAd ?? () {},
               ),
             ),
           ],
@@ -256,6 +264,11 @@ class WalletScreen extends StatelessWidget {
 
   /// 会员（VIP）入口卡片——第二套变现体系，放在显眼位置。
   Widget _buildMembershipCard() {
+    final expiry = membership?.expiry;
+    final expiryText = expiry == null
+        ? ''
+        : '${expiry.year}-${expiry.month.toString().padLeft(2, '0')}-${expiry.day.toString().padLeft(2, '0')}';
+
     return GestureDetector(
       onTap: onMembership,
       child: Container(
@@ -298,17 +311,43 @@ class WalletScreen extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        'VIP Membership',
-                        style: AppFont.inter(
-                          fontSize: 15,
-                          fontWeight: FontWeight.w700,
-                          color: const Color(0xFFF5E6C8),
-                        ),
+                      Row(
+                        children: [
+                          Text(
+                            'VIP Membership',
+                            style: AppFont.inter(
+                              fontSize: 15,
+                              fontWeight: FontWeight.w700,
+                              color: const Color(0xFFF5E6C8),
+                            ),
+                          ),
+                          if (_isMember) ...[
+                            const SizedBox(width: 8),
+                            Container(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 7, vertical: 1),
+                              decoration: BoxDecoration(
+                                color: ElTheme.gold.withValues(alpha: 0.25),
+                                borderRadius: BorderRadius.circular(99),
+                              ),
+                              child: Text(
+                                'ACTIVE',
+                                style: AppFont.inter(
+                                  fontSize: 9,
+                                  fontWeight: FontWeight.w800,
+                                  letterSpacing: 0.8,
+                                  color: ElTheme.gold,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ],
                       ),
                       const SizedBox(height: 2),
                       Text(
-                        'Unlimited stories · Ad-free · Daily coins',
+                        _isMember
+                            ? '${membership!.planName} plan · expires $expiryText'
+                            : 'Unlimited stories · Ad-free · Daily coins',
                         style: AppFont.inter(
                           fontSize: 12,
                           color: const Color(0xFFF5E6C8).withValues(alpha: 0.65),
@@ -331,7 +370,9 @@ class WalletScreen extends StatelessWidget {
               ),
               alignment: Alignment.center,
               child: Text(
-                'View plans · from \$2.99',
+                _isMember
+                    ? 'Manage plan · Renew or upgrade'
+                    : 'View plans · from \$2.99',
                 style: AppFont.inter(
                   fontSize: 14,
                   fontWeight: FontWeight.w700,

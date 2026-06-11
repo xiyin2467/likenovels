@@ -1,0 +1,97 @@
+{
+  "_meta": { "code": "vi", "nativeName": "Tiếng Việt", "rtl": false },
+  "common": {
+    "appName": "likenovel",
+    "ok": "OK",
+    "cancel": "Hủy",
+    "confirm": "Xác nhận",
+    "save": "Lưu",
+    "delete": "Xóa",
+    "remove": "Gỡ bỏ",
+    "edit": "Chỉnh sửa",
+    "done": "Xong",
+    "retry": "Thử lại",
+    "selectAll": "Chọn tất cả",
+    "seeMore": "Thêm",
+    "search": "Tìm kiếm",
+    "networkError": "Lỗi mạng",
+    "noContent": "Không có nội dung.",
+    "loading": "Đang tải…"
+  },
+  "nav": {
+    "home": "Trang chủ",
+    "discover": "Khám phá",
+    "category": "Thể loại",
+    "library": "Tủ sách",
+    "wallet": "Ví",
+    "me": "Tôi"
+  },
+  "onboarding": {
+    "tagline": "Những câu chuyện khiến bạn thức trắng đêm",
+    "continueWithGoogle": "Tiếp tục với Google",
+    "continueWithApple": "Tiếp tục với Apple",
+    "continueAsGuest": "Tiếp tục với tư cách khách",
+    "agreement": "Khi tiếp tục, bạn đồng ý với Điều khoản và Chính sách quyền riêng tư của chúng tôi"
+  },
+  "guide": {
+    "title": "Bạn thích đọc gì?",
+    "subtitle": "Chọn một vài mục để cá nhân hóa trang của bạn",
+    "continueAction": "Tiếp tục"
+  },
+  "discover": {
+    "header": "Khám phá",
+    "searchHint": "Tìm tên truyện, tác giả, chủ đề",
+    "sectionTopCharts": "Bảng xếp hạng",
+    "sectionNewRising": "Mới và nổi bật",
+    "sectionForYou": "Dành cho bạn"
+  },
+  "library": {
+    "title": "Tủ sách",
+    "tabReading": "Đang đọc",
+    "tabUnlocked": "Đã mở khóa",
+    "tabFinished": "Đã đọc xong",
+    "emptyReading": "Bạn chưa bắt đầu cuốn sách nào.",
+    "continueReading": "Tiếp tục đọc"
+  },
+  "wallet": {
+    "title": "Ví",
+    "balance": "Số dư",
+    "coins": "Xu",
+    "bonus": "Thưởng",
+    "recharge": "Nạp xu",
+    "balanceHistory": "Lịch sử số dư",
+    "dailyCheckin": "Điểm danh hằng ngày"
+  },
+  "reader": {
+    "themePaper": "Giấy",
+    "themeSepia": "Nâu nhạt",
+    "themeDark": "Tối",
+    "themeBlack": "Đen",
+    "fontSize": "Cỡ chữ",
+    "nextChapter": "Chương tiếp theo",
+    "autoUnlockNext": "Tự động mở khóa chương tiếp theo"
+  },
+  "paywall": {
+    "title": "Mở khóa Chương {chapter}",
+    "price": "Giá",
+    "balance": "Số dư",
+    "unlockNow": "Mở khóa ngay",
+    "goToStore": "Đến cửa hàng",
+    "unlockSuccess": "Đã mở khóa! Chúc bạn đọc vui.",
+    "insufficient": "Không đủ xu. Nạp thêm để tiếp tục."
+  },
+  "profile": {
+    "title": "Tôi",
+    "signIn": "Đăng nhập",
+    "copyId": "Sao chép",
+    "guestName": "Khách_{id}",
+    "menuOrders": "Đơn hàng của tôi",
+    "menuPurchased": "Chương đã mua",
+    "menuAutoUnlock": "Danh sách tự động mở khóa",
+    "menuHelp": "Trung tâm trợ giúp",
+    "menuAbout": "Về chúng tôi",
+    "menuTerms": "Điều khoản dịch vụ",
+    "menuPrivacy": "Chính sách quyền riêng tư",
+    "menuSettings": "Cài đặt"
+  }
+}
