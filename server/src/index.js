@@ -173,9 +173,10 @@ route('POST', '/api/books', async (req, res) => {
   const body = await readBody(req);
   if (!body.title || !body.author) return send(res, 400, { error: '标题和作者必填' });
   const coinPrice = Number(body.coinPrice) || 0;
-  if (coinPrice <= 0) {
-    return send(res, 400, { error: '单章解锁金币必须大于 0' });
+  if (coinPrice < 0) {
+    return send(res, 400, { error: '单章解锁金币不能小于 0' });
   }
+  const freeChapters = coinPrice === 0 ? 0 : Math.max(0, Number(body.freeChapters) || 5);
   const id = nextId('b');
   const book = {
     id,
@@ -191,7 +192,7 @@ route('POST', '/api/books', async (req, res) => {
     badge: body.badge || null,
     rank: body.rank ?? null,
     coinPrice,
-    freeChapters: Math.max(0, Number(body.freeChapters) || 5),
+    freeChapters,
   };
   db.books.push(book);
   db.chapters[id] = [];
@@ -220,8 +221,11 @@ route('PUT', '/api/books/:id', async (req, res, params) => {
     book.freeChapters = Math.max(0, Number(body.freeChapters) || 0);
     paywallChanged = true;
   }
-  if (!(book.coinPrice > 0)) {
-    return send(res, 400, { error: '单章解锁金币必须大于 0' });
+  if (book.coinPrice < 0) {
+    return send(res, 400, { error: '单章解锁金币不能小于 0' });
+  }
+  if (book.coinPrice === 0) {
+    book.freeChapters = 0;
   }
   if (paywallChanged) syncChaptersPaywall(book, db.chapters[book.id]);
   return send(res, 200, book);
@@ -256,8 +260,8 @@ route('POST', '/api/books/:id/chapters', async (req, res, params) => {
     id: nextNum,
     bookId: params.id,
     title: body.title || `Chapter ${nextNum}`,
-    free: list.length < (book.freeChapters ?? 0),
-    coins: book.coinPrice ?? 0,
+    free: Number(book.coinPrice) === 0 || list.length < (book.freeChapters ?? 0),
+    coins: Number(book.coinPrice) === 0 ? 0 : book.coinPrice ?? 0,
     wordCount: Number(body.wordCount) || 2200,
     published: body.published !== false,
   };
@@ -375,6 +379,7 @@ route('POST', '/api/packages', async (req, res) => {
     bonusLabel: body.bonusLabel || '',
     price: body.price || '$0.00',
     pricevalue: Number(body.pricevalue) || Number(String(body.price || '').replace('$', '')) || 0,
+    googlePlayProductId: body.googlePlayProductId || '',
     tag: body.tag || null,
     active: body.active !== false,
   };
@@ -387,7 +392,7 @@ route('PUT', '/api/packages/:id', async (req, res, params) => {
   const pkg = db.packages.find((p) => p.id === params.id);
   if (!pkg) return send(res, 404, { error: 'not found' });
   const body = await readBody(req);
-  for (const f of ['coins', 'bonus', 'bonusLabel', 'price', 'pricevalue', 'tag', 'active']) {
+  for (const f of ['coins', 'bonus', 'bonusLabel', 'price', 'pricevalue', 'googlePlayProductId', 'tag', 'active']) {
     if (body[f] !== undefined) pkg[f] = ['coins', 'bonus', 'pricevalue'].includes(f) ? Number(body[f]) : body[f];
   }
   return send(res, 200, pkg);
@@ -417,6 +422,7 @@ route('POST', '/api/plans', async (req, res) => {
     name: body.name || 'New plan',
     period: body.period || '/month',
     price: body.price || '$0.00',
+    googlePlayProductId: body.googlePlayProductId || '',
     originalPrice: body.originalPrice || null,
     introOffer: body.introOffer || null,
     tag: body.tag || null,
@@ -431,7 +437,7 @@ route('PUT', '/api/plans/:id', async (req, res, params) => {
   const plan = db.plans.find((p) => p.id === params.id);
   if (!plan) return send(res, 404, { error: 'not found' });
   const body = await readBody(req);
-  for (const f of ['name', 'period', 'price', 'originalPrice', 'introOffer', 'tag', 'active']) {
+  for (const f of ['name', 'period', 'price', 'googlePlayProductId', 'originalPrice', 'introOffer', 'tag', 'active']) {
     if (body[f] !== undefined) plan[f] = body[f];
   }
   return send(res, 200, plan);

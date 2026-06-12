@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:likenovel/core/mock/mock_data.dart';
+import 'package:likenovel/features/book_detail/book_detail_screen.dart';
 import 'package:likenovel/features/reader/reader_screen.dart';
 import 'package:likenovel/shared/widgets/sheets.dart';
 
@@ -146,6 +148,8 @@ void main() {
             unlockedChapters: const {},
             isFavorite: false,
             onToggleFavorite: () {},
+            prefersCoinUnlock: false,
+            onCoinUnlock: (_, _) {},
           ),
         ),
       ),
@@ -156,6 +160,108 @@ void main() {
 
     expect(find.text('Next · Chapter 2'), findsOneWidget);
     expect(find.text('VIP'), findsNWidgets(2));
+  });
+
+  testWidgets(
+      'reader unlocks next paid chapter with coins without opening paywall after coin preference',
+      (tester) async {
+    final book = kBooks.first;
+    var paywallOpened = false;
+    var coinUnlocked = false;
+    int? unlockedChapterId;
+
+    await tester.pumpWidget(
+      MaterialApp(
+        home: Scaffold(
+          body: ReaderScreen(
+            book: book,
+            chapterId: 3,
+            onBack: () {},
+            onPaywall: (book, chapterId) => paywallOpened = true,
+            coins: book.chapterPrice,
+            isMember: false,
+            unlockedChapters: const {},
+            isFavorite: false,
+            onToggleFavorite: () {},
+            prefersCoinUnlock: true,
+            onCoinUnlock: (_, chapterId) {
+              coinUnlocked = true;
+              unlockedChapterId = chapterId;
+            },
+          ),
+        ),
+      ),
+    );
+
+    await tester.tap(find.byType(ReaderScreen));
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.widgetWithText(ElevatedButton, 'Unlock').first);
+    await tester.pump();
+
+    expect(paywallOpened, isFalse);
+    expect(coinUnlocked, isTrue);
+    expect(unlockedChapterId, 4);
+  });
+
+  testWidgets('free book detail shows free label and hides coin price',
+      (tester) async {
+    final book = kBooks.first.copyWith(chapterPrice: 0);
+
+    await tester.pumpWidget(
+      ProviderScope(
+        child: MaterialApp(
+          home: BookDetailScreen(
+            book: book,
+            onBack: () {},
+            onRead: (_, _) {},
+          ),
+        ),
+      ),
+    );
+
+    expect(find.text('Free'), findsWidgets);
+    expect(find.text('${book.chapterPrice}/ch'), findsNothing);
+  });
+
+  testWidgets('free book reader continues without unlock or paywall',
+      (tester) async {
+    final book = kBooks.first.copyWith(chapterPrice: 0);
+    var paywallOpened = false;
+    var coinUnlocked = false;
+
+    await tester.pumpWidget(
+      MaterialApp(
+        home: Scaffold(
+          body: ReaderScreen(
+            book: book,
+            chapterId: 3,
+            onBack: () {},
+            onPaywall: (_, _) => paywallOpened = true,
+            coins: 0,
+            isMember: false,
+            unlockedChapters: const {},
+            isFavorite: false,
+            onToggleFavorite: () {},
+            prefersCoinUnlock: false,
+            onCoinUnlock: (_, _) => coinUnlocked = true,
+          ),
+        ),
+      ),
+    );
+
+    await tester.tap(find.byType(ReaderScreen));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Unlock'), findsNothing);
+    expect(find.text('Next · Chapter 4'), findsOneWidget);
+
+    await tester.tap(find.text('Next · Chapter 4'));
+    await tester.pump();
+
+    expect(paywallOpened, isFalse);
+    expect(coinUnlocked, isFalse);
+    expect(find.text('Chapter 4'), findsWidgets);
   });
 
   test('membership V2 uses whole-library perks and subscription-first pricing',

@@ -42,7 +42,7 @@ class _BookDetailScreenState extends ConsumerState<BookDetailScreen> {
   @override
   void initState() {
     super.initState();
-    _chapters = getChapters(widget.book.id);
+    _chapters = getChapters(widget.book.id, sourceBook: widget.book);
   }
 
   @override
@@ -166,6 +166,24 @@ class _BookDetailScreenState extends ConsumerState<BookDetailScreen> {
   }
 
   Widget _buildStats(Book book) {
+    final unlockPills = book.isFree
+        ? [
+            _UnlockPill(
+              icon: Icons.lock_open_rounded,
+              label: 'Free',
+            ),
+          ]
+        : [
+            _UnlockPill(
+              icon: Icons.workspace_premium_rounded,
+              label: 'VIP unlimited',
+            ),
+            _UnlockPill(
+              icon: Icons.monetization_on_rounded,
+              label: '${book.chapterPrice}/ch',
+            ),
+          ];
+
     return Wrap(
       spacing: 8,
       runSpacing: 8,
@@ -178,14 +196,7 @@ class _BookDetailScreenState extends ConsumerState<BookDetailScreen> {
         _StatPill(label: '${book.reads} reads'),
         _StatPill(label: '${book.chapters} ch'),
         _StatusPill(status: book.status),
-        _UnlockPill(
-          icon: Icons.workspace_premium_rounded,
-          label: 'VIP unlimited',
-        ),
-        _UnlockPill(
-          icon: Icons.monetization_on_rounded,
-          label: '${book.chapterPrice}/ch',
-        ),
+        ...unlockPills,
       ],
     );
   }
@@ -367,7 +378,7 @@ class _BookDetailScreenState extends ConsumerState<BookDetailScreen> {
                   ),
                   child: Center(
                     child: Text(
-                      'Read chapter 1 free',
+                      book.isFree ? 'Read now' : 'Read chapter 1 free',
                       style: AppFont.inter(
                         fontSize: 15,
                         fontWeight: FontWeight.w600,

@@ -86,6 +86,37 @@ try {
   r = await api(`/api/books/${bookId}`, { method: 'DELETE' });
   assert(r.status === 200, '删除书籍成功');
 
+  r = await api('/api/books', {
+    method: 'POST',
+    body: JSON.stringify({
+      title: 'Free Test Book',
+      author: 'QA',
+      genre: 'modern',
+      coinPrice: 0,
+      freeChapters: 12,
+    }),
+  });
+  assert(r.status === 201 && r.body.coinPrice === 0, '允许创建全书免费书籍');
+  const freeBookId = r.body.id;
+
+  r = await api(`/api/books/${freeBookId}/chapters`, {
+    method: 'POST',
+    body: JSON.stringify({ title: 'Free Ch1' }),
+  });
+  assert(
+    r.status === 201 && r.body.free === true && r.body.coins === 0,
+    '全书免费书籍新增章节自动免费'
+  );
+
+  r = await api(`/api/books/${freeBookId}`, {
+    method: 'PUT',
+    body: JSON.stringify({ coinPrice: 25, freeChapters: 0 }),
+  });
+  assert(r.status === 200 && r.body.coinPrice === 25, '全书免费书籍可改回付费');
+
+  r = await api(`/api/books/${freeBookId}`, { method: 'DELETE' });
+  assert(r.status === 200, '删除全书免费测试书籍成功');
+
   // 用户
   r = await api('/api/users?page=1&pageSize=10');
   assert(r.status === 200 && r.body.items.length === 10, '用户分页返回 10 条');
@@ -104,8 +135,34 @@ try {
   // 变现配置
   r = await api('/api/packages');
   assert(r.status === 200 && r.body.items.length >= 4, '充值套餐列表返回');
+  r = await api('/api/packages', {
+    method: 'POST',
+    body: JSON.stringify({
+      coins: 120,
+      bonus: 0,
+      price: '$1.99',
+      googlePlayProductId: 'coins_120',
+    }),
+  });
+  assert(
+    r.status === 201 && r.body.googlePlayProductId === 'coins_120',
+    '充值套餐保存 Google Play product id'
+  );
   r = await api('/api/plans');
   assert(r.status === 200 && r.body.items.length >= 3, '会员套餐列表返回');
+  r = await api('/api/plans', {
+    method: 'POST',
+    body: JSON.stringify({
+      name: 'QA Monthly',
+      period: '/month',
+      price: '$1.99',
+      googlePlayProductId: 'vip_monthly_qa',
+    }),
+  });
+  assert(
+    r.status === 201 && r.body.googlePlayProductId === 'vip_monthly_qa',
+    '会员套餐保存 Google Play product id'
+  );
 
   console.log(failures === 0 ? '\n全部通过 ✓' : `\n失败 ${failures} 项 ✗`);
 } catch (err) {

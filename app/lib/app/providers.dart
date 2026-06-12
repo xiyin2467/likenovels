@@ -62,6 +62,22 @@ class UnlockedChaptersNotifier extends Notifier<Map<String, Set<int>>> {
 }
 
 // ---------------------------------------------------------------------------
+// 金币解锁偏好：用户在某本书选择过金币解锁后，后续余额足够时直接按章扣币。
+// ---------------------------------------------------------------------------
+final coinUnlockPreferenceProvider =
+    NotifierProvider<CoinUnlockPreferenceNotifier, Set<String>>(
+        CoinUnlockPreferenceNotifier.new);
+
+class CoinUnlockPreferenceNotifier extends Notifier<Set<String>> {
+  @override
+  Set<String> build() => <String>{};
+
+  void remember(String bookId) => state = {...state, bookId};
+
+  bool contains(String bookId) => state.contains(bookId);
+}
+
+// ---------------------------------------------------------------------------
 // 阅读偏好：用户在引导页选择的题材/标签，用于个性化排序
 // ---------------------------------------------------------------------------
 final preferencesProvider =

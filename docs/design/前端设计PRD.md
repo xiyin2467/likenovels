@@ -167,11 +167,11 @@
 - 评分 + 阅读量 + 章节数 + 状态
 - 标签（Genre + trope）
 - 简介段落
-- 章节列表入口（前 3 章标"Free"，后续标金币价格）
+- 章节列表入口：免费章标 `Free`，付费章标金币价格；若书籍 `chapterPrice = 0`，详情元数据区额外显示 `Free` 标签且不显示金币单价，所有章节标 `Free`
 
 **底部固定栏**：
 - 左：心形收藏按钮
-- 右：主 CTA `Read chapter 1 free`
+- 右：主 CTA。付费书显示 `Read chapter 1 free`；全书免费显示 `Read now`
 
 ---
 
@@ -191,7 +191,7 @@
 **底部栏**：
 - 阅读进度百分比
 - 进度条
-- Unlock 按钮
+- 下一章按钮。可读章节显示 `Next / Continue reading`；付费章节显示 `Unlock`；全书免费书不出现 `Unlock`
 
 **阅读设置 Sheet**：
 - 字号调节（A- / A+）
@@ -217,6 +217,10 @@
 2. **Other ways to continue**（弱文字入口）：点击展开后才显示金币入口；余额足够时显示 "Pay X coins" 并直接支付解锁，余额不足时显示 "Top up to unlock"
 
 **余额不足流程**：点击 "Top up to unlock" 后先给出英文提示 "Not enough coins"，再唤起带章节上下文的 Recharge Sheet。
+
+**金币偏好流程**：用户在某本书第一次选择金币解锁后，后续同书章节点击 `Unlock` 时，若余额足够则直接扣币并进入下一章，不再弹出 Paywall Sheet；余额不足时才重新弹出会员主 CTA 付费墙。
+
+**全书免费状态**：`chapterPrice = 0` 的书不触发 Paywall Sheet，章节目录、详情标签和阅读器下一章均按免费内容处理。
 
 **VIP 已订阅状态**：如果用户已是 VIP，触发解锁时不进入支付墙，展示英文提示 "You're already VIP. Full book unlocked."；后续章节按免费章节一样直接翻页，下一章按钮中显示小型 "VIP" 标识。
 

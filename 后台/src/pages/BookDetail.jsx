@@ -72,6 +72,7 @@ export default function BookDetail() {
   }
 
   if (!book) return <Spinner />;
+  const isFreeBook = Number(book.coinPrice) === 0;
 
   return (
     <>
@@ -96,13 +97,17 @@ export default function BookDetail() {
         <Card className="p-4">
           <div className="text-xs text-faint">付费方式</div>
           <div className="mt-1 font-serif text-2xl font-bold text-ink">
-            VIP / {book.coinPrice} 币
+            {isFreeBook ? '全书免费' : `VIP / ${book.coinPrice} 币`}
           </div>
-          <div className="mt-1 text-xs text-faint">Pay {book.coinPrice} coins</div>
+          <div className="mt-1 text-xs text-faint">
+            {isFreeBook ? '前台显示 Free，所有章节直接阅读' : `Pay ${book.coinPrice} coins`}
+          </div>
         </Card>
         <Card className="p-4">
           <div className="text-xs text-faint">免费章节</div>
-          <div className="mt-1 font-serif text-2xl font-bold text-ink">前 {book.freeChapters ?? 0} 章</div>
+          <div className="mt-1 font-serif text-2xl font-bold text-ink">
+            {isFreeBook ? '全部' : `前 ${book.freeChapters ?? 0} 章`}
+          </div>
         </Card>
         <Card className="p-4">
           <div className="text-xs text-faint">评分</div>
@@ -135,7 +140,7 @@ export default function BookDetail() {
                     {c.free ? <Badge tone="success">免费</Badge> : <Badge tone="primary">VIP/金币</Badge>}
                   </td>
                   <td className="px-5 py-3 text-muted">
-                    {c.free ? '—' : `VIP 全书解锁；非会员 Pay ${c.coins} coins`}
+                    {c.free ? (isFreeBook ? '全书免费' : '—') : `VIP 全书解锁；非会员 Pay ${c.coins} coins`}
                   </td>
                   <td className="px-5 py-3 text-muted">{c.wordCount}</td>
                   <td className="px-5 py-3">
@@ -172,9 +177,10 @@ export default function BookDetail() {
             <Input label="字数" type="number" min="0" value={modal.form.wordCount}
               onChange={(e) => setModal({ ...modal, form: { ...modal.form, wordCount: Number(e.target.value) } })} />
             <p className="rounded-[13px] bg-surface-2 px-4 py-3 text-xs text-muted">
-              VIP 用户全书已解锁；非会员余额足够时前台显示 "Pay {book.coinPrice} coins"，
-              余额不足时显示 "Top up to unlock" 并进入充值页。免费前 {book.freeChapters ?? 0} 章。
-              章节的免费/付费状态由书籍付费配置自动派生，如需调整请编辑书籍。
+              {isFreeBook
+                ? '当前书籍为全书免费，新增章节会自动免费，前台不会出现 Unlock。'
+                : `VIP 用户全书已解锁；非会员余额足够时前台显示 "Pay ${book.coinPrice} coins"，余额不足时显示 "Top up to unlock"。免费前 ${book.freeChapters ?? 0} 章。`}
+              章节的免费/付费状态由书籍付费配置自动派生。
             </p>
             <div className="flex items-center justify-between rounded-[13px] bg-surface-2 px-4 py-3">
               <span className="text-sm text-ink">立即发布</span>

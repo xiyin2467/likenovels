@@ -16,6 +16,9 @@ cd D:\likenovel\app
 flutter pub get
 # 3. 启动（Chrome 浏览器，无需 Android SDK）
 flutter run -d chrome
+# 局域网设备预览正式 Web 产物
+flutter build web
+python -m http.server 5174 --bind 0.0.0.0 --directory build/web
 # 或 Windows 桌面
 flutter run -d windows
 ```
@@ -26,7 +29,7 @@ flutter run -d windows
 
 ```powershell
 cd D:\likenovel\server; npm run dev    # API → http://localhost:4000
-cd D:\likenovel\后台; npm run dev      # 管理后台 → http://localhost:5173
+cd D:\likenovel\后台; npm run dev      # 管理后台 → http://localhost:5173（默认监听局域网）
 ```
 
 ### V0 低保真原型
@@ -113,6 +116,6 @@ likenovel/
 - **对标 GoodNovel**（出海网文标杆），iReader 仅作体验借鉴
 - **首发市场**：欧美英语；品类方向（女频/男频）待定，规划文档现按女频假设撰写；架构预留多语言（默认 English，JSON i18n 脚手架）
 - **底部导航（4 Tab）**：首页 / 分类 / 书架 / 我的；钱包并入「我的」（push 进入）
-- **订阅优先变现**：会员订阅（VIP，全场畅读）为主付费产品；金币充值仅作为非会员按章出口；外加激励视频广告 + 等待解锁
+- **订阅优先变现**：会员订阅（VIP，全场畅读）为主付费产品；金币充值仅作为非会员按章出口；书籍 `chapterPrice = 0` 时全书免费，不出现 Unlock；Google Play 商品通过 `googlePlayProductId` 映射。
 - **技术栈**：Flutter + NestJS + FCM + Google Billing（内购+订阅）+ AppLovin MAX；字体本地打包（Inter / Newsreader）
 - **MVP**：注册 → 发现/分类 → 读书 → 付费墙 → 充值/会员 → 解锁闭环

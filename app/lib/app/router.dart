@@ -144,6 +144,14 @@ final appRouter = GoRouter(
               chapterId: chapterId,
               onBack: () => context.pop(),
               onPaywall: (b, ch) => _showPaywall(context, ref, b, ch),
+              prefersCoinUnlock:
+                  ref.watch(coinUnlockPreferenceProvider).contains(book.id),
+              onCoinUnlock: (b, ch) => _unlockChapterWithCoins(
+                ref,
+                b,
+                ch,
+                rememberPreference: false,
+              ),
               coins: ref.watch(coinsProvider),
               isMember: ref.watch(membershipProvider)?.isActive ?? false,
               unlockedChapters:
@@ -200,8 +208,12 @@ void _showPaywall(
       coins: ref.read(coinsProvider),
       onClose: () => Navigator.pop(context),
       onCoinUnlock: () {
-        ref.read(coinsProvider.notifier).spend(book.chapterPrice);
-        ref.read(unlockedChaptersProvider.notifier).unlock(book.id, chapterId);
+        _unlockChapterWithCoins(
+          ref,
+          book,
+          chapterId,
+          rememberPreference: true,
+        );
         Navigator.pop(context);
         ToastOverlay.show(context, 'Chapter $chapterId unlocked');
       },
@@ -218,10 +230,12 @@ void _showPaywall(
             currentBalance: ref.read(coinsProvider),
           ),
           onChapterUnlock: () {
-            ref.read(coinsProvider.notifier).spend(book.chapterPrice);
-            ref
-                .read(unlockedChaptersProvider.notifier)
-                .unlock(book.id, chapterId);
+            _unlockChapterWithCoins(
+              ref,
+              book,
+              chapterId,
+              rememberPreference: true,
+            );
             ToastOverlay.show(context, 'Chapter $chapterId unlocked');
           },
         );
@@ -237,6 +251,19 @@ void _showPaywall(
       },
     ),
   );
+}
+
+void _unlockChapterWithCoins(
+  WidgetRef ref,
+  Book book,
+  int chapterId, {
+  required bool rememberPreference,
+}) {
+  ref.read(coinsProvider.notifier).spend(book.chapterPrice);
+  ref.read(unlockedChaptersProvider.notifier).unlock(book.id, chapterId);
+  if (rememberPreference) {
+    ref.read(coinUnlockPreferenceProvider.notifier).remember(book.id);
+  }
 }
 
 void _showRecharge(

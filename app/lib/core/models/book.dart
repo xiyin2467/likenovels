@@ -20,6 +20,8 @@ class Book {
   /// 非会员单章金币价格（会员全场畅读，不看章价）。
   final int chapterPrice;
 
+  bool get isFree => chapterPrice == 0;
+
   const Book({
     required this.id,
     required this.title,

@@ -154,6 +154,7 @@ const seedBooks = [
 // ── 章节生成 (最多 30 章，免费章数 / 非会员单章价格由书籍配置决定) ──────────
 function buildChapters(book) {
   const total = Math.min(book.chapters, 30);
+  const isFreeBook = Number(book.coinPrice) === 0;
   const list = [];
   for (let i = 0; i < total; i++) {
     const title =
@@ -168,8 +169,8 @@ function buildChapters(book) {
       id: i + 1,
       bookId: book.id,
       title,
-      free: i < (book.freeChapters ?? 3),
-      coins: book.coinPrice ?? 38,
+      free: isFreeBook || i < (book.freeChapters ?? 3),
+      coins: isFreeBook ? 0 : book.coinPrice ?? 38,
       wordCount: 2200 + ((i * 137) % 800),
       published: true,
     });
@@ -181,26 +182,27 @@ function buildChapters(book) {
 // 会员全场畅读；金币价格仅用于非会员按章购买。
 export function syncChaptersPaywall(book, chapters) {
   const list = chapters || [];
+  const isFreeBook = Number(book.coinPrice) === 0;
   list.forEach((c, i) => {
-    c.free = i < (book.freeChapters ?? 0);
-    c.coins = book.coinPrice ?? 0;
+    c.free = isFreeBook || i < (book.freeChapters ?? 0);
+    c.coins = isFreeBook ? 0 : book.coinPrice ?? 0;
   });
   return list;
 }
 
 // ── 充值套餐种子 ────────────────────────────────────────────────────────────
 const seedPackages = [
-  { id: 'p1', coins: 100, bonus: 100, bonusLabel: 'First top-up only', price: '$0.99', pricevalue: 0.99, tag: 'Double coins', active: true },
-  { id: 'p2', coins: 500, bonus: 25, bonusLabel: '+25 bonus', price: '$4.99', pricevalue: 4.99, tag: null, active: true },
-  { id: 'p3', coins: 1000, bonus: 80, bonusLabel: '+80 bonus', price: '$9.99', pricevalue: 9.99, tag: 'Membership alternative', active: true },
-  { id: 'p4', coins: 2000, bonus: 240, bonusLabel: '+240 bonus', price: '$19.99', pricevalue: 19.99, tag: null, active: true },
+  { id: 'p1', coins: 100, bonus: 100, bonusLabel: 'First top-up only', price: '$0.99', pricevalue: 0.99, googlePlayProductId: 'coins_100', tag: 'Double coins', active: true },
+  { id: 'p2', coins: 500, bonus: 25, bonusLabel: '+25 bonus', price: '$4.99', pricevalue: 4.99, googlePlayProductId: 'coins_500', tag: null, active: true },
+  { id: 'p3', coins: 1000, bonus: 80, bonusLabel: '+80 bonus', price: '$9.99', pricevalue: 9.99, googlePlayProductId: 'coins_1000', tag: 'Membership alternative', active: true },
+  { id: 'p4', coins: 2000, bonus: 240, bonusLabel: '+240 bonus', price: '$19.99', pricevalue: 19.99, googlePlayProductId: 'coins_2000', tag: null, active: true },
 ];
 
 // ── 会员套餐种子 ────────────────────────────────────────────────────────────
 const seedPlans = [
-  { id: 'm_weekly', name: 'Weekly', period: '/week', price: '$4.99', originalPrice: null, introOffer: null, tag: null, active: true },
-  { id: 'm_monthly', name: 'Monthly', period: '/month', price: '$9.99', originalPrice: '$14.99', introOffer: '$5.99 first month', tag: 'Most popular', active: true },
-  { id: 'm_yearly', name: 'Yearly', period: '/year', price: '$79.99', originalPrice: '$119.88', introOffer: null, tag: 'Best value', active: true },
+  { id: 'm_weekly', name: 'Weekly', period: '/week', price: '$4.99', googlePlayProductId: 'vip_weekly', originalPrice: null, introOffer: null, tag: null, active: true },
+  { id: 'm_monthly', name: 'Monthly', period: '/month', price: '$9.99', googlePlayProductId: 'vip_monthly', originalPrice: '$14.99', introOffer: '$5.99 first month', tag: 'Most popular', active: true },
+  { id: 'm_yearly', name: 'Yearly', period: '/year', price: '$79.99', googlePlayProductId: 'vip_yearly', originalPrice: '$119.88', introOffer: null, tag: 'Best value', active: true },
 ];
 
 // ── 用户种子 ────────────────────────────────────────────────────────────────

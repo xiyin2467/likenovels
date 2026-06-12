@@ -86,6 +86,13 @@ class ReaderScreen extends StatefulWidget {
 
   /// 打开付费墙，参数为待解锁的章节号。
   final void Function(Book book, int chapterId) onPaywall;
+
+  /// 本书是否已选择过金币按章解锁。
+  final bool prefersCoinUnlock;
+
+  /// 直接使用金币解锁章节，不打开付费墙。
+  final void Function(Book book, int chapterId) onCoinUnlock;
+
   final int coins;
 
   /// 会员是否生效（全场畅读）。
@@ -110,6 +117,8 @@ class ReaderScreen extends StatefulWidget {
     required this.chapterId,
     required this.onBack,
     required this.onPaywall,
+    required this.prefersCoinUnlock,
+    required this.onCoinUnlock,
     required this.coins,
     required this.isMember,
     required this.unlockedChapters,
@@ -150,7 +159,7 @@ class _ReaderScreenState extends State<ReaderScreen> {
     final raw = kChapterSampleText.split('\n\n');
     _paragraphs = [...raw, ...raw];
     _bodyText = _paragraphs.join('\n\n');
-    _chapters = getChapters(widget.book.id);
+    _chapters = getChapters(widget.book.id, sourceBook: widget.book);
     _chapterId = widget.chapterId;
     _applyChapter(_chapterId);
   }
@@ -200,8 +209,17 @@ class _ReaderScreenState extends State<ReaderScreen> {
     if (_canRead(_nextChapterId)) {
       _goToChapter(_nextChapterId);
     } else {
-      widget.onPaywall(widget.book, _nextChapterId);
+      _requestLockedChapter(_nextChapterId);
     }
+  }
+
+  void _requestLockedChapter(int chapterId) {
+    if (widget.prefersCoinUnlock && widget.coins >= widget.book.chapterPrice) {
+      widget.onCoinUnlock(widget.book, chapterId);
+      _goToChapter(chapterId);
+      return;
+    }
+    widget.onPaywall(widget.book, chapterId);
   }
 
   void _toggleChrome() => setState(() {
@@ -229,7 +247,7 @@ class _ReaderScreenState extends State<ReaderScreen> {
       if (_canRead(selected)) {
         _goToChapter(selected);
       } else {
-        widget.onPaywall(widget.book, selected);
+        _requestLockedChapter(selected);
       }
     }
   }
@@ -875,8 +893,8 @@ class _ReaderScreenState extends State<ReaderScreen> {
                       // 下一章未解锁：付费墙主推会员，金币仅为次选项。
                       Expanded(
                         child: ElevatedButton(
-                          onPressed: () => widget.onPaywall(
-                              widget.book, _nextChapterId),
+                          onPressed: () =>
+                              _requestLockedChapter(_nextChapterId),
                           style: ElevatedButton.styleFrom(
                             backgroundColor: ElTheme.gold,
                             foregroundColor: Colors.white,

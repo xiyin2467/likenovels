@@ -60,9 +60,10 @@ export default function Books() {
   async function save() {
     const f = modal.form;
     if (!f.title || !f.author) return toast.error('标题和作者必填');
-    if (!(Number(f.coinPrice) > 0)) {
-      return toast.error('单章解锁金币必须大于 0');
+    if (Number(f.coinPrice) < 0) {
+      return toast.error('单章解锁金币不能小于 0');
     }
+    const coinPrice = Number(f.coinPrice) || 0;
     setSaving(true);
     try {
       const payload = {
@@ -72,8 +73,8 @@ export default function Books() {
         rank: f.rank === '' ? null : Number(f.rank),
         badge: f.badge || null,
         tropes: f.tropes.split(',').map((s) => s.trim()).filter(Boolean),
-        coinPrice: Number(f.coinPrice),
-        freeChapters: Math.max(0, Number(f.freeChapters) || 0),
+        coinPrice,
+        freeChapters: coinPrice === 0 ? 0 : Math.max(0, Number(f.freeChapters) || 0),
       };
       if (modal.mode === 'create') {
         await api.createBook(payload);
@@ -175,9 +176,15 @@ export default function Books() {
                     </Badge>
                   </td>
                   <td className="px-5 py-3">
-                    <Badge tone="primary">VIP 全书解锁 / 非会员 {b.coinPrice} 币·章</Badge>
+                    {Number(b.coinPrice) === 0 ? (
+                      <Badge tone="success">全书免费</Badge>
+                    ) : (
+                      <Badge tone="primary">VIP 全书解锁 / 非会员 {b.coinPrice} 币·章</Badge>
+                    )}
                     <div className="mt-1 text-xs text-faint">
-                      免费前 {b.freeChapters ?? 0} 章 · 前台按钮 Pay {b.coinPrice} coins
+                      {Number(b.coinPrice) === 0
+                        ? '前台显示 Free，所有章节直接阅读'
+                        : `免费前 ${b.freeChapters ?? 0} 章 · 前台按钮 Pay ${b.coinPrice} coins`}
                     </div>
                   </td>
                   <td className="px-5 py-3 text-muted">{b.chapters}</td>
@@ -254,14 +261,16 @@ export default function Books() {
             <div className="col-span-2 rounded-[13px] border border-line bg-surface-2/60 p-4">
               <div className="mb-3 text-xs font-semibold uppercase tracking-wide text-faint">付费配置</div>
               <div className="grid grid-cols-2 gap-4">
-                <Input label="单章解锁金币" type="number" min="1" value={modal.form.coinPrice}
+                <Input label="单章解锁金币（0 = 全书免费）" type="number" min="0" value={modal.form.coinPrice}
                   onChange={(e) => setModal({ ...modal, form: { ...modal.form, coinPrice: e.target.value } })} />
                 <Input label="免费章节数" type="number" min="0" value={modal.form.freeChapters}
+                  disabled={Number(modal.form.coinPrice) === 0}
                   onChange={(e) => setModal({ ...modal, form: { ...modal.form, freeChapters: e.target.value } })} />
               </div>
               <p className="mt-2 text-xs text-muted">
-                前台规则：VIP 用户触发解锁时提示 "You're already VIP. Full book unlocked."，后续章节直接阅读并显示 VIP 小标。
-                非会员余额足够时显示 "Pay {modal.form.coinPrice} coins"，余额不足时显示 "Top up to unlock" 并进入充值页。
+                {Number(modal.form.coinPrice) === 0
+                  ? '前台规则：全书免费，详情页显示 Free 标签，阅读器不出现 Unlock。'
+                  : `前台规则：VIP 用户全书解锁；非会员余额足够时显示 "Pay ${modal.form.coinPrice} coins"，余额不足时显示 "Top up to unlock"。`}
               </p>
             </div>
             <div className="col-span-2">

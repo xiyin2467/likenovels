@@ -139,7 +139,7 @@ erDiagram
 | status | enum | ongoing / finished |
 | age_rating | enum | general / mature（合规分级） |
 | free_chapter_count | int | 免费章数 |
-| chapter_price | int | 非会员单章金币价格；会员有效时全场畅读，不看章价 |
+| chapter_price | int | 非会员单章金币价格；`0 = 全书免费`；会员有效时全场畅读，不看章价 |
 | stats | json | 评分/阅读数等 |
 
 **chapter**
@@ -150,7 +150,7 @@ erDiagram
 | index | int | 章序 |
 | title | string | 标题 |
 | content_ref | string | 正文存储引用 |
-| price_coins | int | 解锁价格（默认继承 `book.chapter_price`，0 = 免费章） |
+| price_coins | int | 解锁价格（默认继承 `book.chapter_price`，0 = 免费章；书籍 `chapter_price = 0` 时全部章节为 0） |
 
 **chapter_entitlement**
 | 字段 | 类型 | 说明 |
@@ -176,7 +176,7 @@ erDiagram
 |---|---|---|
 | id | uuid | 主键 |
 | user_id | uuid | 下单用户 |
-| sku / price / currency | - | 商品与本地化价格 |
+| sku / google_play_product_id / price / currency | - | 商品、Play Console product id 与本地化价格 |
 | coins / bonus | int | 到账金币 |
 | provider | enum | google / apple |
 | provider_token | string | 验单凭据 |
@@ -202,6 +202,16 @@ erDiagram
 | expires_at | timestamp | 到期时间（前台到期日显示来源） |
 | auto_renew | bool | 是否自动续期 |
 | intro_offer | json? | 首月优惠、地区价格等展示信息 |
+
+**recharge_package / membership_plan（运营配置）**
+| 字段 | 类型 | 说明 |
+|---|---|---|
+| id | string | 内部套餐 ID |
+| google_play_product_id | string | Google Play Console 中配置的消耗型内购 / 订阅商品 ID |
+| price / currency | - | 展示价格与币种；生产以 Google Play 本地化价格为准 |
+| active | bool | 是否上架 |
+| coins / bonus | int? | 充值套餐字段 |
+| period / intro_offer | string? | 会员套餐字段 |
 
 **checkin_log（签到）**
 | 字段 | 类型 | 说明 |
@@ -256,7 +266,7 @@ sequenceDiagram
 | 付费墙「Read free with VIP」主按钮（所有付费章节展示） | `membershipProvider`（到期日） | `POST /membership/google/verify` | `subscription` |
 | VIP 触发锁章 | `membershipProvider.isActive` | `GET /chapters/{id}/content` 直接放行；前台提示 `You're already VIP. Full book unlocked.` | — |
 | 付费墙金币入口（Other ways to continue，非会员次级出口） | `coinsProvider` + `unlockedChaptersProvider` | 余额足够：`POST /chapters/{id}/unlock (coins)`；余额不足：先进入 `POST /payment/google/verify` 入账，再重试 unlock | `chapter_entitlement` + `wallet_ledger` |
-| 阅读器章节放行判定（单通道） | `_canRead`: 免费章 + 会员全场畅读 + 已购章 | `GET /chapters/{id}/content` 放行规则：免费章一律放行；`subscription` 有效放行；`chapter_entitlement` 已购放行 | — |
+| 阅读器章节放行判定（单通道） | `_canRead`: 免费章 + 会员全场畅读 + 已购章 | `GET /chapters/{id}/content` 放行规则：`book.chapter_price = 0` 的全书免费章一律放行；付费书免费章放行；`subscription` 有效放行；`chapter_entitlement` 已购放行 | — |
 | 阅读器收藏按钮 / 书架 Favorites | `favoritesProvider` | `POST/DELETE /me/library` | `library_item` |
 | 阅读器翻章 / 进度条 | 本地章节状态 | `PUT /me/progress/{book_id}` | `reading_progress` |
 | 金币充值 Sheet | `coinsProvider.add` | `POST /payment/google/verify` | `payment_order` + `wallet_ledger` |

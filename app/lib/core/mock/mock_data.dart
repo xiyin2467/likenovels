@@ -168,12 +168,15 @@ final List<LibraryBook> kLibraryBooks = [
   ),
 ];
 
-List<Chapter> getChapters(String bookId) {
-  final book =
-      kBooks.cast<Book?>().firstWhere((b) => b?.id == bookId, orElse: () => null);
+List<Chapter> getChapters(String bookId, {Book? sourceBook}) {
+  final book = sourceBook ??
+      kBooks
+          .cast<Book?>()
+          .firstWhere((b) => b?.id == bookId, orElse: () => null);
   final total = book?.chapters ?? 50;
   // 章价随书走；会员全场畅读时不使用章价。
   final price = book?.chapterPrice ?? 38;
+  final isFreeBook = book?.isFree ?? false;
   final rng = Random(bookId.hashCode);
 
   return List.generate(min(total, 30), (i) {
@@ -186,8 +189,8 @@ List<Chapter> getChapters(String bookId) {
     return Chapter(
       id: i + 1,
       title: title,
-      free: i < 3,
-      coins: price,
+      free: isFreeBook || i < 3,
+      coins: isFreeBook ? 0 : price,
       wordCount: 2200 + rng.nextInt(800),
     );
   });

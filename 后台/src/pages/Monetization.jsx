@@ -31,17 +31,17 @@ export default function Monetization() {
 
   // ── 充值套餐表单 ──
   function newPackage() {
-    setModal({ kind: 'package', mode: 'create', form: { coins: 600, bonus: 0, bonusLabel: '', price: '$4.99', tag: '', active: true } });
+    setModal({ kind: 'package', mode: 'create', form: { coins: 600, bonus: 0, bonusLabel: '', price: '$4.99', googlePlayProductId: '', tag: '', active: true } });
   }
   function editPackage(p) {
-    setModal({ kind: 'package', mode: 'edit', id: p.id, form: { ...p, tag: p.tag || '' } });
+    setModal({ kind: 'package', mode: 'edit', id: p.id, form: { ...p, googlePlayProductId: p.googlePlayProductId || '', tag: p.tag || '' } });
   }
   // ── 会员套餐表单 ──
   function newPlan() {
-    setModal({ kind: 'plan', mode: 'create', form: { name: '', period: '/month', price: '$9.99', originalPrice: '', introOffer: '', tag: '', active: true } });
+    setModal({ kind: 'plan', mode: 'create', form: { name: '', period: '/month', price: '$9.99', googlePlayProductId: '', originalPrice: '', introOffer: '', tag: '', active: true } });
   }
   function editPlan(p) {
-    setModal({ kind: 'plan', mode: 'edit', id: p.id, form: { ...p, tag: p.tag || '', originalPrice: p.originalPrice || '', introOffer: p.introOffer || '' } });
+    setModal({ kind: 'plan', mode: 'edit', id: p.id, form: { ...p, googlePlayProductId: p.googlePlayProductId || '', tag: p.tag || '', originalPrice: p.originalPrice || '', introOffer: p.introOffer || '' } });
   }
 
   async function save() {
@@ -150,6 +150,9 @@ export default function Monetization() {
                   <span className="font-serif text-xl font-bold text-primary">{p.price}</span>
                   <Switch checked={p.active} onChange={() => toggleActive('package', p)} />
                 </div>
+                <div className="mt-2 rounded-[10px] bg-surface-2 px-3 py-2 font-mono text-[11px] text-muted">
+                  {p.googlePlayProductId || '未配置 Google Play product id'}
+                </div>
                 <div className="mt-4 flex gap-1 border-t border-line pt-3">
                   <Button variant="ghost" size="sm" onClick={() => editPackage(p)}>编辑</Button>
                   <Button variant="danger-ghost" size="sm" onClick={() => setConfirmDel({ kind: 'package', item: p })}>
@@ -184,6 +187,9 @@ export default function Monetization() {
                   <div className="text-xs text-faint line-through">{p.originalPrice}</div>
                 )}
                 <div className="mt-2 text-sm text-success">{p.introOffer || '全场畅读 · 零广告'}</div>
+                <div className="mt-3 rounded-[10px] bg-surface-2 px-3 py-2 font-mono text-[11px] text-muted">
+                  {p.googlePlayProductId || '未配置 Google Play product id'}
+                </div>
                 <div className="mt-4 flex items-center justify-between border-t border-line pt-3">
                   <div className="flex gap-1">
                     <Button variant="ghost" size="sm" onClick={() => editPlan(p)}>编辑</Button>
@@ -226,6 +232,10 @@ export default function Monetization() {
             <Input label="角标 (可空)" value={modal.form.tag}
               onChange={(e) => setModal({ ...modal, form: { ...modal.form, tag: e.target.value } })} />
             <div className="col-span-2">
+              <Input label="Google Play product id" value={modal.form.googlePlayProductId}
+                onChange={(e) => setModal({ ...modal, form: { ...modal.form, googlePlayProductId: e.target.value } })} />
+            </div>
+            <div className="col-span-2">
               <Input label="赠送说明 (如 +60 bonus)" value={modal.form.bonusLabel}
                 onChange={(e) => setModal({ ...modal, form: { ...modal.form, bonusLabel: e.target.value } })} />
             </div>
@@ -244,6 +254,8 @@ export default function Monetization() {
               onChange={(e) => setModal({ ...modal, form: { ...modal.form, period: e.target.value } })} />
             <Input label="价格 (如 $9.99)" value={modal.form.price}
               onChange={(e) => setModal({ ...modal, form: { ...modal.form, price: e.target.value } })} />
+            <Input label="Google Play product id" value={modal.form.googlePlayProductId}
+              onChange={(e) => setModal({ ...modal, form: { ...modal.form, googlePlayProductId: e.target.value } })} />
             <Input label="原价 (可空)" value={modal.form.originalPrice}
               onChange={(e) => setModal({ ...modal, form: { ...modal.form, originalPrice: e.target.value } })} />
             <Input label="首期优惠 (可空)" value={modal.form.introOffer}

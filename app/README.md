@@ -45,6 +45,15 @@ flutter analyze
 flutter run -d chrome
 ```
 
+**同 WiFi 设备预览正式 Web 产物：**
+
+```bash
+flutter build web
+python -m http.server 5174 --bind 0.0.0.0 --directory build/web
+```
+
+然后在手机或其他设备打开本机局域网地址，例如 `http://192.168.110.55:5174`。
+
 **Windows 桌面：**
 
 ```bash
@@ -99,8 +108,8 @@ lib/
 | `/library` | 书架 | 3 Tab 阅读进度管理 |
 | `/wallet` | 钱包 | 渐变余额卡 + 签到 + 充值 |
 | `/me` | 个人中心 | 用户卡片 + 8 项设置菜单 |
-| `/book/:id` | 书籍详情 | 渐变 Hero + 元数据 + 章节列表 |
-| `/reader/:bookId/:chapterId` | 阅读器 | 4 主题切换 + 字号调节 + 内联付费墙 |
+| `/book/:id` | 书籍详情 | 渐变 Hero + 元数据 + 章节列表；免费书显示 `Free` 标签 |
+| `/reader/:bookId/:chapterId` | 阅读器 | 4 主题切换 + 字号调节 + 内联付费墙；免费书直接下一章 |
 | `/subpage/:key` | 子页面 | 交易记录 / 签到 / 消息 / 搜索 等 |
 
 ## 技术栈
@@ -124,4 +133,4 @@ lib/
 
 ## 数据说明
 
-当前全部使用 **Mock 数据**（`core/mock/mock_data.dart`），包含 8 本书、章节生成器、4 个充值包、口味标签等。数据层通过 Repository 模式抽象，后续接入 NestJS 后端时只需替换实现，无需修改 UI 代码。
+当前全部使用 **Mock 数据**（`core/mock/mock_data.dart`），包含 8 本书、章节生成器、4 个充值包、口味标签等。`Book.chapterPrice == 0` 表示全书免费，章节生成器会把所有章节标记为 `free` 且 `coins = 0`；付费书仍按前 3 章免费、后续 VIP/金币解锁演示。数据层通过 Repository 模式抽象，后续接入 NestJS 后端时只需替换实现，无需修改 UI 代码。
