@@ -1,4 +1,4 @@
-# HANDOFF.md — 研发交接（截至 2026-06-11）
+# HANDOFF.md — 研发交接（截至 2026-06-12）
 
 > 本文档是**唯一交接入口**，面向接手的全栈研发。
 > 建议工作方式：每个阶段开始时，把本文档 + 该阶段「先读」列出的文档一起提供给 AI，再开工。
@@ -6,7 +6,15 @@
 
 ## 一、现状
 
-产品/设计/原型阶段已全部完成，三端可运行 demo 齐备；**尚无生产后端，客户端未接任何 API**。接下来的工作就是按本文档第五节的顺序，把原型变成可上架 Google Play 的产品。
+产品/设计/原型阶段已全部完成，三端可运行 demo 齐备；**尚无生产后端，客户端未接任何 API**。截至 2026-06-12，已额外补齐前台付费路径细节、全书免费规则、Google Play 商品 ID 管理字段、后台局域网访问与交接 README。接下来的工作就是按本文档第五节的顺序，把原型变成可上架 Google Play 的产品。
+
+### 2026-06-12 变更摘要
+
+- 前台 App：新增同书金币解锁偏好，用户首次选择金币解锁后，后续余额足够时点 `Unlock` 直接扣币并进下一章；`chapterPrice = 0` 的书显示 `Free`，阅读器不出现 `Unlock`。
+- 管理后台：书籍 `单章解锁金币 = 0` 视为全书免费，免费章节数禁用；金币套餐和会员套餐新增 Google Play `product id` 配置。
+- 演示 API：允许免费书，章节派生规则同步；套餐/会员保存 `googlePlayProductId`；`server/test/smoke.mjs` 已覆盖这些规则。
+- 文档：`README.md` 已重写为研发交接入口；`变现模型.md`、`金币与会员权益.md`、`后端API与数据模型.md`、`前端设计PRD.md` 已同步免费书和 Play 商品字段。
+- 本地预览：后台默认监听 `0.0.0.0:5173`；前台正式 Web 产物可用 `python -m http.server 5174 --bind 0.0.0.0 --directory build/web` 给同 WiFi 设备访问。
 
 ## 二、这个项目是怎么做出来的（方法论溯源）
 
@@ -23,18 +31,21 @@
 
 - 技术栈：Flutter + Riverpod（状态）+ go_router（路由）+ 本地打包字体（Inter/Newsreader 可变字体）。
 - 已实现页面：引导/登录、题材引导页、首页（运营位 + 瀑布流）、分类、书架、我的、书籍详情、阅读器（4 主题/字号调节/滚动与仿真翻页/目录/收藏）、钱包（充值 Sheet/会员 Sheet/签到/Watch & earn）、付费墙（VIP 主 CTA + 金币折叠入口；余额足够 `Pay X coins`，不足 `Top up to unlock`），19 种语言的 i18n 脚手架，约 20 个「我的」子页（消息/搜索/榜单/交易流水/购买历史/阅读历史/推送管理/隐私/编辑资料等，见 `features/common/sub_pages.dart`）。
-- **关键现状：纯 mock 数据驱动**。所有书籍/章节数据在 `lib/core/mock/mock_data.dart`（`kBooks` 等常量）；全部业务状态在 `lib/app/providers.dart` 的 6 个 Riverpod Provider（金币 `coinsProvider`、收藏 `favoritesProvider`、解锁账本 `unlockedChaptersProvider`、题材偏好 `preferencesProvider`、翻页模式 `pageTurnModeProvider`、会员 `membershipProvider`）。`pubspec.yaml` 无任何网络库。
-- 付费墙/充值/订阅的完整交互逻辑在 `lib/app/router.dart`（`_showPaywall` / `_showRecharge` / `_showMembership` / `_simulateRewardAd`）——这是未来接 API 时要服务端化的「业务规则原型」。
+- **2026-06-12 付费路径现状**：用户第一次在某本书选择金币解锁后，后续同书章节点击 `Unlock` 且余额足够时直接扣币并进入下一章，不再弹付费墙；余额不足时才回到 VIP 主推付费墙。`Book.chapterPrice == 0` 表示全书免费，详情页显示 `Free` 标签，阅读器不出现 `Unlock`。
+- **关键现状：纯 mock 数据驱动**。所有书籍/章节数据在 `lib/core/mock/mock_data.dart`（`kBooks` 等常量）；全部业务状态在 `lib/app/providers.dart` 的 7 个 Riverpod Provider（金币 `coinsProvider`、收藏 `favoritesProvider`、解锁账本 `unlockedChaptersProvider`、金币解锁偏好 `coinUnlockPreferenceProvider`、题材偏好 `preferencesProvider`、翻页模式 `pageTurnModeProvider`、会员 `membershipProvider`）。`pubspec.yaml` 无任何网络库。
+- 付费墙/充值/订阅的完整交互逻辑在 `lib/app/router.dart`（`_showPaywall` / `_showRecharge` / `_showMembership` / `_unlockChapterWithCoins` / `_simulateRewardAd`）——这是未来接 API 时要服务端化的「业务规则原型」。
 
 ### 3.2 `后台/` — 运营管理后台【起点代码，继续开发】
 
 - 技术栈：React 19 + Vite + Tailwind 4 + react-router。
 - 已实现：登录、仪表盘（营收/用户/书籍/金币统计 + 趋势）、书籍管理（增删改 + 章节管理 + 免费章数/解锁定价）、用户管理（查改 + 手动调币）、订单（查询/退款）、变现配置（金币套餐 + 会员计划增删改）。
+- **2026-06-12 后台现状**：书籍 `单章解锁金币 = 0` 时视为全书免费，免费章节数输入禁用，新增/同步章节自动免费；金币充值套餐和会员订阅套餐均可维护 `googlePlayProductId`，用于后续 Google Play Billing 商品映射。后台 dev 默认监听 `0.0.0.0:5173`，同 WiFi 设备可用局域网 IP 访问。
 - API 封装在 `src/api.js`，指向 `http://localhost:4000`。生产后端就绪后只需改 base URL 并补鉴权。
 
 ### 3.3 `server/` — 管理端演示 API【脚手架，需重写为生产后端】
 
-- 零依赖 Node（`src/index.js` 单文件 27 个端点 + `src/db.js` JSON 文件存储 + `test/smoke.mjs` 冒烟测试）。
+- 零依赖 Node（`src/index.js` 单文件管理端点 + `src/db.js` 内存种子数据 + `test/smoke.mjs` 冒烟测试）。
+- **2026-06-12 演示 API 规则**：允许 `coinPrice = 0` 创建/更新全书免费书籍；`syncChaptersPaywall()` 会把免费书所有章节标为 `free: true, coins: 0`；`packages/plans` 会保存 `googlePlayProductId`。
 - **只用于支撑管理后台演示**，没有 C 端接口、没有真数据库、没有真鉴权。生产后端按第五节阶段 1 用 NestJS + PostgreSQL 重写；本脚手架的管理端点行为（books/chapters/users/orders/packages/plans/stats）可作为 admin 模块的参考实现。
 
 ### 3.4 研究资产与素材（全量清单）
@@ -59,14 +70,26 @@
 
 ```powershell
 # 后台演示 API（http://localhost:4000）
-cd server; npm run dev
-# 管理后台（http://localhost:5173）
-cd 后台; npm run dev
+cd D:\likenovel\server
+npm run dev
+
+# 管理后台（http://localhost:5173，默认监听 0.0.0.0）
+cd D:\likenovel\后台
+npm run dev
+
 # Flutter 客户端（SDK 在 C:\flutter，已加入用户 PATH；Chrome 调试最快）
-cd app; flutter pub get; flutter run -d chrome
+cd D:\likenovel\app
+flutter pub get
+flutter run -d chrome
+
+# 同 WiFi 设备预览前台正式 Web 产物
+cd D:\likenovel\app
+flutter build web
+python -m http.server 5174 --bind 0.0.0.0 --directory build/web
 ```
 
 > 注意：支付（Billing）、广告（MAX）、推送（FCM）只能在 **Android 真机/模拟器**验证，Chrome 仅用于 UI 与接口联调。
+> 同 WiFi 设备不要访问 `localhost`，请用电脑局域网 IP，例如 `http://192.168.110.55:5174`。
 
 ## 四、唯一事实来源（开发时以这些为准）
 
@@ -80,7 +103,7 @@ cd app; flutter pub get; flutter run -d chrome
 | 技术栈决策及理由 | `docs/plan/技术选型建议.md` |
 | MVP 范围与里程碑验收 | `docs/plan/MVP范围与路线图.md` |
 | 变现规则（金币/VIP/广告/等待解锁/定价） | `docs/plan/变现模型.md` |
-| 金币/会员权益数值与解锁规则（现状基线，梳理中） | `docs/plan/金币与会员权益.md` |
+| 金币/会员权益数值与解锁规则（现状基线） | `docs/plan/金币与会员权益.md` |
 | 内容来源方案 | `docs/plan/内容供给方案.md` |
 | 合规差距清单（GDPR/注销/分级） | `docs/plan/对标GoodNovel差距分析.md`、`docs/research/竞品深挖与差距清单.md` |
 
@@ -90,9 +113,10 @@ cd app; flutter pub get; flutter run -d chrome
 
 ### 阶段 0 — 环境与认知
 
-1. 跑通 3.5 节三个启动命令；`flutter analyze` 零错误；`cd server && npm test` 冒烟通过。
-2. 通读第四节打 ★ 的文档 + 把三端 demo 各点一遍（重点走一次：试读 → 付费墙 → 充值 → 解锁）。
+1. 跑通 3.5 节启动命令；`flutter test`、`cd server && npm test`、`cd 后台 && npm run build` 全部通过。
+2. 通读第四节打 ★ 的文档 + 把三端 demo 各点一遍（重点走一次：试读 → 付费墙 → 金币解锁 → 同书后续直接扣币 → 余额不足充值 → VIP）。
 3. 在 Flutter 原型里读懂 `providers.dart` 与 `router.dart` 的 `_showPaywall` 逻辑——后面所有服务端化都以它为行为基准。
+4. 在后台把一本书配置为 `单章解锁金币 = 0`，确认章节派生为免费；再改回付费，确认免费章数规则恢复。
 
 ### 阶段 1 — 生产后端（先读：后端API与数据模型.md、App架构分配与优化.md、技术选型建议.md）
 
@@ -100,7 +124,7 @@ cd app; flutter pub get; flutter run -d chrome
 
 1. **工程搭建**：NestJS + PostgreSQL + TypeORM/Prisma；按《App架构分配与优化.md》第 3 节划分模块：`identity / content / discovery / reader / entitlement / wallet / payment / membership / ads / growth / admin`。模块化单体，不做微服务。
 2. **通用约定**（契约第 1 节）：`/api/v1` 前缀；JWT 鉴权（游客也发短期匿名 token）；分页 `{ items, page, size, total }`；错误 `{ code, message }` 用稳定业务码（如 `INSUFFICIENT_BALANCE`）；解锁/验单/发奖等写操作支持 `Idempotency-Key`。
-3. **建表**（契约第 3 节，13 张）：`user`、`book`（含 `free_chapter_count`、`chapter_price`、`age_rating`；`unlock_type` 已废弃）、`chapter`、`chapter_entitlement`、`wallet` + `wallet_ledger`（流水含 `balance_after` 对账字段）、`payment_order`、`reading_progress`、`subscription`、`checkin_log`、`user_preference`、`wait_unlock`、`library_item`、`message`。
+3. **建表**（契约第 3 节，13 张）：`user`、`book`（含 `free_chapter_count`、`chapter_price`、`age_rating`；`chapter_price = 0` 表示全书免费；`unlock_type` 已废弃）、`chapter`、`chapter_entitlement`、`wallet` + `wallet_ledger`（流水含 `balance_after` 对账字段）、`payment_order`、`reading_progress`、`subscription`、`checkin_log`、`user_preference`、`wait_unlock`、`library_item`、`message`。金币套餐和会员套餐还需配置表保存 Google Play `product id`。
 4. **按依赖顺序实现接口**（清单见契约第 2 节，约 45 个）：
    - ① content + discovery：`/home`、`/genres`、`/ranks`、`/search`、`/books/{id}`、`/books/{id}/chapters`——纯读，先让客户端有数据可接；
    - ② identity：游客 / 邮箱 / OAuth / 游客升级 / `/me` / 偏好 / 注销 / 数据导出；
@@ -109,7 +133,7 @@ cd app; flutter pub get; flutter run -d chrome
    - ⑤ payment + membership：Google 验单、订阅验单、RTDN webhook、会员状态（全场畅读）；
    - ⑥ growth：push-token、站内信、签到；
    - ⑦ admin：把 `server/` 现有 27 个管理端点并入 admin 模块（加角色鉴权），数据源换成同一个 PostgreSQL。
-5. **核心放行规则**（必须服务端判定，客户端只渲染）：`GET /chapters/{id}/content` 按「免费章 → 有效会员 → 已购 entitlement」三路放行；会员全场畅读，非会员可金币/广告/等待解锁单章。与前台 `_canRead` 逻辑一一对应（契约 2.4/2.6 节有明确规则）。
+5. **核心放行规则**（必须服务端判定，客户端只渲染）：`GET /chapters/{id}/content` 按「全书免费 / 免费章 → 有效会员 → 已购 entitlement」三路放行；会员全场畅读，非会员可金币/广告/等待解锁单章。与前台 `_canRead` 逻辑一一对应（契约 2.4/2.6 节有明确规则）。
 6. **种子数据**：写 seed 脚本灌 3–5 本带完整章节的测试书（可先抓 `app/lib/core/mock/mock_data.dart` 里的 mock 书目结构）。
 7. **验收**：契约内全部接口可用并有 e2e 冒烟测试（参考 `server/test/smoke.mjs` 的风格扩写）；管理后台 `后台/src/api.js` 切到新服务后六个页面功能不回退；用 curl 走通「游客 token → 拉书 → 拉章节 → 解锁失败（余额不足）→ 调币 → 解锁成功 → 流水正确」。
 
@@ -118,11 +142,11 @@ cd app; flutter pub get; flutter run -d chrome
 **目标**：删除 `mock_data.dart` 后 App 功能完整。
 
 1. **网络层**：新建 `lib/core/api/`——dio + 拦截器（token 注入、401 刷新、业务错误码→统一异常、重试）；`flutter_secure_storage` 存 token；环境配置区分 dev/prod base URL。
-2. **Repository 层**：每个业务域一个 repository（book/reader/wallet/account/growth），Riverpod 的 `FutureProvider`/`AsyncNotifier` 包装；现有 6 个 Provider 改造为「接口数据的本地缓存层」，对应关系按契约第 5 节映射表逐行执行（该表把每个页面交互 → Riverpod 状态 → 接口 → 落库表都列好了，**照表施工**）。
-3. **替换顺序**（每替换一页跑一遍回归）：首页 → 分类 → 详情 → 章节列表（锁状态来自 `/books/{id}/entitlements`）→ 阅读器正文（`/chapters/{id}/content`，402 时弹付费墙）→ 书架/收藏 → 钱包/流水/订单 → 签到 → 偏好/资料/语言 → 消息中心 → 阅读历史。
+2. **Repository 层**：每个业务域一个 repository（book/reader/wallet/account/growth），Riverpod 的 `FutureProvider`/`AsyncNotifier` 包装；现有 Provider 改造为「接口数据的本地缓存层」，对应关系按契约第 5 节映射表逐行执行（该表把每个页面交互 → Riverpod 状态 → 接口 → 落库表都列好了，**照表施工**）。其中 `coinUnlockPreferenceProvider` 对应“用户已在某本书选择金币解锁”的本地/服务端偏好，接 API 时需决定是否持久化。
+3. **替换顺序**（每替换一页跑一遍回归）：首页 → 分类 → 详情 → 章节列表（锁状态来自 `/books/{id}/entitlements`；`chapter_price = 0` 的书全部免费）→ 阅读器正文（`/chapters/{id}/content`，402 时弹付费墙）→ 书架/收藏 → 钱包/流水/订单 → 签到 → 偏好/资料/语言 → 消息中心 → 阅读历史。
 4. **进度同步**：阅读器翻章节流上报 `PUT /me/progress/{book_id}`（节流，如 5 秒/次或翻章时）；启动时拉取续读位置。
 5. **离线兜底**：已读章节正文本地缓存（drift 或 hive），弱网/离线可读已缓存章节；列表页骨架屏 + 失败重试态（设计 PRD 已有规格）。
-6. **验收**：物理删除 `mock_data.dart` 与 providers 里的硬编码初值（如金币 640），编译通过、全功能可用；断网时已读章节可读、未读章节有明确报错态。
+6. **验收**：物理删除 `mock_data.dart` 与 providers 里的硬编码初值（如金币 640），编译通过、全功能可用；断网时已读章节可读、未读章节有明确报错态；免费书、VIP、金币解锁偏好三类阅读放行都要有自动化测试。
 
 ### 阶段 3 — 账号体系（先读：契约 2.1 identity 节）
 
@@ -135,11 +159,11 @@ cd app; flutter pub get; flutter run -d chrome
 
 ### 阶段 4 — 支付与解锁闭环服务端化（先读：变现模型.md、契约 2.4/2.5/2.6 节）
 
-1. **Google Play Console 配置**：金币内购商品（消耗型，4 档：$0.99 / $4.99 / $9.99 / $19.99）+ VIP 订阅（weekly/monthly/yearly）；金币不设 $49.99/$99.99 大额档，避免截留应转订阅的重度用户。
-2. **客户端**：接 `in_app_purchase`（或 `purchases_flutter`）；`RechargeSheet`/`MembershipSheet` 的套餐数据改从 `/recharge/packages`、`/membership/plans` 拉取；购买成功后把 purchase_token 交给后端验单，**客户端不自行加币**。
+1. **Google Play Console 配置**：金币内购商品（消耗型，4 档：$0.99 / $4.99 / $9.99 / $19.99）+ VIP 订阅（weekly/monthly/yearly）；金币不设 $49.99/$99.99 大额档，避免截留应转订阅的重度用户。管理后台维护的 `googlePlayProductId` 必须与 Play Console 商品 ID 一致。
+2. **客户端**：接 `in_app_purchase`（或 `purchases_flutter`）；`RechargeSheet`/`MembershipSheet` 的套餐数据改从 `/recharge/packages`、`/membership/plans` 拉取，并使用返回的 `googlePlayProductId` 发起购买；购买成功后把 purchase_token 交给后端验单，**客户端不自行加币**。
 3. **服务端验单**：`POST /payment/google/verify`（Google Play Developer API 校验 token → 幂等入账 → 写 `payment_order` + `wallet_ledger`）；订阅走 `POST /membership/google/verify` 写 `subscription`。
 4. **RTDN**：配置 Google Real-time Developer Notifications → `POST /membership/rtdn`，处理续期/到期/退订/退款；会员权益变更后实时影响全场畅读放行。
-5. **解锁服务端化**：非会员金币入口走 `POST /chapters/{id}/unlock`（method=coins）：余额足够时直接扣币写 `chapter_entitlement`，余额不足返回 `INSUFFICIENT_BALANCE` 并由前台进入充值页；VIP 用户不进入支付墙，`GET /chapters/{id}/content` 直接按订阅放行。等待解锁走 `POST /chapters/{id}/wait-unlock`（后续版本，服务端计时，客户端只显示倒计时）。删除 `router.dart` 里的本地扣币逻辑。
+5. **解锁服务端化**：非会员金币入口走 `POST /chapters/{id}/unlock`（method=coins）：余额足够时直接扣币写 `chapter_entitlement`，余额不足返回 `INSUFFICIENT_BALANCE` 并由前台进入充值页；VIP 用户不进入支付墙，`GET /chapters/{id}/content` 直接按订阅放行；`chapter_price = 0` 的免费书不调用 unlock。等待解锁走 `POST /chapters/{id}/wait-unlock`（后续版本，服务端计时，客户端只显示倒计时）。删除 `router.dart` 里的本地扣币逻辑。
 6. **安全**：验单防重放（provider_token 唯一索引）、掉单补单（客户端启动时重试未完成购买）、退款回收金币（负向 ledger）。
 7. **验收**：内部测试轨道真机走通「试读 → 付费墙 → 订阅 → 全场畅读」「试读 → 付费墙 → 金币解锁单章」；管理后台订单页能看到真实订单并能对账（ledger 的 `balance_after` 连续）。
 
@@ -157,7 +181,7 @@ cd app; flutter pub get; flutter run -d chrome
 ### 阶段 6 — 内容入库（先读：内容供给方案.md）
 
 1. 书源确定后（第六节未决问题 2），写批量导入脚本（txt/epub → 章节切分 → admin API 入库），或扩展管理后台上传能力。
-2. 每本书配置：免费章数、非会员章价、品类标签、`age_rating`（成人向内容必须标 mature，商店分级要用）。`unlock_type` 已废弃，会员默认全场畅读。
+2. 每本书配置：免费章数、非会员章价、品类标签、`age_rating`（成人向内容必须标 mature，商店分级要用）。`unlock_type` 已废弃，会员默认全场畅读。若运营需要免费书，将 `chapter_price` 配为 0，免费章数不再生效。
 3. 首页运营位/榜单在管理后台配置（如现有能力不足，扩展 admin 的 discovery 配置接口）。
 4. **验收**：首批书全部可读可解锁；至少 1 本完整书在真机走通全闭环——这是 V0.1 里程碑验收线。
 
@@ -186,4 +210,4 @@ cd app; flutter pub get; flutter run -d chrome
 - 客户端改造严格按契约第 5 节「前台 ↔ 后端数据闭环映射表」逐行执行，每行完成后在表上打勾跟踪进度。
 - UI 改动对照 `DESIGN.md` 色板与 v1 原型，禁止引入文档外的颜色/字体；新页面先查《前端设计PRD.md》有无现成规格。
 - 涉及钱（验单/扣币/发奖）的代码必须有幂等处理和单元测试；涉及合规（注销/CMP/权限）的改动对照阶段 7 清单复查。
-- 每阶段结束跑 `flutter analyze` + 后端测试套件，全绿再进下一阶段；阶段验收点列在第五节各阶段末尾。
+- 每阶段结束跑 `flutter test` / `flutter analyze` + 后端测试套件 + 管理后台构建，全绿再进下一阶段；阶段验收点列在第五节各阶段末尾。
