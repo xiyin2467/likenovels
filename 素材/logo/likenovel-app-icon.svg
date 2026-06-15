@@ -1,0 +1,10 @@
+<svg width="1024" height="1024" viewBox="0 0 1024 1024" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">likenovel app icon</title>
+  <desc id="desc">A simple wine-red rounded-square icon with a white open-book L mark and one gold four-point sparkle.</desc>
+  <rect width="1024" height="1024" rx="224" fill="#8F243A"/>
+  <path d="M238 272C314 232 415 232 492 276V750C416 712 314 712 238 754V272Z" fill="#FFF9EF"/>
+  <path d="M532 276C609 232 710 232 786 272V754C710 712 608 712 532 750V276Z" fill="#FFF9EF"/>
+  <path d="M512 276V750" stroke="#8F243A" stroke-width="28" stroke-linecap="round"/>
+  <path d="M344 360V628C344 653 358 668 383 668H456" stroke="#8F243A" stroke-width="66" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M706 260Q713 305 752 312Q713 319 706 364Q699 319 660 312Q699 305 706 260Z" fill="#D8A84E" stroke="#D8A84E" stroke-width="16" stroke-linejoin="round"/>
+</svg>

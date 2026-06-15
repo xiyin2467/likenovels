@@ -1,0 +1,10 @@
+<svg width="1024" height="1024" viewBox="0 0 1024 1024" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">likenovel L book icon</title>
+  <desc id="desc">A wine-red app icon where the letter L forms an open book: the vertical stroke is the spine and the horizontal stroke is a turning page.</desc>
+  <rect width="1024" height="1024" rx="224" fill="#8F243A"/>
+  <path d="M312 214H432C450 214 464 228 464 246V754C464 772 450 786 432 786H312C294 786 280 772 280 754V246C280 228 294 214 312 214Z" fill="#FFF9EF"/>
+  <path d="M428 558C520 518 650 528 770 582C786 589 796 604 796 621V758C796 776 778 788 762 781C638 726 520 724 428 766V558Z" fill="#FFF9EF"/>
+  <path d="M464 262V724" stroke="#8F243A" stroke-width="24" stroke-linecap="round"/>
+  <path d="M514 618C586 598 658 604 726 634" stroke="#8F243A" stroke-width="22" stroke-linecap="round" opacity="0.28"/>
+  <path d="M342 276V718" stroke="#D8A84E" stroke-width="24" stroke-linecap="round"/>
+</svg>

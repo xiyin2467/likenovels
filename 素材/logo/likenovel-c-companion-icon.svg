@@ -1,0 +1,11 @@
+<svg width="1024" height="1024" viewBox="0 0 1024 1024" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">likenovel C reading companion icon</title>
+  <desc id="desc">A simplified wine-red reading companion icon with a warm face circle, a dark hair arc, and a white open book.</desc>
+  <rect width="1024" height="1024" rx="224" fill="#8F243A"/>
+  <circle cx="512" cy="374" r="168" fill="#F2C6A8"/>
+  <path d="M352 360C384 256 444 206 512 206C593 206 657 262 682 370C622 330 566 314 512 322C452 330 400 342 352 360Z" fill="#39232F"/>
+  <path d="M218 574C306 530 414 536 494 588V784C414 742 306 736 218 782V574Z" fill="#FFF9EF"/>
+  <path d="M530 588C610 536 718 530 806 574V782C718 736 610 742 530 784V588Z" fill="#FFF9EF"/>
+  <path d="M512 590V788" stroke="#8F243A" stroke-width="26" stroke-linecap="round"/>
+  <circle cx="720" cy="266" r="44" fill="#D8A84E"/>
+</svg>

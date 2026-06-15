@@ -1,0 +1,305 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>likenovel Logo 预览</title>
+    <style>
+      :root {
+        --bg: oklch(0.975 0.008 60);
+        --surface: oklch(0.995 0.004 70);
+        --surface-2: oklch(0.955 0.01 58);
+        --line: oklch(0.905 0.01 50);
+        --ink: oklch(0.26 0.035 350);
+        --muted: oklch(0.49 0.028 350);
+        --primary: oklch(0.52 0.158 16);
+        --gold: oklch(0.78 0.115 78);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--ink);
+        font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      }
+
+      main {
+        width: min(1120px, calc(100% - 40px));
+        margin: 0 auto;
+        padding: 48px 0 72px;
+      }
+
+      h1,
+      h2 {
+        font-family: Newsreader, Georgia, "Times New Roman", serif;
+        letter-spacing: -0.03em;
+      }
+
+      h1 {
+        margin: 0;
+        font-size: clamp(40px, 6vw, 72px);
+        line-height: 0.95;
+      }
+
+      .lead {
+        width: min(720px, 100%);
+        margin: 18px 0 32px;
+        color: var(--muted);
+        font-size: 18px;
+        line-height: 1.7;
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+        gap: 18px;
+      }
+
+      .card {
+        background: var(--surface);
+        border: 1px solid var(--line);
+        border-radius: 24px;
+        padding: 24px;
+        box-shadow: 0 18px 48px rgba(78, 37, 48, 0.08);
+      }
+
+      .card h2 {
+        margin: 0 0 16px;
+        font-size: 28px;
+      }
+
+      .stage {
+        display: grid;
+        min-height: 260px;
+        place-items: center;
+        border-radius: 20px;
+        background:
+          linear-gradient(135deg, rgba(143, 36, 58, 0.08), rgba(216, 168, 78, 0.1)),
+          var(--surface-2);
+      }
+
+      .dark-stage {
+        background:
+          radial-gradient(circle at 30% 20%, rgba(216, 168, 78, 0.22), transparent 32%),
+          #24121a;
+      }
+
+      .app-icon {
+        width: min(180px, 52vw);
+        height: auto;
+        border-radius: 38px;
+      }
+
+      .mark {
+        width: min(180px, 52vw);
+        height: auto;
+      }
+
+      .wordmark {
+        width: min(620px, 100%);
+        height: auto;
+      }
+
+      .sizes {
+        display: flex;
+        align-items: end;
+        gap: 22px;
+        flex-wrap: wrap;
+      }
+
+      .sizes img:nth-child(1) {
+        width: 144px;
+      }
+
+      .sizes img:nth-child(2) {
+        width: 96px;
+      }
+
+      .sizes img:nth-child(3) {
+        width: 64px;
+      }
+
+      .sizes img:nth-child(4) {
+        width: 40px;
+      }
+
+      .swatches {
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+      }
+
+      .swatch {
+        min-width: 140px;
+        border: 1px solid var(--line);
+        border-radius: 16px;
+        overflow: hidden;
+        background: var(--surface);
+      }
+
+      .chip {
+        height: 76px;
+      }
+
+      .meta {
+        padding: 10px 12px 12px;
+        color: var(--muted);
+        font-size: 13px;
+        line-height: 1.45;
+      }
+
+      .meta strong {
+        display: block;
+        color: var(--ink);
+        font-size: 14px;
+      }
+
+      .note {
+        margin-top: 18px;
+        color: var(--muted);
+        line-height: 1.7;
+      }
+
+      .badge {
+        display: inline-flex;
+        align-items: center;
+        min-height: 28px;
+        margin-bottom: 12px;
+        padding: 4px 10px;
+        border-radius: 999px;
+        background: rgba(143, 36, 58, 0.1);
+        color: var(--primary);
+        font-size: 13px;
+        font-weight: 700;
+      }
+
+      .compare {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 18px;
+      }
+
+      .compare .stage {
+        min-height: 220px;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>likenovel Logo 预览</h1>
+      <p class="lead">四方向对比：A 是既有酒红书页 L 标；D 是新增的 L 字母翻书方案，让竖划成为书脊、横划成为翻开的页面；B 是冷色国际化 N 标；C 是角色化阅读伴侣。</p>
+
+      <section class="grid">
+        <article class="card">
+          <span class="badge">A 推荐</span>
+          <h2>Wine Page L</h2>
+          <div class="stage">
+            <img class="app-icon" src="./likenovel-app-icon.svg" alt="likenovel app icon" />
+          </div>
+          <p class="note">用于 Google Play、iOS/Android 图标、启动页大图标。主图形在 48px 以上可识别书页与 L。</p>
+        </article>
+
+        <article class="card">
+          <span class="badge">D 新思路</span>
+          <h2>L Book Page</h2>
+          <div class="stage">
+            <img class="app-icon" src="./likenovel-l-book-icon.svg" alt="likenovel L book page icon" />
+          </div>
+          <p class="note">L 字母直接构成翻开的书页：竖划是书脊，横划是向右展开的页面。保留所有旧方案，作为新的主推候选。</p>
+        </article>
+
+        <article class="card">
+          <span class="badge">B 备选</span>
+          <h2>Cool Novel N</h2>
+          <div class="stage">
+            <img class="app-icon" src="./likenovel-b-cool-n-icon.svg" alt="likenovel cool N app icon" />
+          </div>
+          <p class="note">蓝紫冷色、翻页线条构成 N，更符合调研中的海外冷色趋势，但与现有酒红 App 视觉会有割裂。</p>
+        </article>
+
+        <article class="card">
+          <span class="badge">C 备选</span>
+          <h2>Reading Companion</h2>
+          <div class="stage">
+            <img class="app-icon" src="./likenovel-c-companion-icon.svg" alt="likenovel reading companion app icon" />
+          </div>
+          <p class="note">以轻量阅读伴侣建立 IP 记忆点，适合后续做运营角色，但首版需要谨慎控制幼态和文化适配。</p>
+        </article>
+
+        <article class="card">
+          <h2>Transparent Mark</h2>
+          <div class="stage dark-stage">
+            <img class="mark" src="./likenovel-mark.svg" alt="likenovel transparent mark" />
+          </div>
+          <p class="note">用于深色启动页、水印、favicon 母版和空状态插图。</p>
+        </article>
+
+        <article class="card" style="grid-column: 1 / -1">
+          <h2>Wordmark</h2>
+          <div class="stage">
+            <img class="wordmark" src="./likenovel-wordmark.svg" alt="likenovel wordmark" />
+          </div>
+          <p class="note">用于官网、后台登录页、商店物料顶部品牌。字体优先使用 Newsreader，保持小说阅读气质。</p>
+        </article>
+
+        <article class="card" style="grid-column: 1 / -1">
+          <h2>三方案小尺寸测试</h2>
+          <div class="stage">
+            <div class="compare">
+              <div class="sizes">
+                <img src="./likenovel-app-icon.svg" alt="A 144px preview" />
+                <img src="./likenovel-app-icon.svg" alt="A 96px preview" />
+                <img src="./likenovel-app-icon.svg" alt="A 64px preview" />
+                <img src="./likenovel-app-icon.svg" alt="A 40px preview" />
+              </div>
+              <div class="sizes">
+                <img src="./likenovel-l-book-icon.svg" alt="D 144px preview" />
+                <img src="./likenovel-l-book-icon.svg" alt="D 96px preview" />
+                <img src="./likenovel-l-book-icon.svg" alt="D 64px preview" />
+                <img src="./likenovel-l-book-icon.svg" alt="D 40px preview" />
+              </div>
+              <div class="sizes">
+                <img src="./likenovel-b-cool-n-icon.svg" alt="B 144px preview" />
+                <img src="./likenovel-b-cool-n-icon.svg" alt="B 96px preview" />
+                <img src="./likenovel-b-cool-n-icon.svg" alt="B 64px preview" />
+                <img src="./likenovel-b-cool-n-icon.svg" alt="B 40px preview" />
+              </div>
+              <div class="sizes">
+                <img src="./likenovel-c-companion-icon.svg" alt="C 144px preview" />
+                <img src="./likenovel-c-companion-icon.svg" alt="C 96px preview" />
+                <img src="./likenovel-c-companion-icon.svg" alt="C 64px preview" />
+                <img src="./likenovel-c-companion-icon.svg" alt="C 40px preview" />
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <article class="card">
+          <h2>品牌色</h2>
+          <div class="swatches">
+            <div class="swatch">
+              <div class="chip" style="background:#8F243A"></div>
+              <div class="meta"><strong>石榴酒红</strong>#8F243A</div>
+            </div>
+            <div class="swatch">
+              <div class="chip" style="background:#5A1325"></div>
+              <div class="meta"><strong>深酒红</strong>#5A1325</div>
+            </div>
+            <div class="swatch">
+              <div class="chip" style="background:#D8A84E"></div>
+              <div class="meta"><strong>金色细节</strong>#D8A84E</div>
+            </div>
+            <div class="swatch">
+              <div class="chip" style="background:#FFF9EF"></div>
+              <div class="meta"><strong>书页暖白</strong>#FFF9EF</div>
+            </div>
+          </div>
+        </article>
+      </section>
+    </main>
+  </body>
+</html>

@@ -1,0 +1,14 @@
+<svg width="1120" height="320" viewBox="0 0 1120 320" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">likenovel wordmark</title>
+  <desc id="desc">likenovel horizontal logo with the wine-red book mark and a serif wordmark.</desc>
+  <rect x="24" y="24" width="272" height="272" rx="64" fill="#8F243A"/>
+  <path d="M82 76C116 58 162 58 196 78V238C162 220 116 220 82 240V76Z" fill="#FFF9EF"/>
+  <path d="M216 78C250 58 296 58 330 76V240C296 220 250 220 216 238V78Z" fill="#FFF9EF" transform="translate(320 0) scale(-1 1)"/>
+  <path d="M160 78V238" stroke="#8F243A" stroke-width="10" stroke-linecap="round"/>
+  <path d="M116 108V200C116 210 122 216 132 216H154" stroke="#8F243A" stroke-width="24" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="215" cy="92" r="15" fill="#D8A84E"/>
+
+  <text x="344" y="164" fill="#39232F" font-family="Newsreader, Georgia, 'Times New Roman', serif" font-size="100" font-weight="650" letter-spacing="-4">like</text>
+  <text x="536" y="164" fill="#8F243A" font-family="Newsreader, Georgia, 'Times New Roman', serif" font-size="100" font-weight="650" letter-spacing="-4">novel</text>
+  <text x="350" y="222" fill="#6E5661" font-family="Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="26" font-weight="500" letter-spacing="2">READ ROMANCE. KEEP TURNING.</text>
+</svg>

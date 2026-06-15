@@ -1,0 +1,11 @@
+<svg width="1024" height="1024" viewBox="0 0 1024 1024" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">likenovel B cool N icon</title>
+  <desc id="desc">A simple blue-purple rounded-square icon with a white N-shaped page mark and one gold dot.</desc>
+  <rect width="1024" height="1024" rx="224" fill="#4138B8"/>
+  <path d="M272 282C340 244 431 244 500 284V742C431 706 340 706 272 746V282Z" fill="#F6FAFF"/>
+  <path d="M524 284C593 244 684 244 752 282V746C684 706 593 706 524 742V284Z" fill="#F6FAFF"/>
+  <path d="M344 354V670" stroke="#4138B8" stroke-width="70" stroke-linecap="round"/>
+  <path d="M344 354L680 670" stroke="#4138B8" stroke-width="70" stroke-linecap="round"/>
+  <path d="M680 354V670" stroke="#4138B8" stroke-width="70" stroke-linecap="round"/>
+  <circle cx="710" cy="314" r="44" fill="#F0C75E"/>
+</svg>

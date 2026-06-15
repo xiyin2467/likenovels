@@ -1,0 +1,9 @@
+<svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">likenovel mark</title>
+  <desc id="desc">A simple transparent likenovel mark with a wine-red open-book L and one gold dot.</desc>
+  <path d="M82 110C126 88 185 88 230 112V410C185 389 126 389 82 412V110Z" fill="#8F243A"/>
+  <path d="M282 112C327 88 386 88 430 110V412C386 389 327 389 282 410V112Z" fill="#8F243A"/>
+  <path d="M256 112V410" stroke="#FFF9EF" stroke-width="16" stroke-linecap="round"/>
+  <path d="M146 166V330C146 347 156 356 173 356H224" stroke="#FFF9EF" stroke-width="40" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="374" cy="152" r="28" fill="#D8A84E"/>
+</svg>
